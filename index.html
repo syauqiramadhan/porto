@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description"
+        content="Portfolio seorang Fullstack Web Developer spesialis Laravel & Node.js — membangun aplikasi web modern, cepat, dan scalable." />
+    <meta name="keywords"
+        content="fullstack developer, laravel developer, nodejs developer, web developer indonesia, programmer" />
+    <meta property="og:title" content="Dev Portfolio | Fullstack Laravel & Node.js" />
+    <meta property="og:description" content="Portfolio Fullstack Web Developer spesialis Laravel dan Node.js" />
+    <meta property="og:type" content="website" />
+    <title>Syauqi Ramdhan Portfolio | Fullstack Laravel & Node.js</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet" />
+    <link rel="icon" href="images/sr_logo.png" type="image/png" />
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+
+    <!-- ===== NAVBAR ===== -->
+    <header class="navbar" id="navbar">
+        <nav class="nav-container">
+            <a href="#home" class="logo">
+                <span class="logo-bracket"></span>Syauqi<span class="logo-accent">Ramadhan</span><span
+                    class="logo-bracket"></span>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#services" class="nav-link">Services</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">
+                    <span class="theme-icon sun">☀️</span>
+                    <span class="theme-icon moon">🌙</span>
+                </button>
+                <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero" id="home">
+        <div class="hero-bg">
+            <div class="hero-glow hero-glow-1"></div>
+            <div class="hero-glow hero-glow-2"></div>
+            <div class="hero-grid"></div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="badge-dot"></span>
+                Available for projects
+            </div>
+            <p class="hero-greeting">Halo, Saya Syauqi Ramadhan</p>
+            <h1 class="hero-name">
+                <span id="typedName">Fullstack Developer</span>
+            </h1>
+            <h2 class="hero-title">
+                Spesialis <span class="highlight">Laravel</span> &amp; <span class="highlight">Node.js</span>
+            </h2>
+            <p class="hero-desc">
+                Membangun aplikasi web yang modern, cepat, dan scalable. Dari backend yang solid hingga frontend yang
+                elegan — saya handle semuanya.
+            </p>
+            <div class="hero-cta">
+                <a href="#projects" class="btn btn-primary">
+                    <span>Lihat Proyek</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
+                </a>
+                <a href="#contact" class="btn btn-outline">Hubungi Saya</a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <span class="stat-num" data-count="30">0</span><span class="stat-plus">+</span>
+                    <span class="stat-label">Proyek Selesai</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-num" data-count="3">0</span><span class="stat-plus">+</span>
+                    <span class="stat-label">Tahun Pengalaman</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-num" data-count="25">0</span><span class="stat-plus">+</span>
+                    <span class="stat-label">Client Puas</span>
+                </div>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="code-window">
+                <div class="code-header">
+                    <span class="dot dot-red"></span>
+                    <span class="dot dot-yellow"></span>
+                    <span class="dot dot-green"></span>
+                    <span class="code-filename">app.js</span>
+                </div>
+                <pre class="code-body"><code><span class="c-keyword">const</span> <span class="c-var">developer</span> = {
+  <span class="c-prop">name</span>: <span class="c-string">"Syauqi Ramadhan"</span>,
+  <span class="c-prop">stack</span>: [
+    <span class="c-string">"Laravel"</span>,
+    <span class="c-string">"Node.js"</span>,
+    <span class="c-string">"MySQL"</span>,
+    <span class="c-string">"Vue.js"</span>,
+    <span class="c-string">"React"</span>,
+  ],
+  <span class="c-prop">passion</span>: <span class="c-string">"Membuat Aplikasi yang Bermanfaat"</span>,
+  <span class="c-prop">available</span>: <span class="c-keyword">true</span>,
+
+  <span class="c-prop">build</span>: <span class="c-keyword">async</span> () =&gt; {
+    <span class="c-keyword">return await</span> <span class="c-fn">createAwesomeApp</span>();
+  }
+};</code></pre>
+            </div>
+        </div>
+        <a href="#about" class="scroll-down" aria-label="Scroll down">
+            <span class="scroll-text">Scroll</span>
+            <div class="scroll-icon">
+                <div class="scroll-dot"></div>
+            </div>
+        </a>
+    </section>
+
+    <!-- ===== ABOUT ===== -->
+    <section class="about section" id="about">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-tag">Tentang Saya</span>
+                <h2 class="section-title">Kenali Lebih Dekat</h2>
+            </div>
+            <div class="about-grid">
+                <div class="about-image reveal">
+                    <div class="about-img-wrapper">
+                        <div class="about-img-placeholder">
+                            <img src="images/about.jpeg" alt="Foto Syauqi Ramadhan" class="about-photo" />
+                        </div>
+                        <div class="about-img-deco deco-1"></div>
+                        <div class="about-img-deco deco-2"></div>
+                    </div>
+                </div>
+                <div class="about-content reveal">
+                    <h3 class="about-subtitle">Saya seorang Fullstack Web Developer</h3>
+                    <p class="about-text">
+                        Dengan pengalaman lebih dari <strong>3 tahun</strong> di industri pengembangan web, saya telah
+                        membantu berbagai bisnis — dari startup hingga perusahaan enterprise — untuk mewujudkan ide
+                        digital mereka menjadi produk nyata yang berdampak. Dan saat ini saya sedang bekerja sebagai
+                        fullstack developer di RSDI Kotabanjarbaru.
+                    </p>
+                    <p class="about-text">
+                        Saya spesialis di <strong>Laravel</strong> untuk backend yang robust dan scalable, serta
+                        <strong>Node.js</strong> untuk aplikasi real-time yang performan. Saya percaya bahwa kode yang
+                        baik bukan hanya yang bekerja, tetapi juga yang mudah dibaca dan dipelihara.
+                    </p>
+                    <div class="about-info-grid">
+                        <div class="info-item">
+                            <span class="info-label">📍 Lokasi</span>
+                            <span class="info-value">Indonesia</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">💼 Status</span>
+                            <span class="info-value available-badge">Tersedia</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">🎓 Pendidikan</span>
+                            <span class="info-value">S1 Teknik Informatika</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">🌐 Bahasa</span>
+                            <span class="info-value">Indonesia, English</span>
+                        </div>
+                    </div>
+                    <div class="about-actions">
+                        <a href="#contact" class="btn btn-primary">Hire Me</a>
+                        <!--     -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SKILLS ===== -->
+    <section class="skills section" id="skills">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-tag">Keahlian</span>
+                <h2 class="section-title">Tech Stack & Skills</h2>
+                <p class="section-desc">Teknologi yang saya kuasai untuk membangun solusi digital terbaik</p>
+            </div>
+
+            <div class="skills-tabs reveal">
+                <button class="tab-btn active" data-tab="backend">Backend</button>
+                <button class="tab-btn" data-tab="frontend">Frontend</button>
+                <button class="tab-btn" data-tab="tools">Tools & DB</button>
+            </div>
+
+            <div class="skills-content">
+                <!-- Backend -->
+                <div class="tab-panel active" id="tab-backend">
+                    <div class="skill-cards">
+                        <div class="skill-card reveal">
+                            <div class="skill-icon laravel">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/laravel/laravel-plain.svg"
+                                    alt="Laravel"
+                                    onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+                                <div class="icon-fallback" style="display:none">L</div>
+                            </div>
+                            <h4>Laravel</h4>
+                            <p>Framework PHP untuk membangun REST API, web apps, dan sistem enterprise</p>
+                            <div class="skill-bar">
+                                <div class="skill-fill" data-width="95"></div>
+                            </div>
+                            <span class="skill-percent">95%</span>
+                        </div>
+                        <div class="skill-card reveal">
+                            <div class="skill-icon node">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg"
+                                    alt="Node.js"
+                                    onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+                                <div class="icon-fallback" style="display:none">N</div>
+                            </div>
+                            <h4>Node.js</h4>
+                            <p>Membangun server-side application, REST API, dan real-time app dengan Express.js</p>
+                            <div class="skill-bar">
+                                <div class="skill-fill" data-width="90"></div>
+                            </div>
+                            <span class="skill-percent">90%</span>
+                        </div>
+                        <div class="skill-card reveal">
+                            <div class="skill-icon php">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-plain.svg"
+                                    alt="PHP"
+                                    onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+                                <div class="icon-fallback" style="display:none">PHP</div>
+                            </div>
+                            <h4>PHP</h4>
+                            <p>Core language untuk backend development, OOP, dan arsitektur MVC</p>
+                            <div class="skill-bar">
+                                <div class="skill-fill" data-width="92"></div>
+                            </div>
+                            <span class="skill-percent">92%</span>
+                        </div>
+                        <div class="skill-card reveal">
+                            <div class="skill-icon rest">
+                                <span style="font-size:2rem">🔗</span>
+                            </div>
+                            <h4>REST API</h4>
+                            <p>Desain dan implementasi RESTful API dengan autentikasi JWT, OAuth2, dan Sanctum</p>
+                            <div class="skill-bar">
+                                <div class="skill-fill" data-width="94"></div>
+                            </div>
+                            <span class="skill-percent">94%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Frontend -->
+                <div class="tab-panel" id="tab-frontend">
+                    <div class="skill-cards">
+                        <div class="skill-card reveal">
+                            <div class="skill-icon vue">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg"
+                                    alt="Vue.js"
+                                    onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+                                <div class="icon-fallback" style="display:none">V</div>
+                            </div>
+                            <h4>Vue.js</h4>
+                            <p>Progressive framework untuk membangun UI yang interaktif dan reaktif</p>
+                            <div class="skill-bar">
+                                <div class="skill-fill" data-width="85"></div>
+                            </div>
+                            <span class="skill-percent">85%</span>
+                        </div>
+                        <div class="skill-card reveal">
+                            <div class="skill-icon react">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"
+                                    alt="React"
+                                    onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+                                <div class="icon-fallback" style="display:none">R</div>
+                            </div>
+                            <h4>React</h4>
+                            <p>Library untuk membangun komponen UI yang reusable dan performan</p>
+                            <div class="skill-bar">
+                                <div class="skill-fill" data-width="80"></div>
+                            </div>
+                            <span class="skill-percent">80%</span>
+                        </div>
+                        <div class="skill-card reveal">
+                            <div class="skill-icon js">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
+                                    alt="JavaScript"
+                                    onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+                                <div class="icon-fallback" style="display:none">JS</div>
+                            </div>
+                            <h4>JavaScript</h4>
+                            <p>ES6+, async/await, DOM manipulation, dan integrasi API</p>
+                            <div class="skill-bar">
+                                <div class="skill-fill" data-width="90"></div>
+                            </div>
+                            <span class="skill-percent">90%</span>
+                        </div>
+                        <div class="skill-card reveal">
+                            <div class="skill-icon css">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg"
+                                    alt="CSS3"
+                                    onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+                                <div class="icon-fallback" style="display:none">CSS</div>
+                            </div>
+                            <h4>CSS3 / Tailwind</h4>
+                            <p>Responsive design, animasi, flexbox, grid, dan komponen modern</p>
+                            <div class="skill-bar">
+                                <div class="skill-fill" data-width="88"></div>
+                            </div>
+                            <span class="skill-percent">88%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tools & DB -->
+                <div class="tab-panel" id="tab-tools">
+                    <div class="skill-cards">
+                        <div class="skill-card reveal">
+                            <div class="skill-icon mysql">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg"
+                                    alt="MySQL"
+                                    onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+                                <div class="icon-fallback" style="display:none">SQL</div>
+                            </div>
+                            <h4>MySQL / PostgreSQL</h4>
+                            <p>Desain database, query optimisasi, indexing, dan manajemen relasi data</p>
+                            <div class="skill-bar">
+                                <div class="skill-fill" data-width="90"></div>
+                            </div>
+                            <span class="skill-percent">90%</span>
+                        </div>
+                        <div class="skill-card reveal">
+                            <div class="skill-icon mongo">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg"
+                                    alt="MongoDB"
+                                    onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+                                <div class="icon-fallback" style="display:none">MDB</div>
+                            </div>
+                            <h4>MongoDB</h4>
+                            <p>NoSQL database untuk aplikasi dengan data yang fleksibel dan cepat</p>
+                            <div class="skill-bar">
+                                <div class="skill-fill" data-width="78"></div>
+                            </div>
+                            <span class="skill-percent">78%</span>
+                        </div>
+                        <div class="skill-card reveal">
+                            <div class="skill-icon git">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg"
+                                    alt="Git"
+                                    onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+                                <div class="icon-fallback" style="display:none">GIT</div>
+                            </div>
+                            <h4>Git & GitHub</h4>
+                            <p>Version control, branching strategy, pull request, dan CI/CD pipeline</p>
+                            <div class="skill-bar">
+                                <div class="skill-fill" data-width="88"></div>
+                            </div>
+                            <span class="skill-percent">88%</span>
+                        </div>
+                        <div class="skill-card reveal">
+                            <div class="skill-icon docker">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg"
+                                    alt="Docker"
+                                    onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+                                <div class="icon-fallback" style="display:none">🐳</div>
+                            </div>
+                            <h4>Docker & Linux</h4>
+                            <p>Containerisasi aplikasi, server management, dan deployment di VPS</p>
+                            <div class="skill-bar">
+                                <div class="skill-fill" data-width="75"></div>
+                            </div>
+                            <span class="skill-percent">75%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PROJECTS ===== -->
+    <section class="projects section" id="projects">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-tag">Portofolio</span>
+                <h2 class="section-title">Proyek Terbaru</h2>
+                <p class="section-desc">Beberapa proyek yang telah saya bangun dengan penuh dedikasi</p>
+            </div>
+            <div class="projects-filter reveal">
+                <button class="filter-btn active" data-filter="all">Semua</button>
+                <button class="filter-btn" data-filter="laravel">Laravel</button>
+                <button class="filter-btn" data-filter="nodejs">Node.js</button>
+                <button class="filter-btn" data-filter="fullstack">Fullstack</button>
+            </div>
+            <div class="projects-grid">
+
+                <div class="project-card reveal" data-category="laravel fullstack">
+                    <div class="project-img">
+                        <div class="project-img-bg" style="background: linear-gradient(135deg, #FF2D20, #6C1609);">
+                            <span class="project-tech-icon">L</span>
+                        </div>
+                        <div class="project-overlay">
+                            <a href="projects/rumah-sakit/index.html" class="project-link-btn"
+                                aria-label="View project">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                                    <polyline points="15 3 21 3 21 9" />
+                                    <line x1="10" y1="14" x2="21" y2="3" />
+                                </svg>
+                            </a>
+                            <a href="#" class="project-link-btn" aria-label="View code">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path
+                                        d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <div class="project-tags">
+                            <span class="tag tag-laravel">Laravel</span>
+                            <span class="tag tag-mysql">MySQL</span>
+                            <span class="tag tag-vue">Vue.js</span>
+                        </div>
+                        <h3 class="project-title">Sistem Manajemen Rumah Sakit</h3>
+                        <p class="project-desc">Aplikasi manajemen RS lengkap: rekam medis, rawat inap, rawat jalan,
+                            billing, dan laporan terintegrasi.</p>
+                    </div>
+                </div>
+
+                <div class="project-card reveal" data-category="nodejs fullstack">
+                    <div class="project-img">
+                        <div class="project-img-bg" style="background: linear-gradient(135deg, #68A063, #2D5A1B);">
+                            <span class="project-tech-icon">N</span>
+                        </div>
+                        <div class="project-overlay">
+                            <a href="projects/ecommerce/index.html" class="project-link-btn" aria-label="View project">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                                    <polyline points="15 3 21 3 21 9" />
+                                    <line x1="10" y1="14" x2="21" y2="3" />
+                                </svg>
+                            </a>
+                            <a href="#" class="project-link-btn" aria-label="View code">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path
+                                        d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <div class="project-tags">
+                            <span class="tag tag-node">Node.js</span>
+                            <span class="tag tag-mongo">MongoDB</span>
+                            <span class="tag tag-react">React</span>
+                        </div>
+                        <h3 class="project-title">Platform E-Commerce Real-time</h3>
+                        <p class="project-desc">Platform belanja online dengan notifikasi real-time, live chat, payment
+                            gateway, dan dashboard analytics.</p>
+                    </div>
+                </div>
+
+                <div class="project-card reveal" data-category="laravel">
+                    <div class="project-img">
+                        <div class="project-img-bg" style="background: linear-gradient(135deg, #6366f1, #312e81);">
+                            <span class="project-tech-icon">⚡</span>
+                        </div>
+                        <div class="project-overlay">
+                            <a href="projects/inventori-pos/index.html" class="project-link-btn"
+                                aria-label="View project">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                                    <polyline points="15 3 21 3 21 9" />
+                                    <line x1="10" y1="14" x2="21" y2="3" />
+                                </svg>
+                            </a>
+                            <a href="#" class="project-link-btn" aria-label="View code">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path
+                                        d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <div class="project-tags">
+                            <span class="tag tag-laravel">Laravel</span>
+                            <span class="tag tag-mysql">MySQL</span>
+                        </div>
+                        <h3 class="project-title">Sistem Inventori & POS</h3>
+                        <p class="project-desc">Aplikasi Point of Sale terintegrasi dengan manajemen stok, laporan
+                            penjualan, dan multi-cabang.</p>
+                    </div>
+                </div>
+
+                <div class="project-card reveal" data-category="nodejs">
+                    <div class="project-img">
+                        <div class="project-img-bg" style="background: linear-gradient(135deg, #0ea5e9, #0c4a6e);">
+                            <span class="project-tech-icon">💬</span>
+                        </div>
+                        <div class="project-overlay">
+                            <a href="projects/chat-app/index.html" class="project-link-btn" aria-label="View project">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                                    <polyline points="15 3 21 3 21 9" />
+                                    <line x1="10" y1="14" x2="21" y2="3" />
+                                </svg>
+                            </a>
+                            <a href="#" class="project-link-btn" aria-label="View code">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path
+                                        d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <div class="project-tags">
+                            <span class="tag tag-node">Node.js</span>
+                            <span class="tag tag-socket">Socket.io</span>
+                        </div>
+                        <h3 class="project-title">Aplikasi Chat Real-time</h3>
+                        <p class="project-desc">Aplikasi messaging dengan fitur group chat, file sharing, enkripsi
+                            end-to-end, dan notifikasi push.</p>
+                    </div>
+                </div>
+
+                <div class="project-card reveal" data-category="laravel fullstack">
+                    <div class="project-img">
+                        <div class="project-img-bg" style="background: linear-gradient(135deg, #f59e0b, #78350f);">
+                            <span class="project-tech-icon">📋</span>
+                        </div>
+                        <div class="project-overlay">
+                            <a href="projects/manajemen-proyek/index.html" class="project-link-btn"
+                                aria-label="View project">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                                    <polyline points="15 3 21 3 21 9" />
+                                    <line x1="10" y1="14" x2="21" y2="3" />
+                                </svg>
+                            </a>
+                            <a href="#" class="project-link-btn" aria-label="View code">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path
+                                        d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <div class="project-tags">
+                            <span class="tag tag-laravel">Laravel</span>
+                            <span class="tag tag-vue">Vue.js</span>
+                            <span class="tag tag-mysql">MySQL</span>
+                        </div>
+                        <h3 class="project-title">Platform Manajemen Proyek</h3>
+                        <p class="project-desc">Tools kolaborasi tim dengan kanban board, time tracking, milestone, dan
+                            pelaporan performa proyek.</p>
+                    </div>
+                </div>
+
+                <div class="project-card reveal" data-category="nodejs fullstack">
+                    <div class="project-img">
+                        <div class="project-img-bg" style="background: linear-gradient(135deg, #10b981, #064e3b);">
+                            <span class="project-tech-icon">🏪</span>
+                        </div>
+                        <div class="project-overlay">
+                            <a href="projects/kasir-umkm/index.html" class="project-link-btn" aria-label="View project">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                                    <polyline points="15 3 21 3 21 9" />
+                                    <line x1="10" y1="14" x2="21" y2="3" />
+                                </svg>
+                            </a>
+                            <a href="#" class="project-link-btn" aria-label="View code">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path
+                                        d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <div class="project-tags">
+                            <span class="tag tag-node">Node.js</span>
+                            <span class="tag tag-react">React</span>
+                            <span class="tag tag-mongo">MongoDB</span>
+                        </div>
+                        <h3 class="project-title">Sistem Kasir UMKM</h3>
+                        <p class="project-desc">Aplikasi kasir ringan untuk UMKM dengan fitur multi-outlet, laporan
+                            harian, dan integrasi printer thermal.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SERVICES ===== -->
+    <section class="services section" id="services">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-tag">Layanan</span>
+                <h2 class="section-title">Apa yang Saya Tawarkan</h2>
+                <p class="section-desc">Solusi digital end-to-end untuk kebutuhan bisnis Anda</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card reveal">
+                    <div class="service-icon">🚀</div>
+                    <h3>Web App Development</h3>
+                    <p>Membangun aplikasi web full-featured dari nol menggunakan Laravel atau Node.js dengan arsitektur
+                        yang scalable dan maintainable.</p>
+                    <ul class="service-list">
+                        <li>Custom web application</li>
+                        <li>REST API development</li>
+                        <li>Database design & optimization</li>
+                    </ul>
+                </div>
+                <div class="service-card reveal featured">
+                    <div class="service-badge">Populer</div>
+                    <div class="service-icon">⚡</div>
+                    <h3>Fullstack Development</h3>
+                    <p>Solusi lengkap dari backend hingga frontend. Saya tangani semua layer aplikasi sehingga Anda
+                        cukup fokus pada bisnis.</p>
+                    <ul class="service-list">
+                        <li>Frontend + Backend integration</li>
+                        <li>Real-time features (WebSocket)</li>
+                        <li>Third-party API integration</li>
+                    </ul>
+                </div>
+                <div class="service-card reveal">
+                    <div class="service-icon">🛠️</div>
+                    <h3>Maintenance & Optimasi</h3>
+                    <p>Menjaga aplikasi Anda tetap berjalan optimal, aman, dan up-to-date dengan teknologi terbaru.</p>
+                    <ul class="service-list">
+                        <li>Bug fixing & debugging</li>
+                        <li>Performance optimization</li>
+                        <li>Code refactoring</li>
+                    </ul>
+                </div>
+                <div class="service-card reveal">
+                    <div class="service-icon">🔒</div>
+                    <h3>API Development</h3>
+                    <p>Merancang dan membangun REST API yang aman, terdokumentasi, dan mudah diintegrasi dengan platform
+                        apapun.</p>
+                    <ul class="service-list">
+                        <li>JWT / OAuth2 authentication</li>
+                        <li>API documentation (Swagger)</li>
+                        <li>Rate limiting & security</li>
+                    </ul>
+                </div>
+                <div class="service-card reveal">
+                    <div class="service-icon">🗄️</div>
+                    <h3>Database Consulting</h3>
+                    <p>Desain skema database yang efisien, query optimization, dan migrasi data untuk performa maksimal.
+                    </p>
+                    <ul class="service-list">
+                        <li>Database design & normalization</li>
+                        <li>Query optimization</li>
+                        <li>Data migration & backup</li>
+                    </ul>
+                </div>
+                <div class="service-card reveal">
+                    <div class="service-icon">☁️</div>
+                    <h3>Deployment & DevOps</h3>
+                    <p>Setup server, konfigurasi CI/CD, dan deployment aplikasi ke cloud (VPS, AWS, DigitalOcean).</p>
+                    <ul class="service-list">
+                        <li>VPS setup & configuration</li>
+                        <li>Docker containerization</li>
+                        <li>CI/CD pipeline setup</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section class="contact section" id="contact">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-tag">Kontak</span>
+                <h2 class="section-title">Mari Bekerja Sama</h2>
+                <p class="section-desc">Punya proyek keren? Saya siap membantu mewujudkannya! Langsung kirim pesan
+                    dengan form dibawah dan akan saya terima di whatsapp ˃ᴗ˂ </p>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-info reveal">
+                    <h3>Hubungi Saya</h3>
+                    <p>Jangan ragu untuk menghubungi saya kapan saja. Saya biasanya membalas dalam 24 jam. Mari
+                        diskusikan kebutuhan proyek Anda!</p>
+                    <div class="contact-items">
+                        <a href="mailto:hello@developer.com" class="contact-item">
+                            <div class="contact-item-icon">📧</div>
+                            <div class="contact-item-detail">
+                                <span class="contact-item-label">Email</span>
+                                <span class="contact-item-value">syauqi0107@gmail.com</span>
+                            </div>
+                        </a>
+                        <a href="https://wa.me/6287878997700" class="contact-item" target="_blank" rel="noopener">
+                            <div class="contact-item-icon">📱</div>
+                            <div class="contact-item-detail">
+                                <span class="contact-item-label">WhatsApp</span>
+                                <span class="contact-item-value">+62 878-7899-7700</span>
+                            </div>
+                        </a>
+                        <!-- <a href="https://linkedin.com" class="contact-item" target="_blank" rel="noopener">
+                            <div class="contact-item-icon">💼</div>
+                            <div class="contact-item-detail">
+                                <span class="contact-item-label">LinkedIn</span>
+                                <span class="contact-item-value">linkedin.com/in/yourname</span>
+                            </div>
+                        </a> -->
+                        <a href="https://github.com" class="contact-item" target="_blank" rel="noopener">
+                            <div class="contact-item-icon">💻</div>
+                            <div class="contact-item-detail">
+                                <span class="contact-item-label">GitHub</span>
+                                <span class="contact-item-value">github.com/yourname</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="contact-form-wrapper reveal">
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Nama Lengkap</label>
+                            <input type="text" id="name" name="name" placeholder="John Doe" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" placeholder="john@example.com" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subjek</label>
+                            <input type="text" id="subject" name="subject" placeholder="Konsultasi Proyek Web"
+                                required />
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Pesan</label>
+                            <textarea id="message" name="message" rows="5" placeholder="Ceritakan proyek Anda..."
+                                required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full" id="submitBtn">
+                            <span>Kirim Pesan</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <line x1="22" y1="2" x2="11" y2="13" />
+                                <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="#home" class="logo">
+                        <span class="logo-bracket"></span>Syauqi<span class="logo-accent">Ramadhan</span><span
+                            class="logo-bracket"></span>
+                    </a>
+                    <p>Membangun solusi digital yang berdampak nyata bagi bisnis Anda.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Navigasi</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#skills">Skills</a></li>
+                        <li><a href="#projects">Projects</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Layanan</h4>
+                    <ul>
+                        <li><a href="#services">Web App Development</a></li>
+                        <li><a href="#services">Fullstack Development</a></li>
+                        <li><a href="#services">API Development</a></li>
+                        <li><a href="#services">Maintenance</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h4>Sosial Media</h4>
+                    <div class="social-links">
+                        <a href="https://github.com" target="_blank" rel="noopener" class="social-link"
+                            aria-label="GitHub">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+                            </svg>
+                        </a>
+                        <!-- <a href="https://linkedin.com" target="_blank" rel="noopener" class="social-link"
+                            aria-label="LinkedIn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z" />
+                                <circle cx="4" cy="4" r="2" />
+                            </svg>
+                        </a> -->
+                        <a href="https://wa.me/6287878997700" target="_blank" rel="noopener" class="social-link"
+                            aria-label="WhatsApp">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                            </svg>
+                        </a>
+                        <a href="mailto:syauqi0107@gmail.com" class="social-link" aria-label="Email">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                <polyline points="22,6 12,13 2,6" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Syauqi Ramadhan.</p>
+                <a href="#home" class="back-to-top" id="backToTop" aria-label="Back to top">↑</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile menu overlay -->
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <!-- Toast notification -->
+    <div class="toast" id="toast"></div>
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>

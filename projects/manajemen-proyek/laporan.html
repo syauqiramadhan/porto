@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Laporan — Manajemen Proyek</title>
+    <link rel="icon" href="../../images/sr_logo.png" type="image/png" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #fffbeb;
+            color: #1e293b;
+            min-height: 100vh
+        }
+
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            background: #f59e0b;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: .85rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background .2s
+        }
+
+        .back-btn:hover {
+            background: #d97706
+        }
+
+        .topbar {
+            background: #fff;
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #e5e7eb;
+            position: sticky;
+            top: 0;
+            z-index: 50
+        }
+
+        .topbar-brand {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #f59e0b
+        }
+
+        .topbar-brand span {
+            color: #1e293b
+        }
+
+        .topbar-nav {
+            display: flex;
+            gap: 8px
+        }
+
+        .topbar-nav a {
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: .82rem;
+            font-weight: 600;
+            color: #64748b;
+            background: #f8fafc;
+            transition: all .2s
+        }
+
+        .topbar-nav a:hover,
+        .topbar-nav a.active {
+            background: #f59e0b;
+            color: #fff
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 32px 24px
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 8px
+        }
+
+        .page-sub {
+            color: #64748b;
+            margin-bottom: 24px
+        }
+
+        .report-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px
+        }
+
+        .report-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .06)
+        }
+
+        .report-card h3 {
+            font-size: .95rem;
+            margin-bottom: 16px
+        }
+
+        .number-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px
+        }
+
+        .num-card {
+            text-align: center;
+            padding: 16px;
+            border-radius: 10px;
+            background: #fffbeb
+        }
+
+        .num-card .n-val {
+            font-size: 1.3rem;
+            font-weight: 700
+        }
+
+        .num-card .n-label {
+            font-size: .7rem;
+            color: #64748b;
+            margin-top: 4px
+        }
+
+        .progress-item {
+            margin-bottom: 14px
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: .8rem;
+            margin-bottom: 6px
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #f1f5f9;
+            border-radius: 4px;
+            overflow: hidden
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width .8s
+        }
+
+        .bar-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 6px;
+            height: 140px
+        }
+
+        .bar {
+            border-radius: 6px 6px 0 0;
+            flex: 1;
+            min-width: 14px;
+            transition: height .6s;
+            cursor: pointer
+        }
+
+        .bar:hover {
+            opacity: .85
+        }
+
+        .bar-labels {
+            display: flex;
+            gap: 6px;
+            justify-content: space-around;
+            margin-top: 8px
+        }
+
+        .bar-label {
+            font-size: .6rem;
+            color: #94a3b8;
+            flex: 1;
+            text-align: center
+        }
+
+        .activity-list {
+            list-style: none
+        }
+
+        .activity-item {
+            display: flex;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: .82rem
+        }
+
+        .activity-item:last-child {
+            border: none
+        }
+
+        .activity-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .9rem;
+            flex-shrink: 0
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #1e293b;
+            color: #fff;
+            padding: 14px 24px;
+            border-radius: 10px;
+            font-size: .85rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all .3s;
+            z-index: 200
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0)
+        }
+
+        .demo-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(0, 0, 0, .5);
+            backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            animation: fadeOverlay .4s .2s ease forwards
+        }
+
+        .demo-popup {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border: 1px solid rgba(255, 255, 255, .1);
+            border-radius: 20px;
+            padding: 36px 40px;
+            max-width: 440px;
+            width: 90%;
+            text-align: center;
+            color: #fff;
+            transform: scale(.85);
+            opacity: 0;
+            animation: popIn .5s .4s cubic-bezier(.34, 1.56, .64, 1) forwards;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, .4)
+        }
+
+        .demo-popup .popup-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            display: block;
+            animation: bounce 2s ease infinite
+        }
+
+        .demo-popup h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent
+        }
+
+        .demo-popup p {
+            font-size: .88rem;
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 20px
+        }
+
+        .demo-popup .popup-btn {
+            padding: 10px 32px;
+            background: linear-gradient(135deg, #d97706, #f59e0b);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: .88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .2s;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, .4)
+        }
+
+        .demo-popup .popup-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, .5)
+        }
+
+        @keyframes fadeOverlay {
+            to {
+                opacity: 1
+            }
+        }
+
+        @keyframes popIn {
+            to {
+                transform: scale(1);
+                opacity: 1
+            }
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0)
+            }
+
+            50% {
+                transform: translateY(-8px)
+            }
+        }
+
+        @media(max-width:768px) {
+            .topbar {
+                flex-wrap: wrap;
+                gap: 8px
+            }
+
+            .topbar-nav {
+                flex-wrap: wrap
+            }
+
+            .report-grid {
+                grid-template-columns: 1fr
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="demo-overlay" id="demoOverlay" onclick="closeDemoPopup()">
+        <div class="demo-popup" onclick="event.stopPropagation()"><span class="popup-icon">📋</span>
+            <h3>Halaman Demo</h3>
+            <p>Ini adalah halaman <strong style="color:#e2e8f0">demo</strong> dari aplikasi yang pernah dibuat. Silakan
+                klik-klik dan coba fitur yang tersedia!</p><button class="popup-btn"
+                onclick="closeDemoPopup()">Mengerti, Lanjutkan →</button>
+        </div>
+    </div>
+    <script>function closeDemoPopup() { const o = document.getElementById('demoOverlay'); o.style.opacity = '0'; setTimeout(() => o.remove(), 400); }</script>
+    <a href="../../index.html#projects" class="back-btn">← Kembali</a>
+    <header class="topbar">
+        <div class="topbar-brand">📋 <span>Proyek</span>Manager</div>
+        <nav class="topbar-nav"><a href="index.html">📋 Board</a><a href="timeline.html">📅 Timeline</a><a
+                href="laporan.html" class="active">📊 Laporan</a><a href="tim.html">👥 Tim</a></nav>
+    </header>
+    <div class="container">
+        <h1 class="page-title">Laporan Proyek</h1>
+        <p class="page-sub">Ringkasan progress semua proyek</p>
+        <div class="report-grid">
+            <div class="report-card">
+                <h3>📊 Ringkasan</h3>
+                <div class="number-grid">
+                    <div class="num-card">
+                        <div class="n-val" style="color:#f59e0b">5</div>
+                        <div class="n-label">Proyek Aktif</div>
+                    </div>
+                    <div class="num-card">
+                        <div class="n-val" style="color:#10b981">23</div>
+                        <div class="n-label">Task Selesai</div>
+                    </div>
+                    <div class="num-card">
+                        <div class="n-val" style="color:#3b82f6">12</div>
+                        <div class="n-label">Sedang Dikerjakan</div>
+                    </div>
+                    <div class="num-card">
+                        <div class="n-val" style="color:#ef4444">4</div>
+                        <div class="n-label">Overdue</div>
+                    </div>
+                </div>
+            </div>
+            <div class="report-card">
+                <h3>🎯 Progress per Proyek</h3>
+                <div class="progress-item">
+                    <div class="progress-label"><span>Website Redesign</span><span>72%</span></div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width:72%;background:#f59e0b"></div>
+                    </div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-label"><span>Mobile App</span><span>45%</span></div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width:45%;background:#3b82f6"></div>
+                    </div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-label"><span>API Integration</span><span>88%</span></div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width:88%;background:#10b981"></div>
+                    </div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-label"><span>Dashboard Analytics</span><span>30%</span></div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width:30%;background:#ef4444"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="report-card">
+                <h3>📈 Task Diselesaikan per Minggu</h3>
+                <div class="bar-chart" id="taskChart"></div>
+                <div class="bar-labels" id="taskLabels"></div>
+            </div>
+            <div class="report-card">
+                <h3>🕐 Aktivitas Terbaru</h3>
+                <ul class="activity-list">
+                    <li class="activity-item">
+                        <div class="activity-icon" style="background:#d1fae5">✅</div>
+                        <div><strong>Ahmad</strong> menyelesaikan "Login UI"<br><span
+                                style="color:#94a3b8;font-size:.7rem">2 jam lalu</span></div>
+                    </li>
+                    <li class="activity-item">
+                        <div class="activity-icon" style="background:#dbeafe">💬</div>
+                        <div><strong>Siti</strong> komentar di "API Auth"<br><span
+                                style="color:#94a3b8;font-size:.7rem">3 jam lalu</span></div>
+                    </li>
+                    <li class="activity-item">
+                        <div class="activity-icon" style="background:#fef3c7">📋</div>
+                        <div><strong>Budi</strong> membuat task baru "Testing E2E"<br><span
+                                style="color:#94a3b8;font-size:.7rem">5 jam lalu</span></div>
+                    </li>
+                    <li class="activity-item">
+                        <div class="activity-icon" style="background:#fecaca">🐛</div>
+                        <div><strong>Dewi</strong> melaporkan bug "Cart Error"<br><span
+                                style="color:#94a3b8;font-size:.7rem">Kemarin</span></div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="toast" id="toast"></div>
+    <script>
+        const weeks = ['W1', 'W2', 'W3', 'W4', 'W5', 'W6']; const vals = [5, 8, 12, 7, 15, 10]; const max = Math.max(...vals);
+        const chart = document.getElementById('taskChart'); const labels = document.getElementById('taskLabels');
+        weeks.forEach((w, i) => {
+            const bar = document.createElement('div'); bar.className = 'bar'; bar.style.height = '0'; bar.style.background = i === 4 ? '#f59e0b' : '#fcd34d';
+            bar.onclick = () => showToast(`${w}: ${vals[i]} task selesai`);
+            setTimeout(() => { bar.style.height = (vals[i] / max * 100) + '%' }, i * 100); chart.appendChild(bar);
+            const lbl = document.createElement('div'); lbl.className = 'bar-label'; lbl.textContent = w; labels.appendChild(lbl);
+        });
+        function showToast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2500); }
+    </script>
+</body>
+
+</html>

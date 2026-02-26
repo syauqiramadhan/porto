@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rawat Inap — Sistem Manajemen Rumah Sakit</title>
+    <link rel="icon" href="../../images/sr_logo.png" type="image/png" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f0f2f5;
+            color: #1e293b;
+            min-height: 100vh;
+            display: flex
+        }
+
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            background: #4f46e5;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: .85rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background .2s
+        }
+
+        .back-btn:hover {
+            background: #4338ca
+        }
+
+        .sidebar {
+            width: 240px;
+            background: #1e293b;
+            color: #fff;
+            padding: 24px 0;
+            flex-shrink: 0;
+            min-height: 100vh
+        }
+
+        .sidebar-brand {
+            padding: 0 24px 24px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-bottom: 1px solid #334155;
+            margin-bottom: 16px
+        }
+
+        .sidebar-brand span {
+            color: #818cf8
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 24px;
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: .9rem;
+            transition: all .2s;
+            border-left: 3px solid transparent
+        }
+
+        .sidebar-nav a:hover,
+        .sidebar-nav a.active {
+            background: #334155;
+            color: #fff;
+            border-left-color: #818cf8
+        }
+
+        .sidebar-nav a .icon {
+            width: 20px;
+            text-align: center
+        }
+
+        .main {
+            flex: 1;
+            padding: 32px;
+            overflow-y: auto
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 8px
+        }
+
+        .page-sub {
+            color: #64748b;
+            margin-bottom: 24px
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px
+        }
+
+        .mini-stat {
+            background: #fff;
+            border-radius: 12px;
+            padding: 16px 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .06)
+        }
+
+        .mini-stat .label {
+            font-size: .75rem;
+            color: #64748b
+        }
+
+        .mini-stat .val {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 4px
+        }
+
+        .bed-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 24px
+        }
+
+        .bed-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .06);
+            cursor: pointer;
+            transition: all .2s;
+            border: 2px solid transparent
+        }
+
+        .bed-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .1)
+        }
+
+        .bed-card.occupied {
+            border-color: #ef4444;
+            background: #fef2f2
+        }
+
+        .bed-card.available {
+            border-color: #10b981;
+            background: #f0fdf4
+        }
+
+        .bed-card.reserved {
+            border-color: #f59e0b;
+            background: #fffbeb
+        }
+
+        .bed-card .bed-icon {
+            font-size: 2rem;
+            margin-bottom: 8px
+        }
+
+        .bed-card .bed-num {
+            font-weight: 700;
+            font-size: .9rem
+        }
+
+        .bed-card .bed-status {
+            font-size: .7rem;
+            margin-top: 4px;
+            font-weight: 600
+        }
+
+        .floor-section {
+            margin-bottom: 32px
+        }
+
+        .floor-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            padding: 8px 16px;
+            background: #fff;
+            border-radius: 8px;
+            display: inline-block;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .06)
+        }
+
+        .legend {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            flex-wrap: wrap
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: .8rem
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 4px
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #1e293b;
+            color: #fff;
+            padding: 14px 24px;
+            border-radius: 10px;
+            font-size: .85rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all .3s;
+            z-index: 200
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0)
+        }
+
+        .demo-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(0, 0, 0, .5);
+            backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            animation: fadeOverlay .4s .2s ease forwards
+        }
+
+        .demo-popup {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border: 1px solid rgba(255, 255, 255, .1);
+            border-radius: 20px;
+            padding: 36px 40px;
+            max-width: 440px;
+            width: 90%;
+            text-align: center;
+            color: #fff;
+            transform: scale(.85);
+            opacity: 0;
+            animation: popIn .5s .4s cubic-bezier(.34, 1.56, .64, 1) forwards;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, .4)
+        }
+
+        .demo-popup .popup-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            display: block;
+            animation: bounce 2s ease infinite
+        }
+
+        .demo-popup h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #818cf8, #a78bfa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent
+        }
+
+        .demo-popup p {
+            font-size: .88rem;
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 20px
+        }
+
+        .demo-popup .popup-btn {
+            padding: 10px 32px;
+            background: linear-gradient(135deg, #6366f1, #818cf8);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: .88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .2s;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, .4)
+        }
+
+        .demo-popup .popup-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, .5)
+        }
+
+        @keyframes fadeOverlay {
+            to {
+                opacity: 1
+            }
+        }
+
+        @keyframes popIn {
+            to {
+                transform: scale(1);
+                opacity: 1
+            }
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0)
+            }
+
+            50% {
+                transform: translateY(-8px)
+            }
+        }
+
+        @media(max-width:768px) {
+            body {
+                flex-direction: column
+            }
+
+            .sidebar {
+                width: 100%;
+                min-height: auto;
+                padding: 16px 0
+            }
+
+            .sidebar-nav {
+                display: flex;
+                overflow-x: auto
+            }
+
+            .sidebar-nav a {
+                white-space: nowrap;
+                border-left: none;
+                border-bottom: 3px solid transparent;
+                padding: 10px 16px
+            }
+
+            .sidebar-nav a.active {
+                border-bottom-color: #818cf8
+            }
+
+            .main {
+                padding: 16px
+            }
+
+            .bed-grid {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr))
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="demo-overlay" id="demoOverlay" onclick="closeDemoPopup()">
+        <div class="demo-popup" onclick="event.stopPropagation()"><span class="popup-icon">🚀</span>
+            <h3>Halaman Demo</h3>
+            <p>Ini adalah halaman <strong style="color:#e2e8f0">demo</strong> dari aplikasi yang pernah dibuat. Silakan
+                klik-klik dan coba fitur yang tersedia!</p><button class="popup-btn"
+                onclick="closeDemoPopup()">Mengerti, Lanjutkan →</button>
+        </div>
+    </div>
+    <script>function closeDemoPopup() { const o = document.getElementById('demoOverlay'); o.style.opacity = '0'; setTimeout(() => o.remove(), 400); }</script>
+    <a href="../../index.html#projects" class="back-btn">← Kembali</a>
+    <aside class="sidebar">
+        <div class="sidebar-brand">🏥 RS<span>Manager</span></div>
+        <nav class="sidebar-nav">
+            <a href="index.html"><span class="icon">📊</span> Dashboard</a>
+            <a href="pasien.html"><span class="icon">👥</span> Pasien</a>
+            <a href="rawat-inap.html" class="active"><span class="icon">🛏️</span> Rawat Inap</a>
+            <a href="rawat-jalan.html"><span class="icon">🚶</span> Rawat Jalan</a>
+            <a href="billing.html"><span class="icon">💰</span> Billing</a>
+            <a href="laporan.html"><span class="icon">📈</span> Laporan</a>
+        </nav>
+    </aside>
+    <main class="main">
+        <h1 class="page-title">Rawat Inap</h1>
+        <p class="page-sub">Manajemen tempat tidur & pasien rawat inap</p>
+        <div class="stats-row">
+            <div class="mini-stat">
+                <div class="label">Total Bed</div>
+                <div class="val">120</div>
+            </div>
+            <div class="mini-stat">
+                <div class="label">Terisi</div>
+                <div class="val" style="color:#ef4444">87</div>
+            </div>
+            <div class="mini-stat">
+                <div class="label">Tersedia</div>
+                <div class="val" style="color:#10b981">28</div>
+            </div>
+            <div class="mini-stat">
+                <div class="label">Reserved</div>
+                <div class="val" style="color:#f59e0b">5</div>
+            </div>
+        </div>
+        <div class="legend">
+            <div class="legend-item"><span class="legend-dot" style="background:#10b981"></span> Tersedia</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#ef4444"></span> Terisi</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#f59e0b"></span> Reserved</div>
+        </div>
+        <div id="floors"></div>
+    </main>
+    <div class="toast" id="toast"></div>
+    <script>
+        const floors = [
+            { name: 'Lantai 1 — Kelas VIP', beds: ['occupied', 'occupied', 'available', 'occupied', 'reserved', 'available', 'occupied', 'occupied'] },
+            { name: 'Lantai 2 — Kelas 1', beds: ['available', 'occupied', 'occupied', 'available', 'occupied', 'available', 'occupied', 'occupied', 'reserved', 'available'] },
+            { name: 'Lantai 3 — Kelas 2', beds: ['occupied', 'available', 'occupied', 'occupied', 'available', 'occupied', 'reserved', 'available', 'occupied', 'available', 'occupied', 'occupied'] },
+            { name: 'Lantai 4 — Kelas 3', beds: ['available', 'available', 'occupied', 'available', 'occupied', 'available', 'occupied', 'occupied', 'available', 'occupied', 'available', 'available', 'occupied', 'occupied', 'occupied', 'available'] },
+        ];
+        const names = ['Ahmad', 'Siti', 'Budi', 'Dewi', 'Rizky', 'Putri', 'Hendra', 'Ratna', 'Andi', 'Maya', 'Dimas', 'Lina', 'Yoga', 'Rina'];
+        const container = document.getElementById('floors');
+        floors.forEach((floor, fi) => {
+            const section = document.createElement('div'); section.className = 'floor-section';
+            section.innerHTML = `<div class="floor-title">🏢 ${floor.name}</div><div class="bed-grid">${floor.beds.map((s, i) => {
+                const num = `${fi + 1}${String(i + 1).padStart(2, '0')}`;
+                const patient = s === 'occupied' ? names[Math.floor(Math.random() * names.length)] : '';
+                return `<div class="bed-card ${s}" onclick="clickBed('${num}','${s}','${patient}')">
+                    <div class="bed-icon">${s === 'occupied' ? '🛏️' : s === 'reserved' ? '📋' : '✅'}</div>
+                    <div class="bed-num">Bed ${num}</div>
+                    ${s === 'occupied' ? `<div style="font-size:.75rem;color:#64748b;margin-top:4px">${patient}</div>` : ''}
+                    <div class="bed-status" style="color:${s === 'occupied' ? '#ef4444' : s === 'reserved' ? '#f59e0b' : '#10b981'}">${s === 'occupied' ? 'Terisi' : s === 'reserved' ? 'Reserved' : 'Tersedia'}</div>
+                </div>`;
+            }).join('')}</div>`;
+            container.appendChild(section);
+        });
+        function clickBed(num, status, patient) {
+            if (status === 'occupied') showToast(`🛏️ Bed ${num} — Pasien: ${patient}`);
+            else if (status === 'reserved') showToast(`📋 Bed ${num} — Sudah direservasi`);
+            else showToast(`✅ Bed ${num} — Tersedia untuk pasien baru`);
+        }
+        function showToast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2500); }
+    </script>
+</body>
+
+</html>

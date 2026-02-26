@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pelanggan — E-Commerce</title>
+    <link rel="icon" href="../../images/sr_logo.png" type="image/png" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8faf8;
+            color: #1e293b;
+            min-height: 100vh
+        }
+
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            background: #16a34a;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: .85rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background .2s
+        }
+
+        .back-btn:hover {
+            background: #15803d
+        }
+
+        .topbar {
+            background: #fff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 50
+        }
+
+        .topbar-brand {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #16a34a
+        }
+
+        .topbar-brand span {
+            color: #1e293b
+        }
+
+        .topbar-nav {
+            display: flex;
+            gap: 8px;
+            align-items: center
+        }
+
+        .topbar-nav a {
+            text-decoration: none;
+            padding: 8px 14px;
+            background: #f0fdf4;
+            color: #16a34a;
+            border-radius: 8px;
+            font-size: .82rem;
+            font-weight: 600;
+            transition: all .2s
+        }
+
+        .topbar-nav a:hover,
+        .topbar-nav a.active {
+            background: #16a34a;
+            color: #fff
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 32px 24px
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 8px
+        }
+
+        .page-sub {
+            color: #64748b;
+            margin-bottom: 24px
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px
+        }
+
+        .mini-stat {
+            background: #fff;
+            border-radius: 12px;
+            padding: 16px 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .06)
+        }
+
+        .mini-stat .label {
+            font-size: .75rem;
+            color: #64748b
+        }
+
+        .mini-stat .val {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-top: 4px
+        }
+
+        .customer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 16px
+        }
+
+        .cust-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .06);
+            transition: all .2s;
+            cursor: pointer
+        }
+
+        .cust-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .1);
+            transform: translateY(-2px)
+        }
+
+        .cust-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 12px
+        }
+
+        .cust-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #fff;
+            flex-shrink: 0
+        }
+
+        .cust-name {
+            font-weight: 600;
+            font-size: .95rem
+        }
+
+        .cust-email {
+            font-size: .75rem;
+            color: #64748b
+        }
+
+        .cust-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            text-align: center;
+            padding-top: 12px;
+            border-top: 1px solid #f1f5f9
+        }
+
+        .cust-stat .s-val {
+            font-weight: 700;
+            font-size: .9rem
+        }
+
+        .cust-stat .s-label {
+            font-size: .65rem;
+            color: #94a3b8
+        }
+
+        .badge {
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: .65rem;
+            font-weight: 600
+        }
+
+        .badge-gold {
+            background: #fef3c7;
+            color: #92400e
+        }
+
+        .badge-silver {
+            background: #f1f5f9;
+            color: #64748b
+        }
+
+        .badge-bronze {
+            background: #fce7d6;
+            color: #9a3412
+        }
+
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px
+        }
+
+        .search-box {
+            padding: 8px 14px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: .85rem;
+            outline: none;
+            min-width: 250px
+        }
+
+        .search-box:focus {
+            border-color: #16a34a
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #1e293b;
+            color: #fff;
+            padding: 14px 24px;
+            border-radius: 10px;
+            font-size: .85rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all .3s;
+            z-index: 200
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0)
+        }
+
+        .demo-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(0, 0, 0, .5);
+            backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            animation: fadeOverlay .4s .2s ease forwards
+        }
+
+        .demo-popup {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border: 1px solid rgba(255, 255, 255, .1);
+            border-radius: 20px;
+            padding: 36px 40px;
+            max-width: 440px;
+            width: 90%;
+            text-align: center;
+            color: #fff;
+            transform: scale(.85);
+            opacity: 0;
+            animation: popIn .5s .4s cubic-bezier(.34, 1.56, .64, 1) forwards;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, .4)
+        }
+
+        .demo-popup .popup-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            display: block;
+            animation: bounce 2s ease infinite
+        }
+
+        .demo-popup h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent
+        }
+
+        .demo-popup p {
+            font-size: .88rem;
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 20px
+        }
+
+        .demo-popup .popup-btn {
+            padding: 10px 32px;
+            background: linear-gradient(135deg, #16a34a, #22c55e);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: .88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .2s;
+            box-shadow: 0 4px 15px rgba(22, 163, 74, .4)
+        }
+
+        .demo-popup .popup-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(22, 163, 74, .5)
+        }
+
+        @keyframes fadeOverlay {
+            to {
+                opacity: 1
+            }
+        }
+
+        @keyframes popIn {
+            to {
+                transform: scale(1);
+                opacity: 1
+            }
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0)
+            }
+
+            50% {
+                transform: translateY(-8px)
+            }
+        }
+
+        @media(max-width:768px) {
+            .topbar {
+                flex-wrap: wrap;
+                gap: 8px
+            }
+
+            .topbar-nav {
+                flex-wrap: wrap
+            }
+
+            .customer-grid {
+                grid-template-columns: 1fr
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="demo-overlay" id="demoOverlay" onclick="closeDemoPopup()">
+        <div class="demo-popup" onclick="event.stopPropagation()"><span class="popup-icon">🛒</span>
+            <h3>Halaman Demo</h3>
+            <p>Ini adalah halaman <strong style="color:#e2e8f0">demo</strong> dari aplikasi yang pernah dibuat. Silakan
+                klik-klik dan coba fitur yang tersedia!</p><button class="popup-btn"
+                onclick="closeDemoPopup()">Mengerti, Lanjutkan →</button>
+        </div>
+    </div>
+    <script>function closeDemoPopup() { const o = document.getElementById('demoOverlay'); o.style.opacity = '0'; setTimeout(() => o.remove(), 400); }</script>
+    <a href="../../index.html#projects" class="back-btn">← Kembali</a>
+    <header class="topbar">
+        <div class="topbar-brand">🛒 <span>Toko</span>Online</div>
+        <nav class="topbar-nav"><a href="index.html">🏪 Toko</a><a href="pesanan.html">📦 Pesanan</a><a
+                href="produk.html">📋 Produk</a><a href="pelanggan.html" class="active">👥 Pelanggan</a></nav>
+    </header>
+    <div class="container">
+        <h1 class="page-title">Data Pelanggan</h1>
+        <p class="page-sub">Manajemen pelanggan dan membership</p>
+        <div class="stats-row">
+            <div class="mini-stat">
+                <div class="label">Total Pelanggan</div>
+                <div class="val">3,456</div>
+            </div>
+            <div class="mini-stat">
+                <div class="label">Member Gold</div>
+                <div class="val" style="color:#f59e0b">234</div>
+            </div>
+            <div class="mini-stat">
+                <div class="label">Pelanggan Baru (Bulan Ini)</div>
+                <div class="val" style="color:#10b981">89</div>
+            </div>
+        </div>
+        <div class="toolbar"><input type="text" class="search-box" placeholder="🔍 Cari pelanggan..." id="searchBox" />
+        </div>
+        <div class="customer-grid" id="custGrid"></div>
+    </div>
+    <div class="toast" id="toast"></div>
+    <script>
+        const customers = [
+            { name: 'Ahmad Fauzi', email: 'ahmad@email.com', orders: 23, total: 45600000, tier: 'gold', color: '#f59e0b', joined: 'Jan 2024' },
+            { name: 'Siti Nurhaliza', email: 'siti@email.com', orders: 18, total: 32100000, tier: 'gold', color: '#f59e0b', joined: 'Mar 2024' },
+            { name: 'Budi Santoso', email: 'budi@email.com', orders: 12, total: 15800000, tier: 'silver', color: '#94a3b8', joined: 'Jun 2024' },
+            { name: 'Dewi Lestari', email: 'dewi@email.com', orders: 8, total: 8500000, tier: 'silver', color: '#94a3b8', joined: 'Aug 2024' },
+            { name: 'Rizky Ramadhan', email: 'rizky@email.com', orders: 31, total: 62000000, tier: 'gold', color: '#f59e0b', joined: 'Feb 2024' },
+            { name: 'Putri Amelia', email: 'putri@email.com', orders: 5, total: 3200000, tier: 'bronze', color: '#f97316', joined: 'Nov 2024' },
+            { name: 'Hendra Wijaya', email: 'hendra@email.com', orders: 15, total: 21700000, tier: 'silver', color: '#94a3b8', joined: 'Apr 2024' },
+            { name: 'Maya Sari', email: 'maya@email.com', orders: 9, total: 12400000, tier: 'silver', color: '#94a3b8', joined: 'Jul 2024' },
+            { name: 'Dimas Pratama', email: 'dimas@email.com', orders: 3, total: 1800000, tier: 'bronze', color: '#f97316', joined: 'Jan 2025' },
+        ];
+        const fmt = n => 'Rp ' + n.toLocaleString('id-ID');
+        function render(data) {
+            document.getElementById('custGrid').innerHTML = (data || customers).map(c => `
+                <div class="cust-card" onclick="showToast('Detail pelanggan: ${c.name}')">
+                    <div class="cust-header">
+                        <div class="cust-avatar" style="background:${c.color}">${c.name.charAt(0)}</div>
+                        <div><div class="cust-name">${c.name} <span class="badge badge-${c.tier}">${c.tier.toUpperCase()}</span></div><div class="cust-email">${c.email} · Bergabung ${c.joined}</div></div>
+                    </div>
+                    <div class="cust-stats">
+                        <div class="cust-stat"><div class="s-val">${c.orders}</div><div class="s-label">Pesanan</div></div>
+                        <div class="cust-stat"><div class="s-val">${fmt(c.total)}</div><div class="s-label">Total Belanja</div></div>
+                        <div class="cust-stat"><div class="s-val">${c.tier === 'gold' ? '⭐⭐⭐' : c.tier === 'silver' ? '⭐⭐' : '⭐'}</div><div class="s-label">Level</div></div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        render();
+        document.getElementById('searchBox').addEventListener('input', function () { const q = this.value.toLowerCase(); render(customers.filter(c => c.name.toLowerCase().includes(q) || c.email.toLowerCase().includes(q))); });
+        function showToast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2500); }
+    </script>
+</body>
+
+</html>

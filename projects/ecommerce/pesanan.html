@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pesanan — E-Commerce</title>
+    <link rel="icon" href="../../images/sr_logo.png" type="image/png" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8faf8;
+            color: #1e293b;
+            min-height: 100vh
+        }
+
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            background: #16a34a;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: .85rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background .2s
+        }
+
+        .back-btn:hover {
+            background: #15803d
+        }
+
+        .topbar {
+            background: #fff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 50
+        }
+
+        .topbar-brand {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #16a34a
+        }
+
+        .topbar-brand span {
+            color: #1e293b
+        }
+
+        .topbar-nav {
+            display: flex;
+            gap: 8px;
+            align-items: center
+        }
+
+        .topbar-nav a {
+            text-decoration: none;
+            padding: 8px 14px;
+            background: #f0fdf4;
+            color: #16a34a;
+            border-radius: 8px;
+            font-size: .82rem;
+            font-weight: 600;
+            transition: all .2s
+        }
+
+        .topbar-nav a:hover,
+        .topbar-nav a.active {
+            background: #16a34a;
+            color: #fff
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 32px 24px
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 8px
+        }
+
+        .page-sub {
+            color: #64748b;
+            margin-bottom: 24px
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px
+        }
+
+        .mini-stat {
+            background: #fff;
+            border-radius: 12px;
+            padding: 16px 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .06)
+        }
+
+        .mini-stat .label {
+            font-size: .75rem;
+            color: #64748b
+        }
+
+        .mini-stat .val {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-top: 4px
+        }
+
+        .table-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .06)
+        }
+
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 12px
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap
+        }
+
+        .filter-tab {
+            padding: 6px 14px;
+            border: 1px solid #e5e7eb;
+            border-radius: 20px;
+            background: #fff;
+            font-size: .78rem;
+            cursor: pointer;
+            transition: all .2s
+        }
+
+        .filter-tab.active,
+        .filter-tab:hover {
+            background: #16a34a;
+            color: #fff;
+            border-color: #16a34a
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse
+        }
+
+        th {
+            text-align: left;
+            padding: 10px 12px;
+            font-size: .75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            border-bottom: 2px solid #e2e8f0
+        }
+
+        td {
+            padding: 12px;
+            font-size: .85rem;
+            border-bottom: 1px solid #f1f5f9
+        }
+
+        tr:hover td {
+            background: #f8fafc
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: .7rem;
+            font-weight: 600
+        }
+
+        .badge-green {
+            background: #d1fae5;
+            color: #065f46
+        }
+
+        .badge-yellow {
+            background: #fef3c7;
+            color: #92400e
+        }
+
+        .badge-blue {
+            background: #dbeafe;
+            color: #1e40af
+        }
+
+        .badge-red {
+            background: #fecaca;
+            color: #991b1b
+        }
+
+        .badge-gray {
+            background: #f1f5f9;
+            color: #64748b
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            border: none;
+            background: #f1f5f9;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: .78rem;
+            transition: all .2s;
+            margin-right: 4px
+        }
+
+        .action-btn:hover {
+            background: #16a34a;
+            color: #fff
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #1e293b;
+            color: #fff;
+            padding: 14px 24px;
+            border-radius: 10px;
+            font-size: .85rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all .3s;
+            z-index: 200
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0)
+        }
+
+        .demo-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(0, 0, 0, .5);
+            backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            animation: fadeOverlay .4s .2s ease forwards
+        }
+
+        .demo-popup {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border: 1px solid rgba(255, 255, 255, .1);
+            border-radius: 20px;
+            padding: 36px 40px;
+            max-width: 440px;
+            width: 90%;
+            text-align: center;
+            color: #fff;
+            transform: scale(.85);
+            opacity: 0;
+            animation: popIn .5s .4s cubic-bezier(.34, 1.56, .64, 1) forwards;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, .4)
+        }
+
+        .demo-popup .popup-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            display: block;
+            animation: bounce 2s ease infinite
+        }
+
+        .demo-popup h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent
+        }
+
+        .demo-popup p {
+            font-size: .88rem;
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 20px
+        }
+
+        .demo-popup .popup-btn {
+            padding: 10px 32px;
+            background: linear-gradient(135deg, #16a34a, #22c55e);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: .88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .2s;
+            box-shadow: 0 4px 15px rgba(22, 163, 74, .4)
+        }
+
+        .demo-popup .popup-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(22, 163, 74, .5)
+        }
+
+        @keyframes fadeOverlay {
+            to {
+                opacity: 1
+            }
+        }
+
+        @keyframes popIn {
+            to {
+                transform: scale(1);
+                opacity: 1
+            }
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0)
+            }
+
+            50% {
+                transform: translateY(-8px)
+            }
+        }
+
+        @media(max-width:768px) {
+            .topbar {
+                flex-wrap: wrap;
+                gap: 8px
+            }
+
+            .topbar-nav {
+                flex-wrap: wrap
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="demo-overlay" id="demoOverlay" onclick="closeDemoPopup()">
+        <div class="demo-popup" onclick="event.stopPropagation()"><span class="popup-icon">🛒</span>
+            <h3>Halaman Demo</h3>
+            <p>Ini adalah halaman <strong style="color:#e2e8f0">demo</strong> dari aplikasi yang pernah dibuat. Silakan
+                klik-klik dan coba fitur yang tersedia!</p><button class="popup-btn"
+                onclick="closeDemoPopup()">Mengerti, Lanjutkan →</button>
+        </div>
+    </div>
+    <script>function closeDemoPopup() { const o = document.getElementById('demoOverlay'); o.style.opacity = '0'; setTimeout(() => o.remove(), 400); }</script>
+    <a href="../../index.html#projects" class="back-btn">← Kembali</a>
+    <header class="topbar">
+        <div class="topbar-brand">🛒 <span>Toko</span>Online</div>
+        <nav class="topbar-nav">
+            <a href="index.html">🏪 Toko</a>
+            <a href="pesanan.html" class="active">📦 Pesanan</a>
+            <a href="produk.html">📋 Produk</a>
+            <a href="pelanggan.html">👥 Pelanggan</a>
+        </nav>
+    </header>
+    <div class="container">
+        <h1 class="page-title">Pesanan</h1>
+        <p class="page-sub">Manajemen pesanan pelanggan</p>
+        <div class="stats-row">
+            <div class="mini-stat">
+                <div class="label">Total Pesanan</div>
+                <div class="val">1,284</div>
+            </div>
+            <div class="mini-stat">
+                <div class="label">Menunggu</div>
+                <div class="val" style="color:#f59e0b">23</div>
+            </div>
+            <div class="mini-stat">
+                <div class="label">Diproses</div>
+                <div class="val" style="color:#3b82f6">45</div>
+            </div>
+            <div class="mini-stat">
+                <div class="label">Selesai</div>
+                <div class="val" style="color:#10b981">1,216</div>
+            </div>
+        </div>
+        <div class="table-card">
+            <div class="toolbar">
+                <div class="filter-tabs">
+                    <button class="filter-tab active" onclick="filterOrders('all',this)">Semua</button>
+                    <button class="filter-tab" onclick="filterOrders('menunggu',this)">Menunggu</button>
+                    <button class="filter-tab" onclick="filterOrders('diproses',this)">Diproses</button>
+                    <button class="filter-tab" onclick="filterOrders('dikirim',this)">Dikirim</button>
+                    <button class="filter-tab" onclick="filterOrders('selesai',this)">Selesai</button>
+                </div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Pelanggan</th>
+                        <th>Produk</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                        <th>Tanggal</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="orderTable"></tbody>
+            </table>
+        </div>
+    </div>
+    <div class="toast" id="toast"></div>
+    <script>
+        const orders = [
+            { id: 'ORD-10284', customer: 'Ahmad Fauzi', product: 'Laptop Gaming Pro', total: 12999000, status: 'menunggu', badge: 'badge-yellow', date: '26 Feb 2026' },
+            { id: 'ORD-10283', customer: 'Siti Nurhaliza', product: 'Smartphone 5G, Case', total: 6150000, status: 'diproses', badge: 'badge-blue', date: '26 Feb 2026' },
+            { id: 'ORD-10282', customer: 'Budi Santoso', product: 'Headphone Wireless', total: 850000, status: 'dikirim', badge: 'badge-blue', date: '25 Feb 2026' },
+            { id: 'ORD-10281', customer: 'Dewi Lestari', product: 'Kemeja Slim Fit x2', total: 398000, status: 'selesai', badge: 'badge-green', date: '25 Feb 2026' },
+            { id: 'ORD-10280', customer: 'Rizky R.', product: 'Smartwatch Fitness', total: 1599000, status: 'selesai', badge: 'badge-green', date: '24 Feb 2026' },
+            { id: 'ORD-10279', customer: 'Putri Amelia', product: 'Sneakers, Tas Ransel', total: 898000, status: 'menunggu', badge: 'badge-yellow', date: '24 Feb 2026' },
+            { id: 'ORD-10278', customer: 'Hendra W.', product: 'Monitor 27" 4K', total: 4299000, status: 'diproses', badge: 'badge-blue', date: '23 Feb 2026' },
+            { id: 'ORD-10277', customer: 'Maya Sari', product: 'Mouse + Keyboard', total: 1449000, status: 'selesai', badge: 'badge-green', date: '23 Feb 2026' },
+        ];
+        const fmt = n => 'Rp ' + n.toLocaleString('id-ID');
+        function renderOrders(filter = 'all') {
+            const data = filter === 'all' ? orders : orders.filter(o => o.status === filter);
+            document.getElementById('orderTable').innerHTML = data.map(o => `<tr>
+                <td><strong>${o.id}</strong></td><td>${o.customer}</td><td>${o.product}</td><td>${fmt(o.total)}</td>
+                <td><span class="badge ${o.badge}">${o.status.charAt(0).toUpperCase() + o.status.slice(1)}</span></td><td>${o.date}</td>
+                <td><button class="action-btn" onclick="processOrder('${o.id}')">Proses</button><button class="action-btn" onclick="showToast('Detail ${o.id}')">Detail</button></td>
+            </tr>`).join('');
+        }
+        renderOrders();
+        function filterOrders(f, btn) { document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active')); btn.classList.add('active'); renderOrders(f); }
+        function processOrder(id) { const o = orders.find(x => x.id === id); if (o) { if (o.status === 'menunggu') { o.status = 'diproses'; o.badge = 'badge-blue'; } else if (o.status === 'diproses') { o.status = 'dikirim'; o.badge = 'badge-blue'; } else if (o.status === 'dikirim') { o.status = 'selesai'; o.badge = 'badge-green'; } renderOrders(); showToast(`✅ ${id} status diupdate!`); } }
+        function showToast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2500); }
+    </script>
+</body>
+
+</html>

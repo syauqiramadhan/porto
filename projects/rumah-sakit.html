@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Demo — Sistem Manajemen Rumah Sakit</title>
+    <link rel="icon" href="../images/sr_logo.png" type="image/png" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f0f2f5;
+            color: #1e293b;
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* Back button */
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            background: #4f46e5;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background .2s;
+        }
+
+        .back-btn:hover {
+            background: #4338ca;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 240px;
+            background: #1e293b;
+            color: #fff;
+            padding: 24px 0;
+            flex-shrink: 0;
+            min-height: 100vh;
+        }
+
+        .sidebar-brand {
+            padding: 0 24px 24px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-bottom: 1px solid #334155;
+            margin-bottom: 16px;
+        }
+
+        .sidebar-brand span {
+            color: #818cf8;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 24px;
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all .2s;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar-nav a:hover,
+        .sidebar-nav a.active {
+            background: #334155;
+            color: #fff;
+            border-left-color: #818cf8;
+        }
+
+        .sidebar-nav a .icon {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main */
+        .main {
+            flex: 1;
+            padding: 32px;
+            overflow-y: auto;
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .page-sub {
+            color: #64748b;
+            margin-bottom: 24px;
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .06);
+        }
+
+        .stat-card .label {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-bottom: 4px;
+        }
+
+        .stat-card .value {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .stat-card .change {
+            font-size: 0.75rem;
+            margin-top: 4px;
+        }
+
+        .stat-card .change.up {
+            color: #10b981;
+        }
+
+        .stat-card .change.down {
+            color: #ef4444;
+        }
+
+        /* Chart placeholder */
+        .chart-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .chart-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .06);
+        }
+
+        .chart-card h3 {
+            font-size: 0.95rem;
+            margin-bottom: 16px;
+        }
+
+        .bar-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+            height: 160px;
+        }
+
+        .bar {
+            background: linear-gradient(180deg, #818cf8, #4f46e5);
+            border-radius: 6px 6px 0 0;
+            flex: 1;
+            min-width: 20px;
+            transition: height .6s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .bar:hover {
+            opacity: .85;
+        }
+
+        .bar-label {
+            text-align: center;
+            font-size: 0.65rem;
+            color: #94a3b8;
+            margin-top: 6px;
+        }
+
+        .donut-chart {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: conic-gradient(#4f46e5 0% 40%, #10b981 40% 65%, #f59e0b 65% 85%, #ef4444 85% 100%);
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .donut-chart::after {
+            content: '';
+            position: absolute;
+            inset: 30px;
+            background: #fff;
+            border-radius: 50%;
+        }
+
+        .donut-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 16px;
+        }
+
+        .legend-item {
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .legend-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        /* Table */
+        .table-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .06);
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .table-header h3 {
+            font-size: 0.95rem;
+        }
+
+        .search-box {
+            padding: 8px 14px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            outline: none;
+        }
+
+        .search-box:focus {
+            border-color: #818cf8;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            padding: 10px 12px;
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        td {
+            padding: 12px;
+            font-size: 0.85rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        tr:hover td {
+            background: #f8fafc;
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .badge-green {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge-yellow {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-red {
+            background: #fecaca;
+            color: #991b1b;
+        }
+
+        .badge-blue {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            border: none;
+            background: #f1f5f9;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.78rem;
+            transition: all .2s;
+        }
+
+        .action-btn:hover {
+            background: #818cf8;
+            color: #fff;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #1e293b;
+            color: #fff;
+            padding: 14px 24px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all .3s;
+            z-index: 200;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media(max-width:768px) {
+            body {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                min-height: auto;
+                padding: 16px 0;
+            }
+
+            .sidebar-nav {
+                display: flex;
+                overflow-x: auto;
+            }
+
+            .sidebar-nav a {
+                white-space: nowrap;
+                border-left: none;
+                border-bottom: 3px solid transparent;
+                padding: 10px 16px;
+            }
+
+            .sidebar-nav a.active {
+                border-bottom-color: #818cf8;
+            }
+
+            .chart-row {
+                grid-template-columns: 1fr;
+            }
+
+            .main {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Demo Popup -->
+    <style>
+        .demo-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(0, 0, 0, .5);
+            backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            animation: fadeOverlay .4s .2s ease forwards
+        }
+
+        .demo-popup {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border: 1px solid rgba(255, 255, 255, .1);
+            border-radius: 20px;
+            padding: 36px 40px;
+            max-width: 440px;
+            width: 90%;
+            text-align: center;
+            color: #fff;
+            transform: scale(.85);
+            opacity: 0;
+            animation: popIn .5s .4s cubic-bezier(.34, 1.56, .64, 1) forwards;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, .4)
+        }
+
+        .demo-popup .popup-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            display: block;
+            animation: bounce 2s ease infinite
+        }
+
+        .demo-popup h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #818cf8, #a78bfa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent
+        }
+
+        .demo-popup p {
+            font-size: .88rem;
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 20px
+        }
+
+        .demo-popup .popup-btn {
+            padding: 10px 32px;
+            background: linear-gradient(135deg, #6366f1, #818cf8);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: .88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .2s;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, .4)
+        }
+
+        .demo-popup .popup-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, .5)
+        }
+
+        @keyframes fadeOverlay {
+            to {
+                opacity: 1
+            }
+        }
+
+        @keyframes popIn {
+            to {
+                transform: scale(1);
+                opacity: 1
+            }
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0)
+            }
+
+            50% {
+                transform: translateY(-8px)
+            }
+        }
+    </style>
+    <div class="demo-overlay" id="demoOverlay" onclick="closeDemoPopup()">
+        <div class="demo-popup" onclick="event.stopPropagation()">
+            <span class="popup-icon">🚀</span>
+            <h3>Halaman Demo</h3>
+            <p>Ini adalah halaman <strong style="color:#e2e8f0">demo</strong> dari aplikasi yang pernah dibuat. Silakan
+                klik-klik dan coba fitur yang tersedia!</p>
+            <button class="popup-btn" onclick="closeDemoPopup()">Mengerti, Lanjutkan →</button>
+        </div>
+    </div>
+    <script>function closeDemoPopup() { const o = document.getElementById('demoOverlay'); o.style.opacity = '0'; setTimeout(() => o.remove(), 400); }</script>
+
+    <a href="../index.html#projects" class="back-btn">← Kembali</a>
+
+    <aside class="sidebar">
+        <div class="sidebar-brand">🏥 RS<span>Manager</span></div>
+        <nav class="sidebar-nav">
+            <a href="#" class="active"><span class="icon">📊</span> Dashboard</a>
+            <a href="#" onclick="showToast('Halaman Pasien (Demo)')"><span class="icon">👥</span> Pasien</a>
+            <a href="#" onclick="showToast('Halaman Rawat Inap (Demo)')"><span class="icon">🛏️</span> Rawat Inap</a>
+            <a href="#" onclick="showToast('Halaman Rawat Jalan (Demo)')"><span class="icon">🚶</span> Rawat Jalan</a>
+            <a href="#" onclick="showToast('Halaman Billing (Demo)')"><span class="icon">💰</span> Billing</a>
+            <a href="#" onclick="showToast('Halaman Rekam Medis (Demo)')"><span class="icon">📋</span> Rekam Medis</a>
+            <a href="#" onclick="showToast('Halaman Laporan (Demo)')"><span class="icon">📈</span> Laporan</a>
+            <a href="#" onclick="showToast('Halaman Pengaturan (Demo)')"><span class="icon">⚙️</span> Pengaturan</a>
+        </nav>
+    </aside>
+
+    <main class="main">
+        <h1 class="page-title">Dashboard</h1>
+        <p class="page-sub">Selamat datang, Dr. Admin — Ringkasan hari ini</p>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="label">Total Pasien</div>
+                <div class="value" id="c1">0</div>
+                <div class="change up">▲ 12% dari bulan lalu</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Rawat Inap Aktif</div>
+                <div class="value" id="c2">0</div>
+                <div class="change up">▲ 5% dari bulan lalu</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Rawat Jalan Hari Ini</div>
+                <div class="value" id="c3">0</div>
+                <div class="change down">▼ 3% dari kemarin</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Pendapatan Bulan Ini</div>
+                <div class="value" id="c4">0</div>
+                <div class="change up">▲ 18% dari bulan lalu</div>
+            </div>
+        </div>
+
+        <div class="chart-row">
+            <div class="chart-card">
+                <h3>📈 Kunjungan Pasien (6 Bulan Terakhir)</h3>
+                <div class="bar-chart" id="barChart"></div>
+                <div style="display:flex;gap:8px;justify-content:space-around;margin-top:6px;" id="barLabels"></div>
+            </div>
+            <div class="chart-card">
+                <h3>🏥 Komposisi Poli</h3>
+                <div class="donut-chart"></div>
+                <div class="donut-legend">
+                    <div class="legend-item"><span class="legend-dot" style="background:#4f46e5"></span> Umum 40%</div>
+                    <div class="legend-item"><span class="legend-dot" style="background:#10b981"></span> Anak 25%</div>
+                    <div class="legend-item"><span class="legend-dot" style="background:#f59e0b"></span> Gigi 20%</div>
+                    <div class="legend-item"><span class="legend-dot" style="background:#ef4444"></span> Mata 15%</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-card">
+            <div class="table-header">
+                <h3>📋 Pasien Terbaru</h3>
+                <input type="text" class="search-box" placeholder="Cari pasien..." id="searchBox" />
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>No. RM</th>
+                        <th>Nama</th>
+                        <th>Poli</th>
+                        <th>Status</th>
+                        <th>Tanggal</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="patientTable"></tbody>
+            </table>
+        </div>
+    </main>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // Counter animation
+        function animateCount(id, target, prefix = '') {
+            const el = document.getElementById(id);
+            let cur = 0;
+            const step = target / 60;
+            const timer = setInterval(() => {
+                cur += step;
+                if (cur >= target) { cur = target; clearInterval(timer); }
+                el.textContent = prefix + Math.floor(cur).toLocaleString('id-ID');
+            }, 20);
+        }
+        animateCount('c1', 2847);
+        animateCount('c2', 156);
+        animateCount('c3', 84);
+        animateCount('c4', 425000000, 'Rp ');
+
+        // Bar chart
+        const months = ['Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+        const values = [65, 78, 52, 88, 95, 72];
+        const maxVal = Math.max(...values);
+        const barChart = document.getElementById('barChart');
+        const barLabels = document.getElementById('barLabels');
+        months.forEach((m, i) => {
+            const bar = document.createElement('div');
+            bar.className = 'bar';
+            bar.style.height = '0%';
+            bar.title = m + ': ' + values[i] + ' pasien';
+            bar.onclick = () => showToast(`${m}: ${values[i]} kunjungan pasien`);
+            setTimeout(() => { bar.style.height = (values[i] / maxVal * 100) + '%'; }, i * 100);
+            barChart.appendChild(bar);
+
+            const label = document.createElement('div');
+            label.className = 'bar-label';
+            label.textContent = m;
+            barLabels.appendChild(label);
+        });
+
+        // Patient table
+        const patients = [
+            { rm: 'RM-2025001', name: 'Ahmad Fauzi', poli: 'Umum', status: 'Rawat Jalan', date: '26 Feb 2026', badge: 'badge-green' },
+            { rm: 'RM-2025002', name: 'Siti Nurhaliza', poli: 'Anak', status: 'Rawat Inap', date: '25 Feb 2026', badge: 'badge-blue' },
+            { rm: 'RM-2025003', name: 'Budi Santoso', poli: 'Gigi', status: 'Selesai', date: '25 Feb 2026', badge: 'badge-green' },
+            { rm: 'RM-2025004', name: 'Dewi Lestari', poli: 'Mata', status: 'Menunggu', date: '26 Feb 2026', badge: 'badge-yellow' },
+            { rm: 'RM-2025005', name: 'Rizky Ramadhan', poli: 'Umum', status: 'Kritis', date: '24 Feb 2026', badge: 'badge-red' },
+            { rm: 'RM-2025006', name: 'Putri Amelia', poli: 'Anak', status: 'Rawat Jalan', date: '26 Feb 2026', badge: 'badge-green' },
+        ];
+
+        function renderTable(data) {
+            const tbody = document.getElementById('patientTable');
+            tbody.innerHTML = data.map(p => `
+        <tr>
+          <td><strong>${p.rm}</strong></td>
+          <td>${p.name}</td>
+          <td>${p.poli}</td>
+          <td><span class="badge ${p.badge}">${p.status}</span></td>
+          <td>${p.date}</td>
+          <td><button class="action-btn" onclick="showToast('Detail pasien: ${p.name}')">Detail</button></td>
+        </tr>
+      `).join('');
+        }
+        renderTable(patients);
+
+        document.getElementById('searchBox').addEventListener('input', function () {
+            const q = this.value.toLowerCase();
+            renderTable(patients.filter(p => p.name.toLowerCase().includes(q) || p.rm.toLowerCase().includes(q)));
+        });
+
+        // Toast
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 2500);
+        }
+    </script>
+</body>
+
+</html>

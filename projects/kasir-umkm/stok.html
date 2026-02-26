@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stok — Kasir UMKM</title>
+    <link rel="icon" href="../../images/sr_logo.png" type="image/png" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f0fdf4;
+            color: #1e293b;
+            min-height: 100vh
+        }
+
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            background: #10b981;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: .85rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background .2s
+        }
+
+        .back-btn:hover {
+            background: #059669
+        }
+
+        .topbar {
+            background: #fff;
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #e5e7eb;
+            position: sticky;
+            top: 0;
+            z-index: 50
+        }
+
+        .topbar-brand {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #10b981
+        }
+
+        .topbar-brand span {
+            color: #1e293b
+        }
+
+        .topbar-nav {
+            display: flex;
+            gap: 8px
+        }
+
+        .topbar-nav a {
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: .82rem;
+            font-weight: 600;
+            color: #64748b;
+            background: #f0fdf4;
+            transition: all .2s
+        }
+
+        .topbar-nav a:hover,
+        .topbar-nav a.active {
+            background: #10b981;
+            color: #fff
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 32px 24px
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 8px
+        }
+
+        .page-sub {
+            color: #64748b;
+            margin-bottom: 24px
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px
+        }
+
+        .mini-stat {
+            background: #fff;
+            border-radius: 12px;
+            padding: 16px 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .06)
+        }
+
+        .mini-stat .label {
+            font-size: .75rem;
+            color: #64748b
+        }
+
+        .mini-stat .val {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-top: 4px
+        }
+
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px
+        }
+
+        .search-box {
+            padding: 8px 14px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: .85rem;
+            outline: none;
+            min-width: 250px
+        }
+
+        .search-box:focus {
+            border-color: #10b981
+        }
+
+        .btn-primary {
+            padding: 10px 20px;
+            background: #10b981;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: .85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .2s
+        }
+
+        .btn-primary:hover {
+            background: #059669
+        }
+
+        .stock-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 14px
+        }
+
+        .stock-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .06);
+            transition: all .2s;
+            border-left: 4px solid transparent
+        }
+
+        .stock-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .1)
+        }
+
+        .stock-card.low {
+            border-left-color: #ef4444
+        }
+
+        .stock-card.medium {
+            border-left-color: #f59e0b
+        }
+
+        .stock-card.ok {
+            border-left-color: #10b981
+        }
+
+        .sc-icon {
+            font-size: 2rem;
+            margin-bottom: 8px
+        }
+
+        .sc-name {
+            font-weight: 600;
+            font-size: .9rem;
+            margin-bottom: 4px
+        }
+
+        .sc-stock {
+            font-size: .8rem;
+            margin-bottom: 6px
+        }
+
+        .sc-bar {
+            height: 6px;
+            background: #f1f5f9;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 8px
+        }
+
+        .sc-fill {
+            height: 100%;
+            border-radius: 3px
+        }
+
+        .sc-actions {
+            display: flex;
+            gap: 6px
+        }
+
+        .action-btn {
+            padding: 5px 10px;
+            border: none;
+            background: #f0fdf4;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: .72rem;
+            transition: all .2s;
+            font-weight: 600;
+            color: #10b981
+        }
+
+        .action-btn:hover {
+            background: #10b981;
+            color: #fff
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #1e293b;
+            color: #fff;
+            padding: 14px 24px;
+            border-radius: 10px;
+            font-size: .85rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all .3s;
+            z-index: 200
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0)
+        }
+
+        .demo-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(0, 0, 0, .5);
+            backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            animation: fadeOverlay .4s .2s ease forwards
+        }
+
+        .demo-popup {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border: 1px solid rgba(255, 255, 255, .1);
+            border-radius: 20px;
+            padding: 36px 40px;
+            max-width: 440px;
+            width: 90%;
+            text-align: center;
+            color: #fff;
+            transform: scale(.85);
+            opacity: 0;
+            animation: popIn .5s .4s cubic-bezier(.34, 1.56, .64, 1) forwards;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, .4)
+        }
+
+        .demo-popup .popup-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            display: block;
+            animation: bounce 2s ease infinite
+        }
+
+        .demo-popup h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #34d399, #10b981);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent
+        }
+
+        .demo-popup p {
+            font-size: .88rem;
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 20px
+        }
+
+        .demo-popup .popup-btn {
+            padding: 10px 32px;
+            background: linear-gradient(135deg, #059669, #10b981);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: .88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .2s;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, .4)
+        }
+
+        .demo-popup .popup-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, .5)
+        }
+
+        @keyframes fadeOverlay {
+            to {
+                opacity: 1
+            }
+        }
+
+        @keyframes popIn {
+            to {
+                transform: scale(1);
+                opacity: 1
+            }
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0)
+            }
+
+            50% {
+                transform: translateY(-8px)
+            }
+        }
+
+        @media(max-width:768px) {
+            .topbar {
+                flex-wrap: wrap;
+                gap: 8px
+            }
+
+            .topbar-nav {
+                flex-wrap: wrap
+            }
+
+            .stock-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr))
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="demo-overlay" id="demoOverlay" onclick="closeDemoPopup()">
+        <div class="demo-popup" onclick="event.stopPropagation()"><span class="popup-icon">🏪</span>
+            <h3>Halaman Demo</h3>
+            <p>Ini adalah halaman <strong style="color:#e2e8f0">demo</strong> dari aplikasi yang pernah dibuat. Silakan
+                klik-klik dan coba fitur yang tersedia!</p><button class="popup-btn"
+                onclick="closeDemoPopup()">Mengerti, Lanjutkan →</button>
+        </div>
+    </div>
+    <script>function closeDemoPopup() { const o = document.getElementById('demoOverlay'); o.style.opacity = '0'; setTimeout(() => o.remove(), 400); }</script>
+    <a href="../../index.html#projects" class="back-btn">← Kembali</a>
+    <header class="topbar">
+        <div class="topbar-brand">🏪 <span>Kasir</span>UMKM</div>
+        <nav class="topbar-nav"><a href="index.html">💳 Kasir</a><a href="laporan.html">📊 Laporan</a><a
+                href="stok.html" class="active">📦 Stok</a><a href="pengaturan.html">⚙️ Pengaturan</a></nav>
+    </header>
+    <div class="container">
+        <h1 class="page-title">Manajemen Stok</h1>
+        <p class="page-sub">Kelola persediaan bahan baku dan produk</p>
+        <div class="stats-row">
+            <div class="mini-stat">
+                <div class="label">Total Item</div>
+                <div class="val">45</div>
+            </div>
+            <div class="mini-stat">
+                <div class="label">Stok Rendah</div>
+                <div class="val" style="color:#ef4444">8</div>
+            </div>
+            <div class="mini-stat">
+                <div class="label">Habis</div>
+                <div class="val" style="color:#991b1b">2</div>
+            </div>
+        </div>
+        <div class="toolbar"><input type="text" class="search-box" placeholder="🔍 Cari stok..."
+                id="searchBox" /><button class="btn-primary" onclick="showToast('Form tambah stok')">+ Tambah
+                Item</button></div>
+        <div class="stock-grid" id="stockGrid"></div>
+    </div>
+    <div class="toast" id="toast"></div>
+    <script>
+        const items = [
+            { name: 'Biji Kopi', icon: '☕', stock: 15, max: 50, unit: 'kg' }, { name: 'Gula Pasir', icon: '🧂', stock: 8, max: 30, unit: 'kg' },
+            { name: 'Susu Cair', icon: '🥛', stock: 20, max: 40, unit: 'liter' }, { name: 'Beras', icon: '🍚', stock: 3, max: 25, unit: 'kg' },
+            { name: 'Mie Instant', icon: '🍜', stock: 45, max: 100, unit: 'bks' }, { name: 'Ayam Potong', icon: '🍗', stock: 0, max: 20, unit: 'kg' },
+            { name: 'Roti Tawar', icon: '🍞', stock: 12, max: 30, unit: 'bks' }, { name: 'Telur', icon: '🥚', stock: 50, max: 100, unit: 'butir' },
+            { name: 'Minyak Goreng', icon: '🫗', stock: 5, max: 20, unit: 'liter' }, { name: 'Air Mineral', icon: '💧', stock: 80, max: 200, unit: 'btl' },
+            { name: 'Tepung Terigu', icon: '🌾', stock: 6, max: 15, unit: 'kg' }, { name: 'Daging Sapi', icon: '🥩', stock: 0, max: 10, unit: 'kg' },
+        ];
+        function render(data) {
+            document.getElementById('stockGrid').innerHTML = (data || items).map((it, i) => {
+                const pct = Math.round(it.stock / it.max * 100); const level = pct === 0 ? 'low' : pct < 30 ? 'low' : pct < 60 ? 'medium' : 'ok';
+                const color = pct === 0 ? '#991b1b' : pct < 30 ? '#ef4444' : pct < 60 ? '#f59e0b' : '#10b981';
+                return `<div class="stock-card ${level}">
+                    <div class="sc-icon">${it.icon}</div><div class="sc-name">${it.name}</div>
+                    <div class="sc-stock" style="color:${color}"><strong>${it.stock}</strong> / ${it.max} ${it.unit}</div>
+                    <div class="sc-bar"><div class="sc-fill" style="width:${pct}%;background:${color}"></div></div>
+                    <div class="sc-actions"><button class="action-btn" onclick="restock(${i})">📦 Restock</button><button class="action-btn" onclick="showToast('Edit: ${it.name}')">✏️</button></div>
+                </div>`;
+            }).join('');
+        }
+        render();
+        document.getElementById('searchBox').addEventListener('input', function () { const q = this.value.toLowerCase(); render(items.filter(it => it.name.toLowerCase().includes(q))); });
+        function restock(i) { items[i].stock = items[i].max; render(); showToast(`📦 ${items[i].name} di-restock!`); }
+        function showToast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2500); }
+    </script>
+</body>
+
+</html>

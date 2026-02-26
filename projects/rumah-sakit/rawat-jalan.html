@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rawat Jalan — Sistem Manajemen Rumah Sakit</title>
+    <link rel="icon" href="../../images/sr_logo.png" type="image/png" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f0f2f5;
+            color: #1e293b;
+            min-height: 100vh;
+            display: flex
+        }
+
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            background: #4f46e5;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: .85rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background .2s
+        }
+
+        .back-btn:hover {
+            background: #4338ca
+        }
+
+        .sidebar {
+            width: 240px;
+            background: #1e293b;
+            color: #fff;
+            padding: 24px 0;
+            flex-shrink: 0;
+            min-height: 100vh
+        }
+
+        .sidebar-brand {
+            padding: 0 24px 24px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-bottom: 1px solid #334155;
+            margin-bottom: 16px
+        }
+
+        .sidebar-brand span {
+            color: #818cf8
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 24px;
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: .9rem;
+            transition: all .2s;
+            border-left: 3px solid transparent
+        }
+
+        .sidebar-nav a:hover,
+        .sidebar-nav a.active {
+            background: #334155;
+            color: #fff;
+            border-left-color: #818cf8
+        }
+
+        .sidebar-nav a .icon {
+            width: 20px;
+            text-align: center
+        }
+
+        .main {
+            flex: 1;
+            padding: 32px;
+            overflow-y: auto
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 8px
+        }
+
+        .page-sub {
+            color: #64748b;
+            margin-bottom: 24px
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px
+        }
+
+        .mini-stat {
+            background: #fff;
+            border-radius: 12px;
+            padding: 16px 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .06)
+        }
+
+        .mini-stat .label {
+            font-size: .75rem;
+            color: #64748b
+        }
+
+        .mini-stat .val {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 4px
+        }
+
+        .queue-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px
+        }
+
+        .queue-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .06)
+        }
+
+        .queue-card h3 {
+            font-size: .95rem;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .queue-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            background: #f8fafc;
+            transition: all .2s
+        }
+
+        .queue-item:hover {
+            background: #eef2ff
+        }
+
+        .queue-item .q-num {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: .85rem;
+            flex-shrink: 0
+        }
+
+        .queue-item .q-info {
+            flex: 1;
+            margin-left: 12px
+        }
+
+        .queue-item .q-name {
+            font-weight: 600;
+            font-size: .85rem
+        }
+
+        .queue-item .q-detail {
+            font-size: .75rem;
+            color: #64748b
+        }
+
+        .queue-item .q-action {
+            padding: 6px 14px;
+            border: none;
+            border-radius: 6px;
+            font-size: .78rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all .2s
+        }
+
+        .btn-call {
+            background: #dbeafe;
+            color: #1e40af
+        }
+
+        .btn-call:hover {
+            background: #1e40af;
+            color: #fff
+        }
+
+        .btn-done {
+            background: #d1fae5;
+            color: #065f46
+        }
+
+        .btn-done:hover {
+            background: #10b981;
+            color: #fff
+        }
+
+        .current-patient {
+            background: linear-gradient(135deg, #4f46e5, #6366f1);
+            color: #fff;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            text-align: center
+        }
+
+        .current-patient .cp-label {
+            font-size: .8rem;
+            opacity: .8;
+            margin-bottom: 4px
+        }
+
+        .current-patient .cp-num {
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: 4px
+        }
+
+        .current-patient .cp-name {
+            font-size: 1.1rem;
+            margin-top: 8px
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #1e293b;
+            color: #fff;
+            padding: 14px 24px;
+            border-radius: 10px;
+            font-size: .85rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all .3s;
+            z-index: 200
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0)
+        }
+
+        .demo-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(0, 0, 0, .5);
+            backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            animation: fadeOverlay .4s .2s ease forwards
+        }
+
+        .demo-popup {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border: 1px solid rgba(255, 255, 255, .1);
+            border-radius: 20px;
+            padding: 36px 40px;
+            max-width: 440px;
+            width: 90%;
+            text-align: center;
+            color: #fff;
+            transform: scale(.85);
+            opacity: 0;
+            animation: popIn .5s .4s cubic-bezier(.34, 1.56, .64, 1) forwards;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, .4)
+        }
+
+        .demo-popup .popup-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            display: block;
+            animation: bounce 2s ease infinite
+        }
+
+        .demo-popup h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #818cf8, #a78bfa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent
+        }
+
+        .demo-popup p {
+            font-size: .88rem;
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 20px
+        }
+
+        .demo-popup .popup-btn {
+            padding: 10px 32px;
+            background: linear-gradient(135deg, #6366f1, #818cf8);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: .88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .2s;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, .4)
+        }
+
+        .demo-popup .popup-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, .5)
+        }
+
+        @keyframes fadeOverlay {
+            to {
+                opacity: 1
+            }
+        }
+
+        @keyframes popIn {
+            to {
+                transform: scale(1);
+                opacity: 1
+            }
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0)
+            }
+
+            50% {
+                transform: translateY(-8px)
+            }
+        }
+
+        @media(max-width:768px) {
+            body {
+                flex-direction: column
+            }
+
+            .sidebar {
+                width: 100%;
+                min-height: auto;
+                padding: 16px 0
+            }
+
+            .sidebar-nav {
+                display: flex;
+                overflow-x: auto
+            }
+
+            .sidebar-nav a {
+                white-space: nowrap;
+                border-left: none;
+                border-bottom: 3px solid transparent;
+                padding: 10px 16px
+            }
+
+            .sidebar-nav a.active {
+                border-bottom-color: #818cf8
+            }
+
+            .main {
+                padding: 16px
+            }
+
+            .queue-container {
+                grid-template-columns: 1fr
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="demo-overlay" id="demoOverlay" onclick="closeDemoPopup()">
+        <div class="demo-popup" onclick="event.stopPropagation()"><span class="popup-icon">🚀</span>
+            <h3>Halaman Demo</h3>
+            <p>Ini adalah halaman <strong style="color:#e2e8f0">demo</strong> dari aplikasi yang pernah dibuat. Silakan
+                klik-klik dan coba fitur yang tersedia!</p><button class="popup-btn"
+                onclick="closeDemoPopup()">Mengerti, Lanjutkan →</button>
+        </div>
+    </div>
+    <script>function closeDemoPopup() { const o = document.getElementById('demoOverlay'); o.style.opacity = '0'; setTimeout(() => o.remove(), 400); }</script>
+    <a href="../../index.html#projects" class="back-btn">← Kembali</a>
+    <aside class="sidebar">
+        <div class="sidebar-brand">🏥 RS<span>Manager</span></div>
+        <nav class="sidebar-nav">
+            <a href="index.html"><span class="icon">📊</span> Dashboard</a>
+            <a href="pasien.html"><span class="icon">👥</span> Pasien</a>
+            <a href="rawat-inap.html"><span class="icon">🛏️</span> Rawat Inap</a>
+            <a href="rawat-jalan.html" class="active"><span class="icon">🚶</span> Rawat Jalan</a>
+            <a href="billing.html"><span class="icon">💰</span> Billing</a>
+            <a href="laporan.html"><span class="icon">📈</span> Laporan</a>
+        </nav>
+    </aside>
+    <main class="main">
+        <h1 class="page-title">Rawat Jalan</h1>
+        <p class="page-sub">Sistem antrian & manajemen rawat jalan</p>
+        <div class="stats-row">
+            <div class="mini-stat">
+                <div class="label">Antrian Hari Ini</div>
+                <div class="val">84</div>
+            </div>
+            <div class="mini-stat">
+                <div class="label">Sudah Dilayani</div>
+                <div class="val" style="color:#10b981">52</div>
+            </div>
+            <div class="mini-stat">
+                <div class="label">Menunggu</div>
+                <div class="val" style="color:#f59e0b">27</div>
+            </div>
+            <div class="mini-stat">
+                <div class="label">Tidak Hadir</div>
+                <div class="val" style="color:#ef4444">5</div>
+            </div>
+        </div>
+        <div class="current-patient">
+            <div class="cp-label">Sedang Dilayani — Poli Umum</div>
+            <div class="cp-num" id="currentNum">A-053</div>
+            <div class="cp-name" id="currentName">Ahmad Fauzi</div>
+        </div>
+        <div class="queue-container" id="queues"></div>
+    </main>
+    <div class="toast" id="toast"></div>
+    <script>
+        const poliData = [
+            {
+                name: 'Poli Umum', icon: '🩺', color: '#4f46e5', patients: [
+                    { num: 'A-054', name: 'Siti Nurhaliza', time: '09:30' }, { num: 'A-055', name: 'Budi Santoso', time: '09:45' },
+                    { num: 'A-056', name: 'Dewi Lestari', time: '10:00' }, { num: 'A-057', name: 'Rizky Ramadhan', time: '10:15' }
+                ]
+            },
+            {
+                name: 'Poli Anak', icon: '👶', color: '#10b981', patients: [
+                    { num: 'B-021', name: 'Putri Amelia', time: '09:00' }, { num: 'B-022', name: 'Dimas Pratama', time: '09:20' },
+                    { num: 'B-023', name: 'Maya Sari', time: '09:40' }
+                ]
+            },
+            {
+                name: 'Poli Gigi', icon: '🦷', color: '#f59e0b', patients: [
+                    { num: 'C-012', name: 'Hendra Wijaya', time: '10:00' }, { num: 'C-013', name: 'Ratna Dewi', time: '10:30' },
+                    { num: 'C-014', name: 'Andi Saputra', time: '11:00' }, { num: 'C-015', name: 'Lina Marlina', time: '11:30' }
+                ]
+            },
+            {
+                name: 'Poli Mata', icon: '👁️', color: '#ef4444', patients: [
+                    { num: 'D-008', name: 'Yoga Pratama', time: '09:15' }, { num: 'D-009', name: 'Rina Susanti', time: '09:45' }
+                ]
+            }
+        ];
+        const container = document.getElementById('queues');
+        poliData.forEach(poli => {
+            const card = document.createElement('div'); card.className = 'queue-card';
+            card.innerHTML = `<h3>${poli.icon} ${poli.name}</h3>
+            <div id="q-${poli.name.replace(/\s/g, '')}">${poli.patients.map((p, i) => `
+                <div class="queue-item" id="qi-${p.num}">
+                    <div class="q-num" style="background:${poli.color}20;color:${poli.color}">${p.num}</div>
+                    <div class="q-info"><div class="q-name">${p.name}</div><div class="q-detail">⏰ ${p.time}</div></div>
+                    <button class="q-action btn-call" onclick="callPatient('${p.num}','${p.name}')">Panggil</button>
+                </div>
+            `).join('')}</div>`;
+            container.appendChild(card);
+        });
+        function callPatient(num, name) {
+            document.getElementById('currentNum').textContent = num;
+            document.getElementById('currentName').textContent = name;
+            const el = document.getElementById('qi-' + num);
+            if (el) { el.style.background = '#dbeafe'; el.querySelector('.q-action').textContent = 'Dipanggil'; el.querySelector('.q-action').className = 'q-action btn-done'; el.querySelector('.q-action').onclick = () => donePatient(num, name); }
+            showToast(`📢 Memanggil ${name} (${num})`);
+        }
+        function donePatient(num, name) {
+            const el = document.getElementById('qi-' + num);
+            if (el) { el.style.opacity = '0.4'; el.querySelector('.q-action').textContent = 'Selesai'; el.querySelector('.q-action').disabled = true; }
+            showToast(`✅ ${name} selesai dilayani`);
+        }
+        function showToast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2500); }
+    </script>
+</body>
+
+</html>
