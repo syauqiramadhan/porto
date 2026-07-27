@@ -1,572 +1,150 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Inventori — Sistem Inventori & POS</title>
-    <link rel="icon" href="../../images/sr_logo.png" type="image/png" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet" />
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #f5f3ff;
-            color: #1e293b;
-            min-height: 100vh;
-            display: flex
-        }
-
-        .back-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 100;
-            background: #6366f1;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: .85rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: background .2s
-        }
-
-        .back-btn:hover {
-            background: #4f46e5
-        }
-
-        .sidebar {
-            width: 220px;
-            background: #1e1b4b;
-            color: #fff;
-            padding: 20px 0;
-            flex-shrink: 0;
-            min-height: 100vh
-        }
-
-        .sidebar-brand {
-            padding: 0 20px 20px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            border-bottom: 1px solid #312e81
-        }
-
-        .sidebar-brand span {
-            color: #a5b4fc
-        }
-
-        .sidebar-nav {
-            margin-top: 12px
-        }
-
-        .sidebar-nav a {
-            display: block;
-            padding: 10px 20px;
-            color: #a5b4fc;
-            text-decoration: none;
-            font-size: .85rem;
-            transition: all .2s
-        }
-
-        .sidebar-nav a:hover,
-        .sidebar-nav a.active {
-            background: #312e81;
-            color: #fff
-        }
-
-        .main {
-            flex: 1;
-            padding: 32px;
-            overflow-y: auto
-        }
-
-        .page-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 8px
-        }
-
-        .page-sub {
-            color: #64748b;
-            margin-bottom: 24px
-        }
-
-        .stats-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 16px;
-            margin-bottom: 24px
-        }
-
-        .mini-stat {
-            background: #fff;
-            border-radius: 12px;
-            padding: 16px 20px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, .06)
-        }
-
-        .mini-stat .label {
-            font-size: .75rem;
-            color: #64748b
-        }
-
-        .mini-stat .val {
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-top: 4px
-        }
-
-        .toolbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 12px
-        }
-
-        .search-box {
-            padding: 8px 14px;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: .85rem;
-            outline: none;
-            min-width: 250px
-        }
-
-        .search-box:focus {
-            border-color: #6366f1
-        }
-
-        .btn-primary {
-            padding: 10px 20px;
-            background: #6366f1;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            font-size: .85rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all .2s
-        }
-
-        .btn-primary:hover {
-            background: #4f46e5
-        }
-
-        .table-card {
-            background: #fff;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, .06)
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse
-        }
-
-        th {
-            text-align: left;
-            padding: 10px 12px;
-            font-size: .75rem;
-            color: #64748b;
-            text-transform: uppercase;
-            border-bottom: 2px solid #e2e8f0
-        }
-
-        td {
-            padding: 12px;
-            font-size: .85rem;
-            border-bottom: 1px solid #f1f5f9
-        }
-
-        tr:hover td {
-            background: #f8fafc
-        }
-
-        .badge {
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: .7rem;
-            font-weight: 600
-        }
-
-        .badge-green {
-            background: #d1fae5;
-            color: #065f46
-        }
-
-        .badge-yellow {
-            background: #fef3c7;
-            color: #92400e
-        }
-
-        .badge-red {
-            background: #fecaca;
-            color: #991b1b
-        }
-
-        .action-btn {
-            padding: 6px 12px;
-            border: none;
-            background: #f1f5f9;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: .78rem;
-            transition: all .2s;
-            margin-right: 4px
-        }
-
-        .action-btn:hover {
-            background: #6366f1;
-            color: #fff
-        }
-
-        .stock-bar {
-            height: 8px;
-            background: #f1f5f9;
-            border-radius: 4px;
-            overflow: hidden;
-            margin-top: 4px
-        }
-
-        .stock-fill {
-            height: 100%;
-            border-radius: 4px;
-            transition: width .6s
-        }
-
-        .toast {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            background: #1e293b;
-            color: #fff;
-            padding: 14px 24px;
-            border-radius: 10px;
-            font-size: .85rem;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all .3s;
-            z-index: 200
-        }
-
-        .toast.show {
-            opacity: 1;
-            transform: translateY(0)
-        }
-
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, .5);
-            backdrop-filter: blur(4px);
-            z-index: 300;
-            align-items: center;
-            justify-content: center
-        }
-
-        .modal-overlay.show {
-            display: flex
-        }
-
-        .modal {
-            background: #fff;
-            border-radius: 16px;
-            padding: 32px;
-            width: 90%;
-            max-width: 500px
-        }
-
-        .modal h3 {
-            margin-bottom: 20px
-        }
-
-        .form-group {
-            margin-bottom: 16px
-        }
-
-        .form-group label {
-            display: block;
-            font-size: .8rem;
-            font-weight: 600;
-            color: #64748b;
-            margin-bottom: 6px
-        }
-
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 10px 14px;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: .85rem;
-            outline: none
-        }
-
-        .form-group input:focus,
-        .form-group select:focus {
-            border-color: #6366f1
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: 12px;
-            justify-content: flex-end;
-            margin-top: 20px
-        }
-
-        .btn-secondary {
-            padding: 10px 20px;
-            background: #f1f5f9;
-            color: #1e293b;
-            border: none;
-            border-radius: 8px;
-            font-size: .85rem;
-            cursor: pointer
-        }
-
-        .demo-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            background: rgba(0, 0, 0, .5);
-            backdrop-filter: blur(6px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            animation: fadeOverlay .4s .2s ease forwards
-        }
-
-        .demo-popup {
-            background: linear-gradient(135deg, #1e293b, #0f172a);
-            border: 1px solid rgba(255, 255, 255, .1);
-            border-radius: 20px;
-            padding: 36px 40px;
-            max-width: 440px;
-            width: 90%;
-            text-align: center;
-            color: #fff;
-            transform: scale(.85);
-            opacity: 0;
-            animation: popIn .5s .4s cubic-bezier(.34, 1.56, .64, 1) forwards;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, .4)
-        }
-
-        .demo-popup .popup-icon {
-            font-size: 3rem;
-            margin-bottom: 16px;
-            display: block;
-            animation: bounce 2s ease infinite
-        }
-
-        .demo-popup h3 {
-            font-size: 1.15rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-            background: linear-gradient(135deg, #818cf8, #a78bfa);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent
-        }
-
-        .demo-popup p {
-            font-size: .88rem;
-            color: #94a3b8;
-            line-height: 1.6;
-            margin-bottom: 20px
-        }
-
-        .demo-popup .popup-btn {
-            padding: 10px 32px;
-            background: linear-gradient(135deg, #6366f1, #818cf8);
-            color: #fff;
-            border: none;
-            border-radius: 10px;
-            font-size: .88rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all .2s;
-            box-shadow: 0 4px 15px rgba(99, 102, 241, .4)
-        }
-
-        .demo-popup .popup-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(99, 102, 241, .5)
-        }
-
-        @keyframes fadeOverlay {
-            to {
-                opacity: 1
-            }
-        }
-
-        @keyframes popIn {
-            to {
-                transform: scale(1);
-                opacity: 1
-            }
-        }
-
-        @keyframes bounce {
-
-            0%,
-            100% {
-                transform: translateY(0)
-            }
-
-            50% {
-                transform: translateY(-8px)
-            }
-        }
-
-        @media(max-width:900px) {
-            body {
-                flex-direction: column
-            }
-
-            .sidebar {
-                width: 100%;
-                min-height: auto;
-                padding: 12px 0
-            }
-
-            .sidebar-nav {
-                display: flex;
-                overflow-x: auto
-            }
-
-            .sidebar-nav a {
-                white-space: nowrap;
-                padding: 8px 14px
-            }
-
-            .main {
-                padding: 16px
-            }
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POS Master - Inventori</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
-    <div class="demo-overlay" id="demoOverlay" onclick="closeDemoPopup()">
-        <div class="demo-popup" onclick="event.stopPropagation()"><span class="popup-icon">⚡</span>
-            <h3>Halaman Demo</h3>
-            <p>Ini adalah halaman <strong style="color:#e2e8f0">demo</strong> dari aplikasi yang pernah dibuat. Silakan
-                klik-klik dan coba fitur yang tersedia!</p><button class="popup-btn"
-                onclick="closeDemoPopup()">Mengerti, Lanjutkan →</button>
+
+    <!-- Back to Portfolio -->
+    <a href="../../index.html#projects" class="back-btn-global" style="bottom: 24px; right: 24px;">
+        <i data-feather="arrow-left"></i> Kembali ke Portfolio
+    </a>
+
+    <!-- TOP HEADER -->
+    <header class="pos-header">
+        <div class="header-left">
+            <div class="brand">
+                <div class="brand-icon">
+                    <i data-feather="layers" style="width: 18px;"></i>
+                </div>
+                <span>POS MASTER</span>
+            </div>
+            <div class="header-info">
+                <span class="header-info-time">Selasa, 28 Okt 2023 | 10:45 AM</span>
+                <span class="header-info-staff">Kasir: Sarah J.</span>
+            </div>
         </div>
+
+        <div class="header-center">
+            <div class="search-bar">
+                <i data-feather="search" style="color: var(--text-muted); width: 18px;"></i>
+                <input type="text" placeholder="Cari nama barang atau SKU...">
+            </div>
+        </div>
+
+        <div class="header-right">
+            <button class="icon-btn">
+                <i data-feather="bell" style="width: 18px;"></i>
+            </button>
+            <div class="user-profile">
+                <img src="https://i.pravatar.cc/150?img=47" alt="Sarah J.">
+                <i data-feather="chevron-down" style="width: 16px; color: var(--text-muted);"></i>
+            </div>
+            <button class="btn-quick" style="background:var(--primary); color:white; border-color:var(--primary);">
+                + Tambah Barang
+            </button>
+        </div>
+    </header>
+
+    <!-- NAVIGATION TABS -->
+    <nav class="pos-nav">
+        <a href="index.html" class="nav-item">Kasir</a>
+        <a href="inventori.html" class="nav-item active">Inventori</a>
+        <a href="laporan.html" class="nav-item">Laporan</a>
+        <a href="pelanggan.html" class="nav-item">Pelanggan</a>
+    </nav>
+
+    <!-- MAIN APP LAYOUT -->
+    <div class="pos-layout">
+        
+        <!-- FULL CONTENT -->
+        <main class="pos-content" style="max-width: 1200px; margin: 0 auto; width:100%;">
+            
+            <h2 class="section-title">Manajemen Stok Barang</h2>
+            
+            <div class="white-card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px;">
+                    <h3 style="font-size:1.1rem; font-weight:700;">Daftar Inventori</h3>
+                    <div style="display:flex; gap:12px;">
+                        <button class="btn-quick"><i data-feather="filter" style="width:16px;"></i> Filter</button>
+                        <button class="btn-quick"><i data-feather="download" style="width:16px;"></i> Ekspor</button>
+                    </div>
+                </div>
+
+                <div style="overflow-x:auto;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>SKU</th>
+                                <th>Nama Produk</th>
+                                <th>Kategori</th>
+                                <th>Harga Jual</th>
+                                <th>Stok Tersedia</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="font-weight:600; color:var(--text-muted);">SKU-1001</td>
+                                <td style="font-weight:700;">Wireless Mouse</td>
+                                <td>Aksesoris PC</td>
+                                <td style="font-weight:700;">Rp 450.000</td>
+                                <td style="font-weight:700; color:var(--success);">142</td>
+                                <td><span style="background:#dcfce7; color:#16a34a; padding:4px 8px; border-radius:4px; font-size:0.8rem; font-weight:700;">Aman</span></td>
+                                <td><i data-feather="edit" style="width:18px; color:var(--text-muted); cursor:pointer;"></i></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:600; color:var(--text-muted);">SKU-1002</td>
+                                <td style="font-weight:700;">Bluetooth Headphone</td>
+                                <td>Audio</td>
+                                <td style="font-weight:700;">Rp 1.299.000</td>
+                                <td style="font-weight:700; color:var(--success);">88</td>
+                                <td><span style="background:#dcfce7; color:#16a34a; padding:4px 8px; border-radius:4px; font-size:0.8rem; font-weight:700;">Aman</span></td>
+                                <td><i data-feather="edit" style="width:18px; color:var(--text-muted); cursor:pointer;"></i></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:600; color:var(--text-muted);">SKU-1003</td>
+                                <td style="font-weight:700;">Keyboard Mekanikal</td>
+                                <td>Aksesoris PC</td>
+                                <td style="font-weight:700;">Rp 1.590.000</td>
+                                <td style="font-weight:700; color:var(--accent-orange);">41</td>
+                                <td><span style="background:#ffedd5; color:#ea580c; padding:4px 8px; border-radius:4px; font-size:0.8rem; font-weight:700;">Menipis</span></td>
+                                <td><i data-feather="edit" style="width:18px; color:var(--text-muted); cursor:pointer;"></i></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:600; color:var(--text-muted);">SKU-1004</td>
+                                <td style="font-weight:700;">USB-C Hub</td>
+                                <td>Kabel & Adaptor</td>
+                                <td style="font-weight:700;">Rp 695.000</td>
+                                <td style="font-weight:700; color:var(--success);">105</td>
+                                <td><span style="background:#dcfce7; color:#16a34a; padding:4px 8px; border-radius:4px; font-size:0.8rem; font-weight:700;">Aman</span></td>
+                                <td><i data-feather="edit" style="width:18px; color:var(--text-muted); cursor:pointer;"></i></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:600; color:var(--text-muted);">SKU-1005</td>
+                                <td style="font-weight:700;">Webcam 1080p</td>
+                                <td>Aksesoris PC</td>
+                                <td style="font-weight:700;">Rp 850.000</td>
+                                <td style="font-weight:700; color:var(--danger);">2</td>
+                                <td><span style="background:#fee2e2; color:#dc2626; padding:4px 8px; border-radius:4px; font-size:0.8rem; font-weight:700;">Kritis</span></td>
+                                <td><i data-feather="edit" style="width:18px; color:var(--text-muted); cursor:pointer;"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
     </div>
-    <script>function closeDemoPopup() { const o = document.getElementById('demoOverlay'); o.style.opacity = '0'; setTimeout(() => o.remove(), 400); }</script>
-    <a href="../../index.html#projects" class="back-btn">← Kembali</a>
-    <aside class="sidebar">
-        <div class="sidebar-brand">⚡ Inven<span>POS</span></div>
-        <nav class="sidebar-nav"><a href="index.html">🏪 Kasir</a><a href="inventori.html" class="active">📦
-                Inventori</a><a href="laporan.html">📊 Laporan</a><a href="pelanggan.html">👥 Pelanggan</a></nav>
-    </aside>
-    <main class="main">
-        <h1 class="page-title">Manajemen Inventori</h1>
-        <p class="page-sub">Kelola stok barang outlet Anda</p>
-        <div class="stats-row">
-            <div class="mini-stat">
-                <div class="label">Total Produk</div>
-                <div class="val">248</div>
-            </div>
-            <div class="mini-stat">
-                <div class="label">Stok Rendah</div>
-                <div class="val" style="color:#ef4444">12</div>
-            </div>
-            <div class="mini-stat">
-                <div class="label">Habis</div>
-                <div class="val" style="color:#991b1b">3</div>
-            </div>
-            <div class="mini-stat">
-                <div class="label">Nilai Inventori</div>
-                <div class="val">Rp 85.4jt</div>
-            </div>
-        </div>
-        <div class="toolbar"><input type="text" class="search-box" placeholder="🔍 Cari barang..."
-                id="searchBox" /><button class="btn-primary" onclick="openModal()">+ Tambah Barang</button></div>
-        <div class="table-card">
-            <table>
-                <thead>
-                    <tr>
-                        <th>SKU</th>
-                        <th>Nama Produk</th>
-                        <th>Kategori</th>
-                        <th>Harga</th>
-                        <th>Stok</th>
-                        <th>Status</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody id="stockTable"></tbody>
-            </table>
-        </div>
-    </main>
-    <div class="modal-overlay" id="addModal">
-        <div class="modal">
-            <h3>➕ Tambah Barang</h3>
-            <div class="form-group"><label>Nama</label><input type="text" id="fName" placeholder="Nama barang" /></div>
-            <div class="form-group"><label>Kategori</label><select id="fCat">
-                    <option>Minuman</option>
-                    <option>Makanan</option>
-                    <option>Snack</option>
-                </select></div>
-            <div class="form-group"><label>Harga</label><input type="number" id="fPrice" placeholder="Harga" /></div>
-            <div class="form-group"><label>Stok</label><input type="number" id="fStock" placeholder="Stok awal" /></div>
-            <div class="modal-actions"><button class="btn-secondary" onclick="closeModal()">Batal</button><button
-                    class="btn-primary" onclick="addItem()">Simpan</button></div>
-        </div>
-    </div>
-    <div class="toast" id="toast"></div>
+
     <script>
-        const items = [
-            { sku: 'SKU-001', name: 'Kopi Hitam', cat: 'Minuman', price: 12000, stock: 50, max: 100, emoji: '☕' },
-            { sku: 'SKU-002', name: 'Teh Manis', cat: 'Minuman', price: 8000, stock: 60, max: 100, emoji: '🍵' },
-            { sku: 'SKU-003', name: 'Jus Jeruk', cat: 'Minuman', price: 15000, stock: 8, max: 50, emoji: '🍊' },
-            { sku: 'SKU-004', name: 'Nasi Goreng', cat: 'Makanan', price: 25000, stock: 20, max: 30, emoji: '🍛' },
-            { sku: 'SKU-005', name: 'Mie Ayam', cat: 'Makanan', price: 20000, stock: 3, max: 30, emoji: '🍜' },
-            { sku: 'SKU-006', name: 'Ayam Bakar', cat: 'Makanan', price: 35000, stock: 0, max: 20, emoji: '🍗' },
-            { sku: 'SKU-007', name: 'Roti Bakar', cat: 'Snack', price: 15000, stock: 40, max: 50, emoji: '🍞' },
-            { sku: 'SKU-008', name: 'Donat Coklat', cat: 'Snack', price: 10000, stock: 5, max: 40, emoji: '🍩' },
-            { sku: 'SKU-009', name: 'Es Krim', cat: 'Snack', price: 12000, stock: 45, max: 60, emoji: '🍦' },
-            { sku: 'SKU-010', name: 'Burger Beef', cat: 'Makanan', price: 30000, stock: 0, max: 20, emoji: '🍔' },
-            { sku: 'SKU-011', name: 'Pizza Slice', cat: 'Makanan', price: 28000, stock: 12, max: 20, emoji: '🍕' },
-            { sku: 'SKU-012', name: 'Air Mineral', cat: 'Minuman', price: 5000, stock: 0, max: 200, emoji: '💧' },
-        ];
-        const fmt = n => 'Rp ' + n.toLocaleString('id-ID');
-        function getStatus(s, m) { if (s === 0) return { text: 'Habis', badge: 'badge-red' }; if (s < m * .2) return { text: 'Rendah', badge: 'badge-yellow' }; return { text: 'Tersedia', badge: 'badge-green' }; }
-        function render(data) {
-            document.getElementById('stockTable').innerHTML = (data || items).map((it, i) => {
-                const st = getStatus(it.stock, it.max); const pct = Math.round(it.stock / it.max * 100);
-                const color = pct > 50 ? '#10b981' : pct > 20 ? '#f59e0b' : '#ef4444';
-                return `<tr><td><strong>${it.sku}</strong></td><td>${it.emoji} ${it.name}</td><td>${it.cat}</td><td>${fmt(it.price)}</td>
-                <td>${it.stock}/${it.max}<div class="stock-bar"><div class="stock-fill" style="width:${pct}%;background:${color}"></div></div></td>
-                <td><span class="badge ${st.badge}">${st.text}</span></td>
-                <td><button class="action-btn" onclick="restock(${i})">📦 Restock</button><button class="action-btn" onclick="showToast('Edit ${it.name}')">✏️</button></td></tr>`;
-            }).join('');
-        }
-        render();
-        document.getElementById('searchBox').addEventListener('input', function () { const q = this.value.toLowerCase(); render(items.filter(it => it.name.toLowerCase().includes(q))); });
-        function restock(i) { items[i].stock = items[i].max; render(); showToast(`📦 ${items[i].name} di-restock ke ${items[i].max}`); }
-        function openModal() { document.getElementById('addModal').classList.add('show') }
-        function closeModal() { document.getElementById('addModal').classList.remove('show') }
-        function addItem() { const nm = document.getElementById('fName').value; if (!nm) { showToast('⚠️ Nama wajib diisi'); return; } items.unshift({ sku: 'SKU-' + (items.length + 1).toString().padStart(3, '0'), name: nm, cat: document.getElementById('fCat').value, price: parseInt(document.getElementById('fPrice').value) || 0, stock: parseInt(document.getElementById('fStock').value) || 0, max: 100, emoji: '📦' }); render(); closeModal(); showToast('✅ ' + nm + ' ditambahkan!'); }
-        function showToast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2500); }
+        feather.replace();
     </script>
 </body>
-
 </html>
