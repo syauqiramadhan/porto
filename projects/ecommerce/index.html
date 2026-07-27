@@ -1,692 +1,280 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Demo — Platform E-Commerce Real-time</title>
-    <link rel="icon" href="../../images/sr_logo.png" type="image/png" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet" />
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #f8faf8;
-            color: #1e293b;
-            min-height: 100vh
-        }
-
-        .back-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 100;
-            background: #16a34a;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: .85rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: background .2s
-        }
-
-        .back-btn:hover {
-            background: #15803d
-        }
-
-        /* Top bar */
-        .topbar {
-            background: #fff;
-            border-bottom: 1px solid #e5e7eb;
-            padding: 12px 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: sticky;
-            top: 0;
-            z-index: 50
-        }
-
-        .topbar-brand {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #16a34a
-        }
-
-        .topbar-brand span {
-            color: #1e293b
-        }
-
-        .topbar-search {
-            display: flex;
-            gap: 8px
-        }
-
-        .topbar-search input {
-            padding: 8px 16px;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            font-size: .85rem;
-            width: 280px;
-            outline: none
-        }
-
-        .topbar-search input:focus {
-            border-color: #16a34a
-        }
-
-        .topbar-actions {
-            display: flex;
-            align-items: center;
-            gap: 16px
-        }
-
-        .cart-btn {
-            position: relative;
-            background: none;
-            border: none;
-            font-size: 1.4rem;
-            cursor: pointer
-        }
-
-        .cart-count {
-            position: absolute;
-            top: -6px;
-            right: -8px;
-            background: #ef4444;
-            color: #fff;
-            font-size: .6rem;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700
-        }
-
-        /* Hero banner */
-        .banner {
-            background: linear-gradient(135deg, #16a34a, #064e3b);
-            color: #fff;
-            padding: 48px 32px;
-            text-align: center;
-            margin-bottom: 32px
-        }
-
-        .banner h1 {
-            font-size: 2rem;
-            margin-bottom: 8px
-        }
-
-        .banner p {
-            opacity: .85;
-            font-size: 1rem
-        }
-
-        /* Categories */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px 48px
-        }
-
-        .cat-tabs {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 24px;
-            flex-wrap: wrap
-        }
-
-        .cat-tab {
-            padding: 8px 18px;
-            border-radius: 20px;
-            border: 1px solid #d1d5db;
-            background: #fff;
-            cursor: pointer;
-            font-size: .82rem;
-            font-weight: 500;
-            transition: all .2s
-        }
-
-        .cat-tab.active,
-        .cat-tab:hover {
-            background: #16a34a;
-            color: #fff;
-            border-color: #16a34a
-        }
-
-        /* Product Grid */
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 20px;
-            margin-bottom: 32px
-        }
-
-        .product-card {
-            background: #fff;
-            border-radius: 14px;
-            overflow: hidden;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, .06);
-            transition: transform .2s, box-shadow .2s;
-            cursor: pointer
-        }
-
-        .product-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, .1)
-        }
-
-        .product-card.hidden {
-            display: none
-        }
-
-        .product-img {
-            height: 180px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4rem
-        }
-
-        .product-body {
-            padding: 16px
-        }
-
-        .product-cat {
-            font-size: .7rem;
-            color: #16a34a;
-            font-weight: 600;
-            text-transform: uppercase;
-            margin-bottom: 4px
-        }
-
-        .product-name {
-            font-size: .95rem;
-            font-weight: 600;
-            margin-bottom: 8px
-        }
-
-        .product-price {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #16a34a
-        }
-
-        .product-price .original {
-            text-decoration: line-through;
-            color: #94a3b8;
-            font-size: .8rem;
-            font-weight: 400;
-            margin-left: 6px
-        }
-
-        .product-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 12px
-        }
-
-        .rating {
-            font-size: .75rem;
-            color: #f59e0b
-        }
-
-        .add-cart {
-            padding: 8px 14px;
-            background: #16a34a;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            font-size: .78rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background .2s
-        }
-
-        .add-cart:hover {
-            background: #15803d
-        }
-
-        /* Cart sidebar */
-        .cart-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, .4);
-            z-index: 200;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity .3s
-        }
-
-        .cart-overlay.open {
-            opacity: 1;
-            pointer-events: all
-        }
-
-        .cart-sidebar {
-            position: fixed;
-            top: 0;
-            right: -380px;
-            width: 380px;
-            height: 100%;
-            background: #fff;
-            z-index: 201;
-            transition: right .3s;
-            padding: 24px;
-            overflow-y: auto;
-            box-shadow: -4px 0 20px rgba(0, 0, 0, .1)
-        }
-
-        .cart-sidebar.open {
-            right: 0
-        }
-
-        .cart-sidebar h2 {
-            font-size: 1.2rem;
-            margin-bottom: 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center
-        }
-
-        .close-cart {
-            background: none;
-            border: none;
-            font-size: 1.4rem;
-            cursor: pointer
-        }
-
-        .cart-item {
-            display: flex;
-            gap: 12px;
-            padding: 12px 0;
-            border-bottom: 1px solid #f1f5f9
-        }
-
-        .cart-item-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 8px;
-            background: #f0fdf4;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.4rem
-        }
-
-        .cart-item-info {
-            flex: 1
-        }
-
-        .cart-item-name {
-            font-size: .85rem;
-            font-weight: 600
-        }
-
-        .cart-item-price {
-            font-size: .8rem;
-            color: #16a34a;
-            font-weight: 500
-        }
-
-        .cart-item-remove {
-            background: none;
-            border: none;
-            color: #ef4444;
-            cursor: pointer;
-            font-size: .75rem
-        }
-
-        .cart-total {
-            margin-top: 16px;
-            padding-top: 16px;
-            border-top: 2px solid #e5e7eb;
-            font-size: 1.1rem;
-            font-weight: 700;
-            display: flex;
-            justify-content: space-between
-        }
-
-        .checkout-btn {
-            width: 100%;
-            padding: 14px;
-            background: #16a34a;
-            color: #fff;
-            border: none;
-            border-radius: 10px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 16px;
-            transition: background .2s
-        }
-
-        .checkout-btn:hover {
-            background: #15803d
-        }
-
-        /* Notification */
-        .notif {
-            position: fixed;
-            bottom: 24px;
-            left: 50%;
-            transform: translateX(-50%) translateY(20px);
-            background: #1e293b;
-            color: #fff;
-            padding: 12px 24px;
-            border-radius: 10px;
-            font-size: .85rem;
-            opacity: 0;
-            transition: all .3s;
-            z-index: 300
-        }
-
-        .notif.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0)
-        }
-
-        @media(max-width:768px) {
-            .topbar-search input {
-                width: 140px
-            }
-
-            .cart-sidebar {
-                width: 100%
-            }
-
-            .banner {
-                padding: 32px 16px
-            }
-
-            .banner h1 {
-                font-size: 1.4rem
-            }
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurora Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
-    <!-- Demo Popup -->
-    <style>
-        .demo-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            background: rgba(0, 0, 0, .5);
-            backdrop-filter: blur(6px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            animation: fadeOverlay .4s .2s ease forwards
-        }
 
-        .demo-popup {
-            background: linear-gradient(135deg, #1e293b, #0f172a);
-            border: 1px solid rgba(255, 255, 255, .1);
-            border-radius: 20px;
-            padding: 36px 40px;
-            max-width: 440px;
-            width: 90%;
-            text-align: center;
-            color: #fff;
-            transform: scale(.85);
-            opacity: 0;
-            animation: popIn .5s .4s cubic-bezier(.34, 1.56, .64, 1) forwards;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, .4)
-        }
+    <!-- Back to Portfolio -->
+    <a href="../../index.html#projects" class="back-btn-global">
+        <i data-feather="arrow-left"></i> Kembali ke Portfolio
+    </a>
 
-        .demo-popup .popup-icon {
-            font-size: 3rem;
-            margin-bottom: 16px;
-            display: block;
-            animation: bounce 2s ease infinite
-        }
-
-        .demo-popup h3 {
-            font-size: 1.15rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-            background: linear-gradient(135deg, #4ade80, #22c55e);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent
-        }
-
-        .demo-popup p {
-            font-size: .88rem;
-            color: #94a3b8;
-            line-height: 1.6;
-            margin-bottom: 20px
-        }
-
-        .demo-popup .popup-btn {
-            padding: 10px 32px;
-            background: linear-gradient(135deg, #16a34a, #22c55e);
-            color: #fff;
-            border: none;
-            border-radius: 10px;
-            font-size: .88rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all .2s;
-            box-shadow: 0 4px 15px rgba(22, 163, 74, .4)
-        }
-
-        .demo-popup .popup-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(22, 163, 74, .5)
-        }
-
-        @keyframes fadeOverlay {
-            to {
-                opacity: 1
-            }
-        }
-
-        @keyframes popIn {
-            to {
-                transform: scale(1);
-                opacity: 1
-            }
-        }
-
-        @keyframes bounce {
-
-            0%,
-            100% {
-                transform: translateY(0)
-            }
-
-            50% {
-                transform: translateY(-8px)
-            }
-        }
-    </style>
-    <div class="demo-overlay" id="demoOverlay" onclick="closeDemoPopup()">
-        <div class="demo-popup" onclick="event.stopPropagation()">
-            <span class="popup-icon">🛒</span>
-            <h3>Halaman Demo</h3>
-            <p>Ini adalah halaman <strong style="color:#e2e8f0">demo</strong> dari aplikasi yang pernah dibuat. Silakan
-                klik-klik dan coba fitur yang tersedia!</p>
-            <button class="popup-btn" onclick="closeDemoPopup()">Mengerti, Lanjutkan →</button>
+    <!-- TOPBAR -->
+    <header class="aurora-topbar">
+        <div class="topbar-left">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="url(#gradient)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <defs>
+                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#a78bfa" />
+                        <stop offset="100%" stop-color="#7635ED" />
+                    </linearGradient>
+                </defs>
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+            </svg>
+            <span>AURORA</span>
         </div>
-    </div>
-    <script>function closeDemoPopup() { const o = document.getElementById('demoOverlay'); o.style.opacity = '0'; setTimeout(() => o.remove(), 400); }</script>
-
-    <a href="../../index.html#projects" class="back-btn">← Kembali</a>
-
-    <header class="topbar">
-        <div class="topbar-brand">🛒 <span>Toko</span>Online</div>
-        <div class="topbar-search"><input type="text" placeholder="Cari produk..." id="searchInput" /></div>
-        <div class="topbar-actions">
-            <a href="pesanan.html"
-                style="text-decoration:none;padding:8px 14px;background:#f0fdf4;color:#16a34a;border-radius:8px;font-size:.82rem;font-weight:600">📦
-                Pesanan</a>
-            <a href="produk.html"
-                style="text-decoration:none;padding:8px 14px;background:#f0fdf4;color:#16a34a;border-radius:8px;font-size:.82rem;font-weight:600">📋
-                Produk</a>
-            <a href="pelanggan.html"
-                style="text-decoration:none;padding:8px 14px;background:#f0fdf4;color:#16a34a;border-radius:8px;font-size:.82rem;font-weight:600">👥
-                Pelanggan</a>
-            <button class="cart-btn" id="openCart">🛒<span class="cart-count" id="cartCount">0</span></button>
+        <nav class="topbar-center">
+            <a href="#">Beranda</a>
+            <a href="#">Toko</a>
+            <a href="#" class="active">Dasbor</a>
+            <a href="#">Halaman <i data-feather="chevron-down" style="width:14px; margin-left:4px; vertical-align:middle;"></i></a>
+        </nav>
+        <div class="topbar-right">
+            <span>Akun</span>
+            <div class="avatar-circle">BD</div>
         </div>
     </header>
 
-    <section class="banner">
-        <h1>🎉 Flash Sale — Diskon hingga 50%!</h1>
-        <p>Belanja sekarang dan nikmati gratis ongkir ke seluruh Indonesia.</p>
-    </section>
+    <!-- MAIN APP LAYOUT -->
+    <div class="aurora-layout">
+        
+        <!-- LEFT SIDEBAR -->
+        <aside class="aurora-sidebar">
+            <nav class="sidebar-nav">
+                <a href="index.html" class="active"><i data-feather="grid"></i> Dasbor</a>
+                <a href="produk.html"><i data-feather="package"></i> Produk</a>
+                <a href="pesanan.html"><i data-feather="shopping-bag"></i> Pesanan</a>
+                <a href="pelanggan.html"><i data-feather="users"></i> Pelanggan</a>
+                <a href="#"><i data-feather="bar-chart-2"></i> Analitik</a>
+                <a href="#"><i data-feather="target"></i> Pemasaran</a>
+            </nav>
+            <nav class="sidebar-nav bottom">
+                <a href="#"><i data-feather="settings"></i> Pengaturan</a>
+                <a href="#"><i data-feather="log-out"></i> Keluar</a>
+            </nav>
+        </aside>
 
-    <div class="container">
-        <div class="cat-tabs">
-            <button class="cat-tab active" data-cat="all">Semua</button>
-            <button class="cat-tab" data-cat="elektronik">Elektronik</button>
-            <button class="cat-tab" data-cat="fashion">Fashion</button>
-            <button class="cat-tab" data-cat="aksesoris">Aksesoris</button>
-            <button class="cat-tab" data-cat="peralatan">Peralatan</button>
-        </div>
-        <div class="product-grid" id="productGrid"></div>
+        <!-- MAIN CONTENT AREA -->
+        <main class="aurora-main-wrapper">
+            
+            <div class="content-header">
+                <div>
+                    <h2 style="font-size: 1.1rem; font-weight: 500;">Selamat datang kembali, Budi!</h2>
+                    <h1>Ringkasan Toko</h1>
+                </div>
+                <div class="header-actions">
+                    <span style="font-weight: 500; display:flex; align-items:center; gap:8px;">
+                        <i data-feather="calendar" style="width: 18px;"></i> 19 Jan 2024
+                    </span>
+                    <button class="btn-primary" style="margin-left: 12px;"><i data-feather="plus"></i> Tambah Produk</button>
+                    <button class="btn-white"><i data-feather="file-text"></i> Lihat Pesanan</button>
+                </div>
+            </div>
+
+            <!-- DASHBOARD GRID -->
+            <div class="aurora-dashboard-grid">
+                
+                <!-- LEFT COLUMN (Stats, Chart, Table) -->
+                <div class="dashboard-left">
+                    
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:-8px;">
+                        <div>
+                            <h3 style="color:var(--text-white); font-weight:700; font-size:1.1rem;">Performa Toko</h3>
+                            <p style="color:var(--text-light); font-size:0.9rem;">bulan ini</p>
+                        </div>
+                        <button class="btn-glass">Bulan ini <i data-feather="chevron-down" style="width:16px;"></i></button>
+                    </div>
+
+                    <!-- STATS CARDS (GLASSMORPHISM) -->
+                    <div class="stats-grid">
+                        <div class="stat-glass-card">
+                            <h4>Total Penjualan</h4>
+                            <div class="value">Rp 45.2M</div>
+                            <span class="badge-success">+12%</span>
+                        </div>
+                        <div class="stat-glass-card">
+                            <h4>Pesanan</h4>
+                            <div class="value">315</div>
+                            <span class="badge-success">+8%</span>
+                        </div>
+                        <div class="stat-glass-card">
+                            <h4>Pelanggan Baru</h4>
+                            <div class="value">78</div>
+                            <span class="badge-success">+15%</span>
+                        </div>
+                        <div class="stat-glass-card">
+                            <h4>Rata-rata Nilai</h4>
+                            <div class="value">Rp 143k</div>
+                            <span class="badge-success">+4.5%</span>
+                        </div>
+                    </div>
+
+                    <!-- SALES REVENUE CHART -->
+                    <div class="white-card">
+                        <div class="card-header">
+                            <h3>Pendapatan Penjualan (30 Hari Terakhir)</h3>
+                            <button class="btn-glass" style="color:var(--text-main); border-color:var(--border-dark); background:var(--bg-gray);">Ringkasan Performa</button>
+                        </div>
+                        <div class="chart-area">
+                            <!-- Visual representation using CSS background SVG in style.css -->
+                            <div style="position:absolute; bottom:-10px; left:0; width:100%; display:flex; justify-content:space-between; color:var(--text-muted); font-size:0.8rem; padding: 0 10px;">
+                                <span>0</span><span>6</span><span>12</span><span>16</span><span>20</span><span>21</span><span>24</span><span>30</span><span>30</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- LATEST ORDERS TABLE -->
+                    <div class="white-card">
+                        <div class="card-header">
+                            <h3>Pesanan Terbaru</h3>
+                            <a href="pesanan.html" style="color:var(--aurora-primary); font-weight:600; font-size:0.9rem; text-decoration:none;">Lihat Semua <i data-feather="chevron-right" style="width:16px; vertical-align:bottom;"></i></a>
+                        </div>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID Pesanan</th>
+                                    <th>Pelanggan</th>
+                                    <th>Tanggal</th>
+                                    <th>Status</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>S33021</td>
+                                    <td>
+                                        <div class="customer-cell">
+                                            <img src="https://i.pravatar.cc/150?img=68" alt="Budi Santoso">
+                                            <span>Budi Santoso</span>
+                                        </div>
+                                    </td>
+                                    <td>20 Ags 2023</td>
+                                    <td><span class="badge-success">Dikirim</span></td>
+                                    <td style="font-weight:700;">Rp 3.9M</td>
+                                </tr>
+                                <tr>
+                                    <td>S35002</td>
+                                    <td>
+                                        <div class="customer-cell">
+                                            <img src="https://i.pravatar.cc/150?img=11" alt="Fajar Pratama">
+                                            <span>Fajar Pratama</span>
+                                        </div>
+                                    </td>
+                                    <td>20 Jul 2023</td>
+                                    <td><span class="badge-success" style="background:var(--aurora-warning-light); color:var(--aurora-warning);">Tertunda</span></td>
+                                    <td style="font-weight:700;">Rp 1.3M</td>
+                                </tr>
+                                <tr>
+                                    <td>S35053</td>
+                                    <td>
+                                        <div class="customer-cell">
+                                            <img src="https://i.pravatar.cc/150?img=5" alt="Siti Aminah">
+                                            <span>Siti Aminah</span>
+                                        </div>
+                                    </td>
+                                    <td>28 Mei 2023</td>
+                                    <td><span class="badge-success">Terkirim</span></td>
+                                    <td style="font-weight:700;">Rp 989k</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+                <!-- RIGHT COLUMN (Widgets) -->
+                <div class="dashboard-right">
+                    
+                    <h3 class="section-title">Keranjang & Aktivitas Terbaru</h3>
+                    
+                    <!-- CART WIDGET -->
+                    <div class="glass-widget">
+                        <h3 style="font-size:1.1rem; font-weight:700; margin-bottom:16px;">Keranjang Belanja</h3>
+                        <div style="display:flex; justify-content:space-between; font-size:0.8rem; font-weight:600; border-bottom:1px solid rgba(0,0,0,0.1); padding-bottom:8px; margin-bottom:8px;">
+                            <span style="flex:1;">Nama Barang</span>
+                            <span>Subtotal</span>
+                        </div>
+                        
+                        <div class="cart-item">
+                            <div class="cart-item-img">⌚</div>
+                            <div class="cart-item-info">
+                                <h4>Jam Tangan Eclipse</h4>
+                                <p>Rp 3.980.000</p>
+                            </div>
+                            <div class="cart-item-sub">Rp 3.980.000</div>
+                        </div>
+
+                        <div class="cart-item">
+                            <div class="cart-item-img">🎧</div>
+                            <div class="cart-item-info">
+                                <h4>Headphone Premium</h4>
+                                <p>Rp 3.879.000</p>
+                                <div style="display:flex; align-items:center; gap:8px; margin-top:4px;">
+                                    <button style="border:1px solid #ccc; background:#fff; border-radius:4px; width:24px;">-</button>
+                                    <span>1</span>
+                                    <button style="border:1px solid #ccc; background:#fff; border-radius:4px; width:24px;">+</button>
+                                </div>
+                            </div>
+                            <div class="cart-item-sub">Rp 3.879.000</div>
+                        </div>
+
+                        <div class="cart-total-row">
+                            <span>Total</span>
+                            <span>Rp 7.859.000</span>
+                        </div>
+                    </div>
+
+                    <!-- CUSTOMER REVIEWS -->
+                    <div class="white-card" style="padding: 20px;">
+                        <h3 style="font-size:1rem; font-weight:700; margin-bottom:16px;">Ulasan Pelanggan Terbaru</h3>
+                        
+                        <div class="review-item">
+                            <img src="https://i.pravatar.cc/150?img=47" alt="Elan">
+                            <div>
+                                <h5>Rina Melati:</h5>
+                                <p>Terima kasih. Sangat direkomendasikan untuk pelanggan lain.</p>
+                                <div class="stars">★★★★★</div>
+                            </div>
+                        </div>
+                        
+                        <div class="review-item">
+                            <img src="https://i.pravatar.cc/150?img=12" alt="User">
+                            <div>
+                                <h5>Andi Wijaya</h5>
+                                <p>Kualitas barang sangat bagus dan elemen praktis yang luar biasa.</p>
+                                <div class="stars">★★★★★</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BEST SELLERS -->
+                    <div class="white-card" style="padding: 20px;">
+                        <div style="display:flex; justify-content:space-between; margin-bottom:16px;">
+                            <h3 style="font-size:1rem; font-weight:700;">Produk Terlaris</h3>
+                            <a href="produk.html" style="color:var(--aurora-primary); font-size:0.85rem; font-weight:600; text-decoration:none;">Lihat Semua</a>
+                        </div>
+                        <div class="bestseller-grid">
+                            <div class="bestseller-card">⌚</div>
+                            <div class="bestseller-card">🎧</div>
+                            <div class="bestseller-card">📱</div>
+                            <div class="bestseller-card">🎒</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            
+        </main>
     </div>
-
-    <div class="cart-overlay" id="cartOverlay"></div>
-    <div class="cart-sidebar" id="cartSidebar">
-        <h2>Keranjang <button class="close-cart" id="closeCart">✕</button></h2>
-        <div id="cartItems"></div>
-        <div class="cart-total"><span>Total:</span><span id="cartTotal">Rp 0</span></div>
-        <button class="checkout-btn" onclick="checkout()">Checkout Sekarang</button>
-    </div>
-
-    <div class="notif" id="notif"></div>
 
     <script>
-        const products = [
-            { id: 1, name: 'Laptop Gaming Pro', cat: 'elektronik', price: 15999000, disc: 12999000, icon: '💻', rating: 4.8, sold: 230 },
-            { id: 2, name: 'Smartphone 5G', cat: 'elektronik', price: 7500000, disc: 5999000, icon: '📱', rating: 4.7, sold: 512 },
-            { id: 3, name: 'Headphone Wireless', cat: 'elektronik', price: 1200000, disc: 850000, icon: '🎧', rating: 4.5, sold: 890 },
-            { id: 4, name: 'Kemeja Slim Fit', cat: 'fashion', price: 350000, disc: 199000, icon: '👔', rating: 4.3, sold: 1200 },
-            { id: 5, name: 'Sneakers Casual', cat: 'fashion', price: 890000, disc: 599000, icon: '👟', rating: 4.6, sold: 780 },
-            { id: 6, name: 'Tas Ransel Premium', cat: 'fashion', price: 450000, disc: 299000, icon: '🎒', rating: 4.4, sold: 650 },
-            { id: 7, name: 'Smartwatch Fitness', cat: 'aksesoris', price: 2100000, disc: 1599000, icon: '⌚', rating: 4.5, sold: 340 },
-            { id: 8, name: 'Kacamata Anti Blue', cat: 'aksesoris', price: 250000, disc: 149000, icon: '👓', rating: 4.2, sold: 1500 },
-            { id: 9, name: 'Mechanical Keyboard', cat: 'peralatan', price: 1500000, disc: 999000, icon: '⌨️', rating: 4.8, sold: 420 },
-            { id: 10, name: 'Monitor 27" 4K', cat: 'peralatan', price: 5500000, disc: 4299000, icon: '🖥️', rating: 4.7, sold: 180 },
-            { id: 11, name: 'Mouse Ergonomic', cat: 'peralatan', price: 650000, disc: 450000, icon: '🖱️', rating: 4.4, sold: 920 },
-            { id: 12, name: 'Jaket Bomber', cat: 'fashion', price: 550000, disc: 370000, icon: '🧥', rating: 4.5, sold: 490 },
-        ];
-
-        let cart = [];
-        const fmt = n => 'Rp ' + n.toLocaleString('id-ID');
-
-        function renderProducts(filter = 'all', search = '') {
-            const grid = document.getElementById('productGrid');
-            grid.innerHTML = '';
-            products.filter(p => {
-                const matchCat = filter === 'all' || p.cat === filter;
-                const matchSearch = p.name.toLowerCase().includes(search.toLowerCase());
-                return matchCat && matchSearch;
-            }).forEach(p => {
-                grid.innerHTML += `
-          <div class="product-card">
-            <div class="product-img" style="background:linear-gradient(135deg,#f0fdf4,#dcfce7)">${p.icon}</div>
-            <div class="product-body">
-              <div class="product-cat">${p.cat}</div>
-              <div class="product-name">${p.name}</div>
-              <div class="product-price">${fmt(p.disc)}<span class="original">${fmt(p.price)}</span></div>
-              <div class="product-footer">
-                <span class="rating">⭐ ${p.rating} · ${p.sold} terjual</span>
-                <button class="add-cart" onclick="addToCart(${p.id})">+ Keranjang</button>
-              </div>
-            </div>
-          </div>`;
-            });
-        }
-        renderProducts();
-
-        // Category tabs
-        document.querySelectorAll('.cat-tab').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                renderProducts(btn.dataset.cat, document.getElementById('searchInput').value);
-            });
-        });
-
-        // Search
-        document.getElementById('searchInput').addEventListener('input', function () {
-            const activeCat = document.querySelector('.cat-tab.active').dataset.cat;
-            renderProducts(activeCat, this.value);
-        });
-
-        // Cart functions
-        function addToCart(id) {
-            const p = products.find(x => x.id === id);
-            const existing = cart.find(x => x.id === id);
-            if (existing) { existing.qty++; } else { cart.push({ ...p, qty: 1 }); }
-            updateCart();
-            showNotif(`✅ ${p.name} ditambahkan ke keranjang!`);
-        }
-
-        function removeFromCart(id) {
-            cart = cart.filter(x => x.id !== id);
-            updateCart();
-        }
-
-        function updateCart() {
-            const totalQty = cart.reduce((s, i) => s + i.qty, 0);
-            document.getElementById('cartCount').textContent = totalQty;
-            const totalPrice = cart.reduce((s, i) => s + i.disc * i.qty, 0);
-            document.getElementById('cartTotal').textContent = fmt(totalPrice);
-            document.getElementById('cartItems').innerHTML = cart.map(i => `
-        <div class="cart-item">
-          <div class="cart-item-icon">${i.icon}</div>
-          <div class="cart-item-info">
-            <div class="cart-item-name">${i.name} (x${i.qty})</div>
-            <div class="cart-item-price">${fmt(i.disc * i.qty)}</div>
-          </div>
-          <button class="cart-item-remove" onclick="removeFromCart(${i.id})">✕ Hapus</button>
-        </div>
-      `).join('');
-        }
-
-        function checkout() {
-            if (cart.length === 0) { showNotif('⚠️ Keranjang masih kosong!'); return; }
-            const total = cart.reduce((s, i) => s + i.disc * i.qty, 0);
-            showNotif(`🎉 Checkout berhasil! Total: ${fmt(total)} — Terima kasih!`);
-            cart = [];
-            updateCart();
-            toggleCart();
-        }
-
-        // Cart sidebar
-        function toggleCart() {
-            document.getElementById('cartSidebar').classList.toggle('open');
-            document.getElementById('cartOverlay').classList.toggle('open');
-        }
-        document.getElementById('openCart').addEventListener('click', toggleCart);
-        document.getElementById('closeCart').addEventListener('click', toggleCart);
-        document.getElementById('cartOverlay').addEventListener('click', toggleCart);
-
-        function showNotif(msg) {
-            const n = document.getElementById('notif');
-            n.textContent = msg;
-            n.classList.add('show');
-            setTimeout(() => n.classList.remove('show'), 2500);
-        }
+        feather.replace();
     </script>
 </body>
-
 </html>

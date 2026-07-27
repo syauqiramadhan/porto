@@ -1,525 +1,165 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Produk — E-Commerce</title>
-    <link rel="icon" href="../../images/sr_logo.png" type="image/png" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet" />
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #f8faf8;
-            color: #1e293b;
-            min-height: 100vh
-        }
-
-        .back-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 100;
-            background: #16a34a;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: .85rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: background .2s
-        }
-
-        .back-btn:hover {
-            background: #15803d
-        }
-
-        .topbar {
-            background: #fff;
-            border-bottom: 1px solid #e5e7eb;
-            padding: 12px 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: sticky;
-            top: 0;
-            z-index: 50
-        }
-
-        .topbar-brand {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #16a34a
-        }
-
-        .topbar-brand span {
-            color: #1e293b
-        }
-
-        .topbar-nav {
-            display: flex;
-            gap: 8px;
-            align-items: center
-        }
-
-        .topbar-nav a {
-            text-decoration: none;
-            padding: 8px 14px;
-            background: #f0fdf4;
-            color: #16a34a;
-            border-radius: 8px;
-            font-size: .82rem;
-            font-weight: 600;
-            transition: all .2s
-        }
-
-        .topbar-nav a:hover,
-        .topbar-nav a.active {
-            background: #16a34a;
-            color: #fff
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 32px 24px
-        }
-
-        .page-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 8px
-        }
-
-        .page-sub {
-            color: #64748b;
-            margin-bottom: 24px
-        }
-
-        .toolbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 12px
-        }
-
-        .search-box {
-            padding: 8px 14px;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: .85rem;
-            outline: none;
-            min-width: 250px
-        }
-
-        .search-box:focus {
-            border-color: #16a34a
-        }
-
-        .btn-primary {
-            padding: 10px 20px;
-            background: #16a34a;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            font-size: .85rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all .2s
-        }
-
-        .btn-primary:hover {
-            background: #15803d
-        }
-
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 16px
-        }
-
-        .prod-card {
-            background: #fff;
-            border-radius: 12px;
-            padding: 16px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, .06);
-            display: flex;
-            gap: 16px;
-            transition: all .2s
-        }
-
-        .prod-card:hover {
-            box-shadow: 0 4px 12px rgba(0, 0, 0, .1)
-        }
-
-        .prod-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 10px;
-            background: #f0fdf4;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            flex-shrink: 0
-        }
-
-        .prod-info {
-            flex: 1
-        }
-
-        .prod-name {
-            font-weight: 600;
-            font-size: .9rem;
-            margin-bottom: 4px
-        }
-
-        .prod-cat {
-            font-size: .7rem;
-            color: #16a34a;
-            font-weight: 600;
-            text-transform: uppercase
-        }
-
-        .prod-price {
-            font-size: 1rem;
-            font-weight: 700;
-            color: #16a34a;
-            margin-top: 4px
-        }
-
-        .prod-stock {
-            font-size: .75rem;
-            margin-top: 4px
-        }
-
-        .prod-actions {
-            display: flex;
-            gap: 6px;
-            margin-top: 8px
-        }
-
-        .action-btn {
-            padding: 5px 10px;
-            border: none;
-            background: #f1f5f9;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: .75rem;
-            transition: all .2s
-        }
-
-        .action-btn:hover {
-            background: #16a34a;
-            color: #fff
-        }
-
-        .action-btn.danger:hover {
-            background: #ef4444
-        }
-
-        .toast {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            background: #1e293b;
-            color: #fff;
-            padding: 14px 24px;
-            border-radius: 10px;
-            font-size: .85rem;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all .3s;
-            z-index: 200
-        }
-
-        .toast.show {
-            opacity: 1;
-            transform: translateY(0)
-        }
-
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, .5);
-            backdrop-filter: blur(4px);
-            z-index: 300;
-            align-items: center;
-            justify-content: center
-        }
-
-        .modal-overlay.show {
-            display: flex
-        }
-
-        .modal {
-            background: #fff;
-            border-radius: 16px;
-            padding: 32px;
-            width: 90%;
-            max-width: 500px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, .2)
-        }
-
-        .modal h3 {
-            margin-bottom: 20px;
-            font-size: 1.1rem
-        }
-
-        .form-group {
-            margin-bottom: 16px
-        }
-
-        .form-group label {
-            display: block;
-            font-size: .8rem;
-            font-weight: 600;
-            color: #64748b;
-            margin-bottom: 6px
-        }
-
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 10px 14px;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: .85rem;
-            outline: none
-        }
-
-        .form-group input:focus,
-        .form-group select:focus {
-            border-color: #16a34a
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: 12px;
-            justify-content: flex-end;
-            margin-top: 20px
-        }
-
-        .btn-secondary {
-            padding: 10px 20px;
-            background: #f1f5f9;
-            color: #1e293b;
-            border: none;
-            border-radius: 8px;
-            font-size: .85rem;
-            cursor: pointer
-        }
-
-        .demo-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            background: rgba(0, 0, 0, .5);
-            backdrop-filter: blur(6px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            animation: fadeOverlay .4s .2s ease forwards
-        }
-
-        .demo-popup {
-            background: linear-gradient(135deg, #1e293b, #0f172a);
-            border: 1px solid rgba(255, 255, 255, .1);
-            border-radius: 20px;
-            padding: 36px 40px;
-            max-width: 440px;
-            width: 90%;
-            text-align: center;
-            color: #fff;
-            transform: scale(.85);
-            opacity: 0;
-            animation: popIn .5s .4s cubic-bezier(.34, 1.56, .64, 1) forwards;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, .4)
-        }
-
-        .demo-popup .popup-icon {
-            font-size: 3rem;
-            margin-bottom: 16px;
-            display: block;
-            animation: bounce 2s ease infinite
-        }
-
-        .demo-popup h3 {
-            font-size: 1.15rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-            background: linear-gradient(135deg, #4ade80, #22c55e);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent
-        }
-
-        .demo-popup p {
-            font-size: .88rem;
-            color: #94a3b8;
-            line-height: 1.6;
-            margin-bottom: 20px
-        }
-
-        .demo-popup .popup-btn {
-            padding: 10px 32px;
-            background: linear-gradient(135deg, #16a34a, #22c55e);
-            color: #fff;
-            border: none;
-            border-radius: 10px;
-            font-size: .88rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all .2s;
-            box-shadow: 0 4px 15px rgba(22, 163, 74, .4)
-        }
-
-        .demo-popup .popup-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(22, 163, 74, .5)
-        }
-
-        @keyframes fadeOverlay {
-            to {
-                opacity: 1
-            }
-        }
-
-        @keyframes popIn {
-            to {
-                transform: scale(1);
-                opacity: 1
-            }
-        }
-
-        @keyframes bounce {
-
-            0%,
-            100% {
-                transform: translateY(0)
-            }
-
-            50% {
-                transform: translateY(-8px)
-            }
-        }
-
-        @media(max-width:768px) {
-            .topbar {
-                flex-wrap: wrap;
-                gap: 8px
-            }
-
-            .topbar-nav {
-                flex-wrap: wrap
-            }
-
-            .product-grid {
-                grid-template-columns: 1fr
-            }
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventaris Produk - Aurora</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
-    <div class="demo-overlay" id="demoOverlay" onclick="closeDemoPopup()">
-        <div class="demo-popup" onclick="event.stopPropagation()"><span class="popup-icon">🛒</span>
-            <h3>Halaman Demo</h3>
-            <p>Ini adalah halaman <strong style="color:#e2e8f0">demo</strong> dari aplikasi yang pernah dibuat. Silakan
-                klik-klik dan coba fitur yang tersedia!</p><button class="popup-btn"
-                onclick="closeDemoPopup()">Mengerti, Lanjutkan →</button>
+
+    <!-- Back to Portfolio -->
+    <a href="../../index.html#projects" class="back-btn-global">
+        <i data-feather="arrow-left"></i> Kembali ke Portfolio
+    </a>
+
+    <!-- TOPBAR -->
+    <header class="aurora-topbar">
+        <div class="topbar-left">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="url(#gradient)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <defs>
+                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#a78bfa" />
+                        <stop offset="100%" stop-color="#7635ED" />
+                    </linearGradient>
+                </defs>
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+            </svg>
+            <span>AURORA</span>
         </div>
-    </div>
-    <script>function closeDemoPopup() { const o = document.getElementById('demoOverlay'); o.style.opacity = '0'; setTimeout(() => o.remove(), 400); }</script>
-    <a href="../../index.html#projects" class="back-btn">← Kembali</a>
-    <header class="topbar">
-        <div class="topbar-brand">🛒 <span>Toko</span>Online</div>
-        <nav class="topbar-nav"><a href="index.html">🏪 Toko</a><a href="pesanan.html">📦 Pesanan</a><a
-                href="produk.html" class="active">📋 Produk</a><a href="pelanggan.html">👥 Pelanggan</a></nav>
+        <nav class="topbar-center">
+            <a href="#">Beranda</a>
+            <a href="#">Toko</a>
+            <a href="#" class="active">Dasbor</a>
+            <a href="#">Halaman <i data-feather="chevron-down" style="width:14px; margin-left:4px; vertical-align:middle;"></i></a>
+        </nav>
+        <div class="topbar-right">
+            <span>Akun</span>
+            <div class="avatar-circle">BD</div>
+        </div>
     </header>
-    <div class="container">
-        <h1 class="page-title">Manajemen Produk</h1>
-        <p class="page-sub">Kelola produk toko Anda</p>
-        <div class="toolbar"><input type="text" class="search-box" placeholder="🔍 Cari produk..."
-                id="searchBox" /><button class="btn-primary" onclick="openModal()">+ Tambah Produk</button></div>
-        <div class="product-grid" id="prodGrid"></div>
-    </div>
-    <div class="modal-overlay" id="addModal">
-        <div class="modal">
-            <h3>➕ Tambah Produk Baru</h3>
-            <div class="form-group"><label>Nama Produk</label><input type="text" placeholder="Masukkan nama produk"
-                    id="fName" /></div>
-            <div class="form-group"><label>Kategori</label><select id="fCat">
-                    <option>Elektronik</option>
-                    <option>Fashion</option>
-                    <option>Aksesoris</option>
-                    <option>Peralatan</option>
-                </select></div>
-            <div class="form-group"><label>Harga</label><input type="number" placeholder="Masukkan harga" id="fPrice" />
+
+    <!-- MAIN APP LAYOUT -->
+    <div class="aurora-layout">
+        
+        <!-- LEFT SIDEBAR -->
+        <aside class="aurora-sidebar">
+            <nav class="sidebar-nav">
+                <a href="index.html"><i data-feather="grid"></i> Dasbor</a>
+                <a href="produk.html" class="active"><i data-feather="package"></i> Produk</a>
+                <a href="pesanan.html"><i data-feather="shopping-bag"></i> Pesanan</a>
+                <a href="pelanggan.html"><i data-feather="users"></i> Pelanggan</a>
+                <a href="#"><i data-feather="bar-chart-2"></i> Analitik</a>
+                <a href="#"><i data-feather="target"></i> Pemasaran</a>
+            </nav>
+            <nav class="sidebar-nav bottom">
+                <a href="#"><i data-feather="settings"></i> Pengaturan</a>
+                <a href="#"><i data-feather="log-out"></i> Keluar</a>
+            </nav>
+        </aside>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="aurora-main-wrapper">
+            
+            <div class="content-header">
+                <div>
+                    <h2 style="font-size: 1.1rem; font-weight: 500;">Manajemen Katalog</h2>
+                    <h1>Inventaris Produk</h1>
+                </div>
+                <div class="header-actions">
+                    <button class="btn-primary"><i data-feather="plus"></i> Tambah Produk</button>
+                </div>
             </div>
-            <div class="form-group"><label>Stok</label><input type="number" placeholder="Jumlah stok" id="fStock" />
-            </div>
-            <div class="modal-actions"><button class="btn-secondary" onclick="closeModal()">Batal</button><button
-                    class="btn-primary" onclick="addProduct()">Simpan</button></div>
-        </div>
-    </div>
-    <div class="toast" id="toast"></div>
-    <script>
-        const products = [
-            { name: 'Laptop Gaming Pro', cat: 'Elektronik', price: 12999000, stock: 45, icon: '💻', sold: 230 },
-            { name: 'Smartphone 5G', cat: 'Elektronik', price: 5999000, stock: 120, icon: '📱', sold: 512 },
-            { name: 'Headphone Wireless', cat: 'Elektronik', price: 850000, stock: 200, icon: '🎧', sold: 890 },
-            { name: 'Kemeja Slim Fit', cat: 'Fashion', price: 199000, stock: 500, icon: '👔', sold: 1200 },
-            { name: 'Sneakers Casual', cat: 'Fashion', price: 599000, stock: 180, icon: '👟', sold: 780 },
-            { name: 'Tas Ransel Premium', cat: 'Fashion', price: 299000, stock: 300, icon: '🎒', sold: 650 },
-            { name: 'Smartwatch Fitness', cat: 'Aksesoris', price: 1599000, stock: 80, icon: '⌚', sold: 340 },
-            { name: 'Kacamata Anti Blue', cat: 'Aksesoris', price: 149000, stock: 400, icon: '👓', sold: 1500 },
-            { name: 'Mechanical Keyboard', cat: 'Peralatan', price: 999000, stock: 150, icon: '⌨️', sold: 420 },
-            { name: 'Monitor 27" 4K', cat: 'Peralatan', price: 4299000, stock: 30, icon: '🖥️', sold: 180 },
-        ];
-        const fmt = n => 'Rp ' + n.toLocaleString('id-ID');
-        function render(data) {
-            document.getElementById('prodGrid').innerHTML = (data || products).map((p, i) => `
-                <div class="prod-card">
-                    <div class="prod-icon">${p.icon || '📦'}</div>
-                    <div class="prod-info">
-                        <div class="prod-name">${p.name}</div>
-                        <div class="prod-cat">${p.cat}</div>
-                        <div class="prod-price">${fmt(p.price)}</div>
-                        <div class="prod-stock" style="color:${p.stock < 50 ? '#ef4444' : '#64748b'}">Stok: ${p.stock} · Terjual: ${p.sold || 0}</div>
-                        <div class="prod-actions">
-                            <button class="action-btn" onclick="showToast('Edit: ${p.name}')">✏️ Edit</button>
-                            <button class="action-btn danger" onclick="deleteProd(${i})">🗑️ Hapus</button>
+
+            <!-- DASHBOARD GRID (Full Width for Table) -->
+            <div class="aurora-dashboard-grid" style="grid-template-columns: 1fr;">
+                <div class="white-card">
+                    <div class="card-header">
+                        <h3>Daftar Produk</h3>
+                        <div style="display:flex; gap:12px; align-items:center;">
+                            <div style="background:var(--bg-gray); padding:8px 12px; border-radius:8px; display:flex; align-items:center; gap:8px; border:1px solid var(--border-dark);">
+                                <i data-feather="search" style="width:16px; color:var(--text-muted);"></i>
+                                <input type="text" placeholder="Cari nama produk..." style="border:none; background:none; outline:none; font-family:inherit;">
+                            </div>
                         </div>
                     </div>
+                    <table class="data-table" id="productTable">
+                        <thead>
+                            <tr>
+                                <th>ID/SKU</th>
+                                <th>Info Produk</th>
+                                <th>Kategori</th>
+                                <th>Harga</th>
+                                <th>Stok</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Rendered by JS -->
+                        </tbody>
+                    </table>
                 </div>
-            `).join('');
+            </div>
+            
+        </main>
+    </div>
+
+    <script>
+        feather.replace();
+
+        // Data Produk
+        const products = [
+            { sku: 'SKU-E01', name: 'Laptop Gaming Pro', icon: '💻', cat: 'Elektronik', price: 12999000, stock: 15, status: 'Tersedia', color: 'success' },
+            { sku: 'SKU-E02', name: 'Smartphone 5G', icon: '📱', cat: 'Elektronik', price: 5999000, stock: 45, status: 'Tersedia', color: 'success' },
+            { sku: 'SKU-F01', name: 'Kemeja Slim Fit', icon: '👔', cat: 'Fashion', price: 199000, stock: 0, status: 'Habis', color: 'danger' },
+            { sku: 'SKU-F02', name: 'Sneakers Casual', icon: '👟', cat: 'Fashion', price: 599000, stock: 8, status: 'Menipis', color: 'warning' },
+            { sku: 'SKU-A01', name: 'Smartwatch Fitness', icon: '⌚', cat: 'Aksesoris', price: 1599000, stock: 24, status: 'Tersedia', color: 'success' },
+            { sku: 'SKU-P01', name: 'Mechanical Keyboard', icon: '⌨️', cat: 'Peralatan', price: 999000, stock: 3, status: 'Menipis', color: 'warning' },
+            { sku: 'SKU-P02', name: 'Monitor 27" 4K', icon: '🖥️', cat: 'Peralatan', price: 4299000, stock: 12, status: 'Tersedia', color: 'success' }
+        ];
+
+        const fmt = n => 'Rp ' + n.toLocaleString('id-ID');
+
+        function renderInventory() {
+            const tbody = document.querySelector('#productTable tbody');
+            tbody.innerHTML = '';
+            
+            products.forEach(p => {
+                let badgeStyle = '';
+                if(p.color === 'success') badgeStyle = 'background:var(--aurora-success-light); color:var(--aurora-success);';
+                else if(p.color === 'warning') badgeStyle = 'background:var(--aurora-warning-light); color:var(--aurora-warning);';
+                else badgeStyle = 'background:#fee2e2; color:#ef4444;';
+
+                tbody.innerHTML += `
+                <tr>
+                    <td style="font-weight:600; color:var(--text-muted);">${p.sku}</td>
+                    <td>
+                        <div style="display:flex; align-items:center; gap:12px;">
+                            <div style="font-size:1.5rem; background:var(--bg-gray); width:40px; height:40px; display:flex; align-items:center; justify-content:center; border-radius:8px; border:1px solid var(--border-dark);">${p.icon}</div>
+                            <span style="font-weight:600;">${p.name}</span>
+                        </div>
+                    </td>
+                    <td>${p.cat}</td>
+                    <td style="font-weight:700;">${fmt(p.price)}</td>
+                    <td style="font-weight:600;">${p.stock}</td>
+                    <td>
+                        <span class="badge-success" style="${badgeStyle}">${p.status}</span>
+                    </td>
+                    <td>
+                        <div style="display:flex; gap:8px;">
+                            <button style="border:none; background:none; cursor:pointer; color:var(--text-main);"><i data-feather="edit-2" style="width:16px;"></i></button>
+                            <button style="border:none; background:none; cursor:pointer; color:#ef4444;"><i data-feather="trash-2" style="width:16px;"></i></button>
+                        </div>
+                    </td>
+                </tr>`;
+            });
+            feather.replace();
         }
-        render();
-        document.getElementById('searchBox').addEventListener('input', function () { const q = this.value.toLowerCase(); render(products.filter(p => p.name.toLowerCase().includes(q))); });
-        function openModal() { document.getElementById('addModal').classList.add('show') }
-        function closeModal() { document.getElementById('addModal').classList.remove('show') }
-        function addProduct() {
-            const name = document.getElementById('fName').value; if (!name) { showToast('⚠️ Nama produk wajib diisi'); return; }
-            products.unshift({ name, cat: document.getElementById('fCat').value, price: parseInt(document.getElementById('fPrice').value) || 0, stock: parseInt(document.getElementById('fStock').value) || 0, icon: '📦', sold: 0 });
-            render(); closeModal(); showToast('✅ Produk ' + name + ' ditambahkan!');
-        }
-        function deleteProd(i) { showToast('🗑️ ' + products[i].name + ' dihapus'); products.splice(i, 1); render(); }
-        function showToast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2500); }
+        
+        renderInventory();
     </script>
 </body>
-
 </html>
