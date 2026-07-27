@@ -4,658 +4,364 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Demo — Sistem Manajemen Rumah Sakit</title>
+    <title>Sistem Manajemen Rumah Sakit - Dashboard</title>
     <link rel="icon" href="../../images/sr_logo.png" type="image/png" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet" />
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #f0f2f5;
-            color: #1e293b;
-            min-height: 100vh;
-            display: flex;
-        }
-
-        /* Back button */
-        .back-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 100;
-            background: #4f46e5;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: background .2s;
-        }
-
-        .back-btn:hover {
-            background: #4338ca;
-        }
-
-        /* Sidebar */
-        .sidebar {
-            width: 240px;
-            background: #1e293b;
-            color: #fff;
-            padding: 24px 0;
-            flex-shrink: 0;
-            min-height: 100vh;
-        }
-
-        .sidebar-brand {
-            padding: 0 24px 24px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            border-bottom: 1px solid #334155;
-            margin-bottom: 16px;
-        }
-
-        .sidebar-brand span {
-            color: #818cf8;
-        }
-
-        .sidebar-nav a {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 24px;
-            color: #94a3b8;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: all .2s;
-            border-left: 3px solid transparent;
-        }
-
-        .sidebar-nav a:hover,
-        .sidebar-nav a.active {
-            background: #334155;
-            color: #fff;
-            border-left-color: #818cf8;
-        }
-
-        .sidebar-nav a .icon {
-            width: 20px;
-            text-align: center;
-        }
-
-        /* Main */
-        .main {
-            flex: 1;
-            padding: 32px;
-            overflow-y: auto;
-        }
-
-        .page-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .page-sub {
-            color: #64748b;
-            margin-bottom: 24px;
-        }
-
-        /* Stats */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-            margin-bottom: 32px;
-        }
-
-        .stat-card {
-            background: #fff;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, .06);
-        }
-
-        .stat-card .label {
-            font-size: 0.8rem;
-            color: #64748b;
-            margin-bottom: 4px;
-        }
-
-        .stat-card .value {
-            font-size: 1.8rem;
-            font-weight: 700;
-        }
-
-        .stat-card .change {
-            font-size: 0.75rem;
-            margin-top: 4px;
-        }
-
-        .stat-card .change.up {
-            color: #10b981;
-        }
-
-        .stat-card .change.down {
-            color: #ef4444;
-        }
-
-        /* Chart placeholder */
-        .chart-row {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 16px;
-            margin-bottom: 32px;
-        }
-
-        .chart-card {
-            background: #fff;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, .06);
-        }
-
-        .chart-card h3 {
-            font-size: 0.95rem;
-            margin-bottom: 16px;
-        }
-
-        .bar-chart {
-            display: flex;
-            align-items: flex-end;
-            gap: 8px;
-            height: 160px;
-        }
-
-        .bar {
-            background: linear-gradient(180deg, #818cf8, #4f46e5);
-            border-radius: 6px 6px 0 0;
-            flex: 1;
-            min-width: 20px;
-            transition: height .6s ease;
-            cursor: pointer;
-            position: relative;
-        }
-
-        .bar:hover {
-            opacity: .85;
-        }
-
-        .bar-label {
-            text-align: center;
-            font-size: 0.65rem;
-            color: #94a3b8;
-            margin-top: 6px;
-        }
-
-        .donut-chart {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            background: conic-gradient(#4f46e5 0% 40%, #10b981 40% 65%, #f59e0b 65% 85%, #ef4444 85% 100%);
-            margin: 0 auto;
-            position: relative;
-        }
-
-        .donut-chart::after {
-            content: '';
-            position: absolute;
-            inset: 30px;
-            background: #fff;
-            border-radius: 50%;
-        }
-
-        .donut-legend {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            justify-content: center;
-            margin-top: 16px;
-        }
-
-        .legend-item {
-            font-size: 0.7rem;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .legend-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-        }
-
-        /* Table */
-        .table-card {
-            background: #fff;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, .06);
-        }
-
-        .table-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-
-        .table-header h3 {
-            font-size: 0.95rem;
-        }
-
-        .search-box {
-            padding: 8px 14px;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            outline: none;
-        }
-
-        .search-box:focus {
-            border-color: #818cf8;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th {
-            text-align: left;
-            padding: 10px 12px;
-            font-size: 0.75rem;
-            color: #64748b;
-            text-transform: uppercase;
-            border-bottom: 2px solid #e2e8f0;
-        }
-
-        td {
-            padding: 12px;
-            font-size: 0.85rem;
-            border-bottom: 1px solid #f1f5f9;
-        }
-
-        tr:hover td {
-            background: #f8fafc;
-        }
-
-        .badge {
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            font-weight: 600;
-        }
-
-        .badge-green {
-            background: #d1fae5;
-            color: #065f46;
-        }
-
-        .badge-yellow {
-            background: #fef3c7;
-            color: #92400e;
-        }
-
-        .badge-red {
-            background: #fecaca;
-            color: #991b1b;
-        }
-
-        .badge-blue {
-            background: #dbeafe;
-            color: #1e40af;
-        }
-
-        .action-btn {
-            padding: 6px 12px;
-            border: none;
-            background: #f1f5f9;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.78rem;
-            transition: all .2s;
-        }
-
-        .action-btn:hover {
-            background: #818cf8;
-            color: #fff;
-        }
-
-        /* Toast */
-        .toast {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            background: #1e293b;
-            color: #fff;
-            padding: 14px 24px;
-            border-radius: 10px;
-            font-size: 0.85rem;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all .3s;
-            z-index: 200;
-        }
-
-        .toast.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        @media(max-width:768px) {
-            body {
-                flex-direction: column;
-            }
-
-            .sidebar {
-                width: 100%;
-                min-height: auto;
-                padding: 16px 0;
-            }
-
-            .sidebar-nav {
-                display: flex;
-                overflow-x: auto;
-            }
-
-            .sidebar-nav a {
-                white-space: nowrap;
-                border-left: none;
-                border-bottom: 3px solid transparent;
-                padding: 10px 16px;
-            }
-
-            .sidebar-nav a.active {
-                border-bottom-color: #818cf8;
-            }
-
-            .chart-row {
-                grid-template-columns: 1fr;
-            }
-
-            .main {
-                padding: 16px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="css/style.css" />
+    
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
-    <!-- Demo Popup -->
-    <style>
-        .demo-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            background: rgba(0, 0, 0, .5);
-            backdrop-filter: blur(6px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            animation: fadeOverlay .4s .2s ease forwards
-        }
+    <!-- Back to Portfolio -->
+    <a href="../../index.html" class="back-btn-global">
+        <i data-feather="arrow-left"></i> Kembali ke Portfolio
+    </a>
 
-        .demo-popup {
-            background: linear-gradient(135deg, #1e293b, #0f172a);
-            border: 1px solid rgba(255, 255, 255, .1);
-            border-radius: 20px;
-            padding: 36px 40px;
-            max-width: 440px;
-            width: 90%;
-            text-align: center;
-            color: #fff;
-            transform: scale(.85);
-            opacity: 0;
-            animation: popIn .5s .4s cubic-bezier(.34, 1.56, .64, 1) forwards;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, .4)
-        }
-
-        .demo-popup .popup-icon {
-            font-size: 3rem;
-            margin-bottom: 16px;
-            display: block;
-            animation: bounce 2s ease infinite
-        }
-
-        .demo-popup h3 {
-            font-size: 1.15rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-            background: linear-gradient(135deg, #818cf8, #a78bfa);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent
-        }
-
-        .demo-popup p {
-            font-size: .88rem;
-            color: #94a3b8;
-            line-height: 1.6;
-            margin-bottom: 20px
-        }
-
-        .demo-popup .popup-btn {
-            padding: 10px 32px;
-            background: linear-gradient(135deg, #6366f1, #818cf8);
-            color: #fff;
-            border: none;
-            border-radius: 10px;
-            font-size: .88rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all .2s;
-            box-shadow: 0 4px 15px rgba(99, 102, 241, .4)
-        }
-
-        .demo-popup .popup-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(99, 102, 241, .5)
-        }
-
-        @keyframes fadeOverlay {
-            to {
-                opacity: 1
-            }
-        }
-
-        @keyframes popIn {
-            to {
-                transform: scale(1);
-                opacity: 1
-            }
-        }
-
-        @keyframes bounce {
-
-            0%,
-            100% {
-                transform: translateY(0)
-            }
-
-            50% {
-                transform: translateY(-8px)
-            }
-        }
-    </style>
-    <div class="demo-overlay" id="demoOverlay" onclick="closeDemoPopup()">
-        <div class="demo-popup" onclick="event.stopPropagation()">
-            <span class="popup-icon">🚀</span>
-            <h3>Halaman Demo</h3>
-            <p>Ini adalah halaman <strong style="color:#e2e8f0">demo</strong> dari aplikasi yang pernah dibuat. Silakan
-                klik-klik dan coba fitur yang tersedia!</p>
-            <button class="popup-btn" onclick="closeDemoPopup()">Mengerti, Lanjutkan →</button>
-        </div>
-    </div>
-    <script>function closeDemoPopup() { const o = document.getElementById('demoOverlay'); o.style.opacity = '0'; setTimeout(() => o.remove(), 400); }</script>
-
-    <a href="../../index.html#projects" class="back-btn">← Kembali</a>
-
+    <!-- Sidebar -->
     <aside class="sidebar">
-        <div class="sidebar-brand">🏥 RS<span>Manager</span></div>
+        <div class="sidebar-brand">
+            <div class="brand-icon">
+                <i data-feather="activity"></i>
+            </div>
+            <div class="brand-text">RS <span>Medika</span></div>
+        </div>
+
         <nav class="sidebar-nav">
-            <a href="index.html" class="active"><span class="icon">📊</span> Dashboard</a>
-            <a href="pasien.html"><span class="icon">👥</span> Pasien</a>
-            <a href="rawat-inap.html"><span class="icon">🛏️</span> Rawat Inap</a>
-            <a href="rawat-jalan.html"><span class="icon">🚶</span> Rawat Jalan</a>
-            <a href="billing.html"><span class="icon">💰</span> Billing</a>
-            <a href="laporan.html"><span class="icon">📈</span> Laporan</a>
+            <a href="index.html" class="nav-item active">
+                <i data-feather="grid" class="nav-icon"></i>
+                Dashboard
+            </a>
+            <a href="pasien.html" class="nav-item">
+                <i data-feather="users" class="nav-icon"></i>
+                Data Pasien
+            </a>
+            <a href="rawat-inap.html" class="nav-item">
+                <i data-feather="plus-square" class="nav-icon"></i>
+                Rawat Inap
+            </a>
+            <a href="rawat-jalan.html" class="nav-item">
+                <i data-feather="clipboard" class="nav-icon"></i>
+                Rawat Jalan
+            </a>
+            <a href="billing.html" class="nav-item">
+                <i data-feather="credit-card" class="nav-icon"></i>
+                Billing
+            </a>
+            <a href="laporan.html" class="nav-item">
+                <i data-feather="pie-chart" class="nav-icon"></i>
+                Laporan
+            </a>
         </nav>
+
+        <div class="sidebar-footer">
+            <a href="#" class="nav-item">
+                <i data-feather="settings" class="nav-icon"></i>
+                Pengaturan
+            </a>
+        </div>
     </aside>
 
+    <!-- Main Content -->
     <main class="main">
-        <h1 class="page-title">Dashboard</h1>
-        <p class="page-sub">Selamat datang, Dr. Admin — Ringkasan hari ini</p>
+        <!-- Top Header -->
+        <header class="top-header">
+            <button class="icon-btn hamburger-btn" id="mobileMenuBtn">
+                <i data-feather="menu"></i>
+            </button>
+            <div class="header-search">
+                <i data-feather="search" style="color: var(--text-muted); width: 18px;"></i>
+                <input type="text" placeholder="Cari data pasien, dokter, atau rekam medis..." />
+            </div>
 
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="label">Total Pasien</div>
-                <div class="value" id="c1">0</div>
-                <div class="change up">▲ 12% dari bulan lalu</div>
+            <div class="header-actions">
+                <button class="icon-btn" id="themeToggle" title="Ganti Tema">
+                    <i data-feather="moon" id="themeIcon"></i>
+                </button>
+                <button class="icon-btn">
+                    <i data-feather="bell"></i>
+                    <span class="badge">3</span>
+                </button>
+                <div class="user-profile">
+                    <div class="user-info">
+                        <span class="user-name">Dr. Syauqi Ramadhan</span>
+                        <span class="user-role">Administrator</span>
+                    </div>
+                    <img src="https://ui-avatars.com/api/?name=Syauqi+Ramadhan&background=059669&color=fff" alt="User" class="avatar" />
+                </div>
             </div>
-            <div class="stat-card">
-                <div class="label">Rawat Inap Aktif</div>
-                <div class="value" id="c2">0</div>
-                <div class="change up">▲ 5% dari bulan lalu</div>
-            </div>
-            <div class="stat-card">
-                <div class="label">Rawat Jalan Hari Ini</div>
-                <div class="value" id="c3">0</div>
-                <div class="change down">▼ 3% dari kemarin</div>
-            </div>
-            <div class="stat-card">
-                <div class="label">Pendapatan Bulan Ini</div>
-                <div class="value" id="c4">0</div>
-                <div class="change up">▲ 18% dari bulan lalu</div>
-            </div>
-        </div>
+        </header>
 
-        <div class="chart-row">
-            <div class="chart-card">
-                <h3>📈 Kunjungan Pasien (6 Bulan Terakhir)</h3>
-                <div class="bar-chart" id="barChart"></div>
-                <div style="display:flex;gap:8px;justify-content:space-around;margin-top:6px;" id="barLabels"></div>
+        <!-- Content Area -->
+        <div class="content">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Dashboard Utama</h1>
+                    <p class="page-subtitle">Ringkasan aktivitas dan metrik rumah sakit hari ini.</p>
+                </div>
+                <div class="clock-widget">
+                    <div class="clock-time" id="clockTime">00:00:00</div>
+                    <div class="clock-date" id="clockDate">Memuat tanggal...</div>
+                </div>
             </div>
-            <div class="chart-card">
-                <h3>🏥 Komposisi Poli</h3>
-                <div class="donut-chart"></div>
-                <div class="donut-legend">
-                    <div class="legend-item"><span class="legend-dot" style="background:#4f46e5"></span> Umum 40%</div>
-                    <div class="legend-item"><span class="legend-dot" style="background:#10b981"></span> Anak 25%</div>
-                    <div class="legend-item"><span class="legend-dot" style="background:#f59e0b"></span> Gigi 20%</div>
-                    <div class="legend-item"><span class="legend-dot" style="background:#ef4444"></span> Mata 15%</div>
+
+            <!-- Stats Grid -->
+            <div class="stat-grid">
+                <div class="glass-card stat-card">
+                    <div class="stat-icon blue">
+                        <i data-feather="users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Total Pasien Hari Ini</h3>
+                        <div class="value">1,248</div>
+                        <span style="color: var(--success); font-size: 0.8rem; font-weight: 600;">+12% dari kemarin</span>
+                    </div>
+                </div>
+                
+                <div class="glass-card stat-card">
+                    <div class="stat-icon orange">
+                        <i data-feather="bed"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Ruang Rawat Inap (Terisi)</h3>
+                        <div class="value">84%</div>
+                        <span style="color: var(--warning); font-size: 0.8rem; font-weight: 600;">12 Bed Tersedia</span>
+                    </div>
+                </div>
+
+                <div class="glass-card stat-card">
+                    <div class="stat-icon green">
+                        <i data-feather="check-circle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Pasien Selesai Rawat</h3>
+                        <div class="value">342</div>
+                        <span style="color: var(--text-muted); font-size: 0.8rem;">Hari ini</span>
+                    </div>
+                </div>
+
+                <div class="glass-card stat-card">
+                    <div class="stat-icon red">
+                        <i data-feather="alert-circle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Pasien IGD</h3>
+                        <div class="value">28</div>
+                        <span style="color: var(--danger); font-size: 0.8rem; font-weight: 600;">Kondisi Darurat: 4</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Grid -->
+            <div class="dashboard-grid">
+                <!-- Chart -->
+                <div class="glass-card">
+                    <div class="card-header">
+                        <h2 class="card-title">Tren Kunjungan Pasien (Minggu Ini)</h2>
+                        <button class="btn btn-outline" style="padding: 6px 12px; font-size: 0.8rem;">Detail</button>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="patientChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Live Queue -->
+                <div class="glass-card">
+                    <div class="card-header">
+                        <h2 class="card-title">Antrean Poliklinik (Live)</h2>
+                        <span class="status-badge status-primary" id="liveTicker">● Live</span>
+                    </div>
+                    
+                    <div class="queue-list" id="queueList">
+                        <div class="queue-item">
+                            <div class="queue-patient">
+                                <div class="queue-avatar">A</div>
+                                <div class="queue-details">
+                                    <h4>Ahmad Subarjo</h4>
+                                    <p>Poli Umum - Dr. Budi</p>
+                                </div>
+                            </div>
+                            <span class="status-badge status-warning">Menunggu</span>
+                        </div>
+                        <div class="queue-item">
+                            <div class="queue-patient">
+                                <div class="queue-avatar" style="background: var(--warning-light); color: var(--warning)">S</div>
+                                <div class="queue-details">
+                                    <h4>Siti Aminah</h4>
+                                    <p>Poli Gigi - Drg. Rina</p>
+                                </div>
+                            </div>
+                            <span class="status-badge status-success">Diperiksa</span>
+                        </div>
+                        <div class="queue-item">
+                            <div class="queue-patient">
+                                <div class="queue-avatar" style="background: var(--danger-light); color: var(--danger)">R</div>
+                                <div class="queue-details">
+                                    <h4>Reza Rahadian</h4>
+                                    <p>Poli Mata - Dr. Dimas</p>
+                                </div>
+                            </div>
+                            <span class="status-badge status-warning">Menunggu</span>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-outline" style="width: 100%; margin-top: 16px;">Lihat Semua Antrean</button>
                 </div>
             </div>
         </div>
-
-        <div class="table-card">
-            <div class="table-header">
-                <h3>📋 Pasien Terbaru</h3>
-                <input type="text" class="search-box" placeholder="Cari pasien..." id="searchBox" />
-            </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>No. RM</th>
-                        <th>Nama</th>
-                        <th>Poli</th>
-                        <th>Status</th>
-                        <th>Tanggal</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody id="patientTable"></tbody>
-            </table>
-        </div>
     </main>
 
-    <div class="toast" id="toast"></div>
-
+    <!-- Scripts -->
     <script>
-        // Counter animation
-        function animateCount(id, target, prefix = '') {
-            const el = document.getElementById(id);
-            let cur = 0;
-            const step = target / 60;
-            const timer = setInterval(() => {
-                cur += step;
-                if (cur >= target) { cur = target; clearInterval(timer); }
-                el.textContent = prefix + Math.floor(cur).toLocaleString('id-ID');
-            }, 20);
+        // Initialize Feather Icons
+        feather.replace();
+
+        // 1. Clock & Date Widget Logic
+        function updateClock() {
+            const now = new Date();
+            const timeOptions = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+            const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            
+            document.getElementById('clockTime').textContent = now.toLocaleTimeString('id-ID', timeOptions);
+            document.getElementById('clockDate').textContent = now.toLocaleDateString('id-ID', dateOptions);
         }
-        animateCount('c1', 2847);
-        animateCount('c2', 156);
-        animateCount('c3', 84);
-        animateCount('c4', 425000000, 'Rp ');
+        setInterval(updateClock, 1000);
+        updateClock();
 
-        // Bar chart
-        const months = ['Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
-        const values = [65, 78, 52, 88, 95, 72];
-        const maxVal = Math.max(...values);
-        const barChart = document.getElementById('barChart');
-        const barLabels = document.getElementById('barLabels');
-        months.forEach((m, i) => {
-            const bar = document.createElement('div');
-            bar.className = 'bar';
-            bar.style.height = '0%';
-            bar.title = m + ': ' + values[i] + ' pasien';
-            bar.onclick = () => showToast(`${m}: ${values[i]} kunjungan pasien`);
-            setTimeout(() => { bar.style.height = (values[i] / maxVal * 100) + '%'; }, i * 100);
-            barChart.appendChild(bar);
+        // 2. Dark Mode Toggle Logic
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        
+        // Check local storage for theme
+        const savedTheme = localStorage.getItem('rs_theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateThemeIcon(savedTheme);
 
-            const label = document.createElement('div');
-            label.className = 'bar-label';
-            label.textContent = m;
-            barLabels.appendChild(label);
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('rs_theme', newTheme);
+            updateThemeIcon(newTheme);
+            updateChartTheme(); // Update chart colors
         });
 
-        // Patient table
-        const patients = [
-            { rm: 'RM-2025001', name: 'Ahmad Fauzi', poli: 'Umum', status: 'Rawat Jalan', date: '26 Feb 2026', badge: 'badge-green' },
-            { rm: 'RM-2025002', name: 'Siti Nurhaliza', poli: 'Anak', status: 'Rawat Inap', date: '25 Feb 2026', badge: 'badge-blue' },
-            { rm: 'RM-2025003', name: 'Budi Santoso', poli: 'Gigi', status: 'Selesai', date: '25 Feb 2026', badge: 'badge-green' },
-            { rm: 'RM-2025004', name: 'Dewi Lestari', poli: 'Mata', status: 'Menunggu', date: '26 Feb 2026', badge: 'badge-yellow' },
-            { rm: 'RM-2025005', name: 'Rizky Ramadhan', poli: 'Umum', status: 'Kritis', date: '24 Feb 2026', badge: 'badge-red' },
-            { rm: 'RM-2025006', name: 'Putri Amelia', poli: 'Anak', status: 'Rawat Jalan', date: '26 Feb 2026', badge: 'badge-green' },
-        ];
-
-        function renderTable(data) {
-            const tbody = document.getElementById('patientTable');
-            tbody.innerHTML = data.map(p => `
-        <tr>
-          <td><strong>${p.rm}</strong></td>
-          <td>${p.name}</td>
-          <td>${p.poli}</td>
-          <td><span class="badge ${p.badge}">${p.status}</span></td>
-          <td>${p.date}</td>
-          <td><button class="action-btn" onclick="showToast('Detail pasien: ${p.name}')">Detail</button></td>
-        </tr>
-      `).join('');
+        function updateThemeIcon(theme) {
+            if(theme === 'dark') {
+                themeIcon.setAttribute('data-feather', 'sun');
+            } else {
+                themeIcon.setAttribute('data-feather', 'moon');
+            }
+            feather.replace();
         }
-        renderTable(patients);
 
-        document.getElementById('searchBox').addEventListener('input', function () {
-            const q = this.value.toLowerCase();
-            renderTable(patients.filter(p => p.name.toLowerCase().includes(q) || p.rm.toLowerCase().includes(q)));
+        // 3. Chart.js Initialization
+        let patientChart;
+        function initChart() {
+            const ctx = document.getElementById('patientChart').getContext('2d');
+            
+            // Get CSS Variables for chart styling
+            const style = getComputedStyle(document.documentElement);
+            const primaryColor = style.getPropertyValue('--primary').trim() || '#059669';
+            const secondaryColor = style.getPropertyValue('--secondary').trim() || '#2563eb';
+            const textColor = style.getPropertyValue('--text-secondary').trim() || '#64748b';
+            const gridColor = style.getPropertyValue('--border').trim() || 'rgba(148, 163, 184, 0.2)';
+
+            // Gradient for Primary Bar
+            const gradientPrimary = ctx.createLinearGradient(0, 0, 0, 300);
+            gradientPrimary.addColorStop(0, primaryColor);
+            gradientPrimary.addColorStop(1, 'rgba(5, 150, 105, 0.2)');
+
+            // Gradient for Secondary Bar
+            const gradientSecondary = ctx.createLinearGradient(0, 0, 0, 300);
+            gradientSecondary.addColorStop(0, secondaryColor);
+            gradientSecondary.addColorStop(1, 'rgba(37, 99, 235, 0.2)');
+
+            patientChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'],
+                    datasets: [
+                        {
+                            label: 'Rawat Jalan',
+                            data: [120, 150, 180, 140, 160, 90, 70],
+                            backgroundColor: gradientPrimary,
+                            borderRadius: 6,
+                            borderSkipped: false
+                        },
+                        {
+                            label: 'Rawat Inap (Baru)',
+                            data: [12, 19, 15, 8, 22, 5, 2],
+                            backgroundColor: gradientSecondary,
+                            borderRadius: 6,
+                            borderSkipped: false
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: textColor,
+                                font: { family: 'Inter', size: 13 }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: gridColor, drawBorder: false },
+                            ticks: { color: textColor, font: { family: 'Inter' } }
+                        },
+                        x: {
+                            grid: { display: false, drawBorder: false },
+                            ticks: { color: textColor, font: { family: 'Inter' } }
+                        }
+                    },
+                    interaction: { mode: 'index', intersect: false }
+                }
+            });
+        }
+        
+        function updateChartTheme() {
+            if(patientChart) patientChart.destroy();
+            initChart();
+        }
+
+        // Initialize chart on load
+        setTimeout(initChart, 100);
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const sidebar = document.querySelector('.sidebar');
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', () => {
+                sidebar.classList.toggle('open');
+            });
+        }
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && !sidebar.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                sidebar.classList.remove('open');
+            }
         });
 
-        // Toast
-        function showToast(msg) {
-            const t = document.getElementById('toast');
-            t.textContent = msg;
-            t.classList.add('show');
-            setTimeout(() => t.classList.remove('show'), 2500);
-        }
+        // 4. Live Ticker Animation (Blinking dot)
+        setInterval(() => {
+            const ticker = document.getElementById('liveTicker');
+            if(ticker.innerText === '● Live') {
+                ticker.innerText = '○ Live';
+            } else {
+                ticker.innerText = '● Live';
+            }
+        }, 800);
     </script>
 </body>
 

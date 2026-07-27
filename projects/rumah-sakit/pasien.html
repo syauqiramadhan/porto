@@ -4,625 +4,210 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pasien — Sistem Manajemen Rumah Sakit</title>
+    <title>Data Pasien - RS Medika</title>
     <link rel="icon" href="../../images/sr_logo.png" type="image/png" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet" />
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #f0f2f5;
-            color: #1e293b;
-            min-height: 100vh;
-            display: flex
-        }
-
-        .back-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 100;
-            background: #4f46e5;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: .85rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: background .2s
-        }
-
-        .back-btn:hover {
-            background: #4338ca
-        }
-
-        .sidebar {
-            width: 240px;
-            background: #1e293b;
-            color: #fff;
-            padding: 24px 0;
-            flex-shrink: 0;
-            min-height: 100vh
-        }
-
-        .sidebar-brand {
-            padding: 0 24px 24px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            border-bottom: 1px solid #334155;
-            margin-bottom: 16px
-        }
-
-        .sidebar-brand span {
-            color: #818cf8
-        }
-
-        .sidebar-nav a {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 24px;
-            color: #94a3b8;
-            text-decoration: none;
-            font-size: .9rem;
-            transition: all .2s;
-            border-left: 3px solid transparent
-        }
-
-        .sidebar-nav a:hover,
-        .sidebar-nav a.active {
-            background: #334155;
-            color: #fff;
-            border-left-color: #818cf8
-        }
-
-        .sidebar-nav a .icon {
-            width: 20px;
-            text-align: center
-        }
-
-        .main {
-            flex: 1;
-            padding: 32px;
-            overflow-y: auto
-        }
-
-        .page-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 8px
-        }
-
-        .page-sub {
-            color: #64748b;
-            margin-bottom: 24px
-        }
-
-        .toolbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 12px
-        }
-
-        .search-box {
-            padding: 8px 14px;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: .85rem;
-            outline: none;
-            min-width: 250px
-        }
-
-        .search-box:focus {
-            border-color: #818cf8
-        }
-
-        .btn-primary {
-            padding: 10px 20px;
-            background: #4f46e5;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            font-size: .85rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all .2s
-        }
-
-        .btn-primary:hover {
-            background: #4338ca
-        }
-
-        .table-card {
-            background: #fff;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, .06)
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse
-        }
-
-        th {
-            text-align: left;
-            padding: 10px 12px;
-            font-size: .75rem;
-            color: #64748b;
-            text-transform: uppercase;
-            border-bottom: 2px solid #e2e8f0
-        }
-
-        td {
-            padding: 12px;
-            font-size: .85rem;
-            border-bottom: 1px solid #f1f5f9
-        }
-
-        tr:hover td {
-            background: #f8fafc
-        }
-
-        .badge {
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: .7rem;
-            font-weight: 600
-        }
-
-        .badge-green {
-            background: #d1fae5;
-            color: #065f46
-        }
-
-        .badge-yellow {
-            background: #fef3c7;
-            color: #92400e
-        }
-
-        .badge-blue {
-            background: #dbeafe;
-            color: #1e40af
-        }
-
-        .badge-red {
-            background: #fecaca;
-            color: #991b1b
-        }
-
-        .action-btn {
-            padding: 6px 12px;
-            border: none;
-            background: #f1f5f9;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: .78rem;
-            transition: all .2s;
-            margin-right: 4px
-        }
-
-        .action-btn:hover {
-            background: #818cf8;
-            color: #fff
-        }
-
-        .action-btn.danger:hover {
-            background: #ef4444;
-            color: #fff
-        }
-
-        .stats-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 16px;
-            margin-bottom: 24px
-        }
-
-        .mini-stat {
-            background: #fff;
-            border-radius: 12px;
-            padding: 16px 20px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, .06)
-        }
-
-        .mini-stat .label {
-            font-size: .75rem;
-            color: #64748b
-        }
-
-        .mini-stat .val {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-top: 4px
-        }
-
-        .toast {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            background: #1e293b;
-            color: #fff;
-            padding: 14px 24px;
-            border-radius: 10px;
-            font-size: .85rem;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all .3s;
-            z-index: 200
-        }
-
-        .toast.show {
-            opacity: 1;
-            transform: translateY(0)
-        }
-
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, .5);
-            backdrop-filter: blur(4px);
-            z-index: 300;
-            align-items: center;
-            justify-content: center
-        }
-
-        .modal-overlay.show {
-            display: flex
-        }
-
-        .modal {
-            background: #fff;
-            border-radius: 16px;
-            padding: 32px;
-            width: 90%;
-            max-width: 500px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, .2)
-        }
-
-        .modal h3 {
-            margin-bottom: 20px;
-            font-size: 1.1rem
-        }
-
-        .form-group {
-            margin-bottom: 16px
-        }
-
-        .form-group label {
-            display: block;
-            font-size: .8rem;
-            font-weight: 600;
-            color: #64748b;
-            margin-bottom: 6px
-        }
-
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 10px 14px;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: .85rem;
-            outline: none
-        }
-
-        .form-group input:focus,
-        .form-group select:focus {
-            border-color: #818cf8
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: 12px;
-            justify-content: flex-end;
-            margin-top: 20px
-        }
-
-        .btn-secondary {
-            padding: 10px 20px;
-            background: #f1f5f9;
-            color: #1e293b;
-            border: none;
-            border-radius: 8px;
-            font-size: .85rem;
-            cursor: pointer
-        }
-
-        @media(max-width:768px) {
-            body {
-                flex-direction: column
-            }
-
-            .sidebar {
-                width: 100%;
-                min-height: auto;
-                padding: 16px 0
-            }
-
-            .sidebar-nav {
-                display: flex;
-                overflow-x: auto
-            }
-
-            .sidebar-nav a {
-                white-space: nowrap;
-                border-left: none;
-                border-bottom: 3px solid transparent;
-                padding: 10px 16px
-            }
-
-            .sidebar-nav a.active {
-                border-bottom-color: #818cf8
-            }
-
-            .main {
-                padding: 16px
-            }
-        }
-
-        .demo-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            background: rgba(0, 0, 0, .5);
-            backdrop-filter: blur(6px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            animation: fadeOverlay .4s .2s ease forwards
-        }
-
-        .demo-popup {
-            background: linear-gradient(135deg, #1e293b, #0f172a);
-            border: 1px solid rgba(255, 255, 255, .1);
-            border-radius: 20px;
-            padding: 36px 40px;
-            max-width: 440px;
-            width: 90%;
-            text-align: center;
-            color: #fff;
-            transform: scale(.85);
-            opacity: 0;
-            animation: popIn .5s .4s cubic-bezier(.34, 1.56, .64, 1) forwards;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, .4)
-        }
-
-        .demo-popup .popup-icon {
-            font-size: 3rem;
-            margin-bottom: 16px;
-            display: block;
-            animation: bounce 2s ease infinite
-        }
-
-        .demo-popup h3 {
-            font-size: 1.15rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-            background: linear-gradient(135deg, #818cf8, #a78bfa);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent
-        }
-
-        .demo-popup p {
-            font-size: .88rem;
-            color: #94a3b8;
-            line-height: 1.6;
-            margin-bottom: 20px
-        }
-
-        .demo-popup .popup-btn {
-            padding: 10px 32px;
-            background: linear-gradient(135deg, #6366f1, #818cf8);
-            color: #fff;
-            border: none;
-            border-radius: 10px;
-            font-size: .88rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all .2s;
-            box-shadow: 0 4px 15px rgba(99, 102, 241, .4)
-        }
-
-        .demo-popup .popup-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(99, 102, 241, .5)
-        }
-
-        @keyframes fadeOverlay {
-            to {
-                opacity: 1
-            }
-        }
-
-        @keyframes popIn {
-            to {
-                transform: scale(1);
-                opacity: 1
-            }
-        }
-
-        @keyframes bounce {
-
-            0%,
-            100% {
-                transform: translateY(0)
-            }
-
-            50% {
-                transform: translateY(-8px)
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="https://unpkg.com/feather-icons"></script>
 </head>
 
 <body>
-    <div class="demo-overlay" id="demoOverlay" onclick="closeDemoPopup()">
-        <div class="demo-popup" onclick="event.stopPropagation()">
-            <span class="popup-icon">🚀</span>
-            <h3>Halaman Demo</h3>
-            <p>Ini adalah halaman <strong style="color:#e2e8f0">demo</strong> dari aplikasi yang pernah dibuat. Silakan
-                klik-klik dan coba fitur yang tersedia!</p>
-            <button class="popup-btn" onclick="closeDemoPopup()">Mengerti, Lanjutkan →</button>
-        </div>
-    </div>
-    <script>function closeDemoPopup() { const o = document.getElementById('demoOverlay'); o.style.opacity = '0'; setTimeout(() => o.remove(), 400); }</script>
+    <a href="../../index.html" class="back-btn-global">
+        <i data-feather="arrow-left"></i> Kembali ke Portfolio
+    </a>
 
-    <a href="../../index.html#projects" class="back-btn">← Kembali</a>
-
+    <!-- Sidebar -->
     <aside class="sidebar">
-        <div class="sidebar-brand">🏥 RS<span>Manager</span></div>
+        <div class="sidebar-brand">
+            <div class="brand-icon">
+                <i data-feather="activity"></i>
+            </div>
+            <div class="brand-text">RS <span>Medika</span></div>
+        </div>
+
         <nav class="sidebar-nav">
-            <a href="index.html"><span class="icon">📊</span> Dashboard</a>
-            <a href="pasien.html" class="active"><span class="icon">👥</span> Pasien</a>
-            <a href="rawat-inap.html"><span class="icon">🛏️</span> Rawat Inap</a>
-            <a href="rawat-jalan.html"><span class="icon">🚶</span> Rawat Jalan</a>
-            <a href="billing.html"><span class="icon">💰</span> Billing</a>
-            <a href="laporan.html"><span class="icon">📈</span> Laporan</a>
+            <a href="index.html" class="nav-item">
+                <i data-feather="grid" class="nav-icon"></i>
+                Dashboard
+            </a>
+            <a href="pasien.html" class="nav-item active">
+                <i data-feather="users" class="nav-icon"></i>
+                Data Pasien
+            </a>
+            <a href="rawat-inap.html" class="nav-item">
+                <i data-feather="plus-square" class="nav-icon"></i>
+                Rawat Inap
+            </a>
+            <a href="rawat-jalan.html" class="nav-item">
+                <i data-feather="clipboard" class="nav-icon"></i>
+                Rawat Jalan
+            </a>
+            <a href="billing.html" class="nav-item">
+                <i data-feather="credit-card" class="nav-icon"></i>
+                Billing
+            </a>
+            <a href="laporan.html" class="nav-item">
+                <i data-feather="pie-chart" class="nav-icon"></i>
+                Laporan
+            </a>
         </nav>
     </aside>
 
+    <!-- Main Content -->
     <main class="main">
-        <h1 class="page-title">Data Pasien</h1>
-        <p class="page-sub">Manajemen data pasien rumah sakit</p>
-
-        <div class="stats-row">
-            <div class="mini-stat">
-                <div class="label">Total Pasien</div>
-                <div class="val">2,847</div>
+        <header class="top-header">
+            <button class="icon-btn hamburger-btn" id="mobileMenuBtn">
+                <i data-feather="menu"></i>
+            </button>
+            <div class="header-search">
+                <i data-feather="search" style="color: var(--text-muted); width: 18px;"></i>
+                <input type="text" placeholder="Cari nama pasien, No. RM..." />
             </div>
-            <div class="mini-stat">
-                <div class="label">Pasien Baru (Bulan Ini)</div>
-                <div class="val">156</div>
+            <div class="header-actions">
+                <button class="icon-btn" id="themeToggle" title="Ganti Tema">
+                    <i data-feather="moon" id="themeIcon"></i>
+                </button>
+                <div class="user-profile">
+                    <div class="user-info">
+                        <span class="user-name">Dr. Syauqi Ramadhan</span>
+                        <span class="user-role">Administrator</span>
+                    </div>
+                    <img src="https://ui-avatars.com/api/?name=Syauqi+Ramadhan&background=059669&color=fff" alt="User" class="avatar" />
+                </div>
             </div>
-            <div class="mini-stat">
-                <div class="label">Pasien Aktif</div>
-                <div class="val">1,234</div>
+        </header>
+
+        <div class="content">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Data Pasien</h1>
+                    <p class="page-subtitle">Kelola dan lihat informasi rekam medis pasien.</p>
+                </div>
+                <button class="btn btn-primary">
+                    <i data-feather="plus"></i> Pasien Baru
+                </button>
             </div>
-        </div>
 
-        <div class="toolbar">
-            <input type="text" class="search-box" placeholder="🔍 Cari pasien..." id="searchBox" />
-            <button class="btn-primary" onclick="openModal()">+ Tambah Pasien</button>
-        </div>
+            <div class="glass-card">
+                <div class="card-header" style="margin-bottom: 24px;">
+                    <div class="header-search" style="background: transparent;">
+                        <i data-feather="filter" style="color: var(--text-muted); width: 18px;"></i>
+                        <input type="text" placeholder="Filter status..." />
+                    </div>
+                </div>
 
-        <div class="table-card">
-            <table>
-                <thead>
-                    <tr>
-                        <th>No. RM</th>
-                        <th>Nama Pasien</th>
-                        <th>Umur</th>
-                        <th>Jenis Kelamin</th>
-                        <th>Alamat</th>
-                        <th>Golongan Darah</th>
-                        <th>Status</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody id="patientTable"></tbody>
-            </table>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>No. RM</th>
+                                <th>Nama Pasien</th>
+                                <th>Jenis Kelamin</th>
+                                <th>Usia</th>
+                                <th>Kontak</th>
+                                <th>Status Terakhir</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td data-label="No. RM" style="font-family: 'Fira Code', monospace; font-weight: 500;">RM-2023001</td>
+                                <td data-label="Nama Pasien"><strong style="color: var(--text-primary)">Budi Santoso</strong></td>
+                                <td data-label="Jenis Kelamin">Laki-laki</td>
+                                <td data-label="Usia">45 Tahun</td>
+                                <td data-label="Kontak">0812-3456-7890</td>
+                                <td data-label="Status Terakhir"><span class="status-badge status-success">Rawat Jalan Selesai</span></td>
+                                <td data-label="Aksi">
+                                    <button class="icon-btn" style="width: 32px; height: 32px;"><i data-feather="edit-2" style="width: 14px;"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td data-label="No. RM" style="font-family: 'Fira Code', monospace; font-weight: 500;">RM-2023002</td>
+                                <td data-label="Nama Pasien"><strong style="color: var(--text-primary)">Siti Aminah</strong></td>
+                                <td data-label="Jenis Kelamin">Perempuan</td>
+                                <td data-label="Usia">32 Tahun</td>
+                                <td data-label="Kontak">0898-7654-3210</td>
+                                <td data-label="Status Terakhir"><span class="status-badge status-warning">Rawat Inap</span></td>
+                                <td data-label="Aksi">
+                                    <button class="icon-btn" style="width: 32px; height: 32px;"><i data-feather="edit-2" style="width: 14px;"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td data-label="No. RM" style="font-family: 'Fira Code', monospace; font-weight: 500;">RM-2023003</td>
+                                <td data-label="Nama Pasien"><strong style="color: var(--text-primary)">Andi Pratama</strong></td>
+                                <td data-label="Jenis Kelamin">Laki-laki</td>
+                                <td data-label="Usia">28 Tahun</td>
+                                <td data-label="Kontak">0857-1122-3344</td>
+                                <td data-label="Status Terakhir"><span class="status-badge status-danger">IGD</span></td>
+                                <td data-label="Aksi">
+                                    <button class="icon-btn" style="width: 32px; height: 32px;"><i data-feather="edit-2" style="width: 14px;"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td data-label="No. RM" style="font-family: 'Fira Code', monospace; font-weight: 500;">RM-2023004</td>
+                                <td data-label="Nama Pasien"><strong style="color: var(--text-primary)">Rina Gunawan</strong></td>
+                                <td data-label="Jenis Kelamin">Perempuan</td>
+                                <td data-label="Usia">50 Tahun</td>
+                                <td data-label="Kontak">0811-9988-7766</td>
+                                <td data-label="Status Terakhir"><span class="status-badge status-success">Rawat Jalan Selesai</span></td>
+                                <td data-label="Aksi">
+                                    <button class="icon-btn" style="width: 32px; height: 32px;"><i data-feather="edit-2" style="width: 14px;"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Pagination -->
+                <div style="display: flex; justify-content: flex-end; margin-top: 24px; gap: 8px;">
+                    <button class="btn btn-outline" style="padding: 6px 12px; font-size: 0.8rem;" disabled>Sebelumnnya</button>
+                    <button class="btn btn-primary" style="padding: 6px 12px; font-size: 0.8rem;">1</button>
+                    <button class="btn btn-outline" style="padding: 6px 12px; font-size: 0.8rem;">2</button>
+                    <button class="btn btn-outline" style="padding: 6px 12px; font-size: 0.8rem;">Selanjutnya</button>
+                </div>
+            </div>
         </div>
     </main>
 
-    <div class="modal-overlay" id="addModal">
-        <div class="modal">
-            <h3>➕ Tambah Pasien Baru</h3>
-            <div class="form-group"><label>Nama Lengkap</label><input type="text" placeholder="Masukkan nama lengkap"
-                    id="fName" /></div>
-            <div class="form-group"><label>Umur</label><input type="number" placeholder="Masukkan umur" id="fAge" />
-            </div>
-            <div class="form-group"><label>Jenis Kelamin</label>
-                <select id="fGender">
-                    <option value="Laki-laki">Laki-laki</option>
-                    <option value="Perempuan">Perempuan</option>
-                </select>
-            </div>
-            <div class="form-group"><label>Alamat</label><input type="text" placeholder="Masukkan alamat" id="fAddr" />
-            </div>
-            <div class="form-group"><label>Golongan Darah</label>
-                <select id="fBlood">
-                    <option>A</option>
-                    <option>B</option>
-                    <option>AB</option>
-                    <option>O</option>
-                </select>
-            </div>
-            <div class="modal-actions">
-                <button class="btn-secondary" onclick="closeModal()">Batal</button>
-                <button class="btn-primary" onclick="addPatient()">Simpan</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="toast" id="toast"></div>
-
     <script>
-        const patients = [
-            { rm: 'RM-2025001', name: 'Ahmad Fauzi', age: 45, gender: 'Laki-laki', addr: 'Jl. Merdeka No. 12', blood: 'A', status: 'Aktif', badge: 'badge-green' },
-            { rm: 'RM-2025002', name: 'Siti Nurhaliza', age: 32, gender: 'Perempuan', addr: 'Jl. Sudirman No. 8', blood: 'B', status: 'Rawat Inap', badge: 'badge-blue' },
-            { rm: 'RM-2025003', name: 'Budi Santoso', age: 58, gender: 'Laki-laki', addr: 'Jl. Gatot Subroto No. 5', blood: 'O', status: 'Aktif', badge: 'badge-green' },
-            { rm: 'RM-2025004', name: 'Dewi Lestari', age: 27, gender: 'Perempuan', addr: 'Jl. Ahmad Yani No. 21', blood: 'AB', status: 'Menunggu', badge: 'badge-yellow' },
-            { rm: 'RM-2025005', name: 'Rizky Ramadhan', age: 63, gender: 'Laki-laki', addr: 'Jl. Diponegoro No. 3', blood: 'A', status: 'Kritis', badge: 'badge-red' },
-            { rm: 'RM-2025006', name: 'Putri Amelia', age: 8, gender: 'Perempuan', addr: 'Jl. Veteran No. 15', blood: 'B', status: 'Aktif', badge: 'badge-green' },
-            { rm: 'RM-2025007', name: 'Hendra Wijaya', age: 41, gender: 'Laki-laki', addr: 'Jl. Pahlawan No. 9', blood: 'O', status: 'Rawat Jalan', badge: 'badge-blue' },
-            { rm: 'RM-2025008', name: 'Ratna Sari', age: 35, gender: 'Perempuan', addr: 'Jl. Imam Bonjol No. 7', blood: 'A', status: 'Aktif', badge: 'badge-green' },
-        ];
-
-        function renderTable(data) {
-            document.getElementById('patientTable').innerHTML = data.map(p => `
-                <tr>
-                    <td><strong>${p.rm}</strong></td><td>${p.name}</td><td>${p.age} th</td><td>${p.gender}</td><td>${p.addr}</td><td>${p.blood}</td>
-                    <td><span class="badge ${p.badge}">${p.status}</span></td>
-                    <td>
-                        <button class="action-btn" onclick="showToast('Detail pasien: ${p.name}')">Detail</button>
-                        <button class="action-btn" onclick="showToast('Edit pasien: ${p.name}')">Edit</button>
-                        <button class="action-btn danger" onclick="deletePatient('${p.rm}')">Hapus</button>
-                    </td>
-                </tr>
-            `).join('');
+        feather.replace();
+        
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const sidebar = document.querySelector('.sidebar');
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', () => {
+                sidebar.classList.toggle('open');
+            });
         }
-        renderTable(patients);
-
-        document.getElementById('searchBox').addEventListener('input', function () {
-            const q = this.value.toLowerCase();
-            renderTable(patients.filter(p => p.name.toLowerCase().includes(q) || p.rm.toLowerCase().includes(q)));
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && !sidebar.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                sidebar.classList.remove('open');
+            }
         });
 
-        function openModal() { document.getElementById('addModal').classList.add('show') }
-        function closeModal() { document.getElementById('addModal').classList.remove('show') }
+        // Theme Toggle Logic
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const savedTheme = localStorage.getItem('rs_theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateThemeIcon(savedTheme);
 
-        function addPatient() {
-            const name = document.getElementById('fName').value;
-            if (!name) { showToast('⚠️ Nama pasien wajib diisi!'); return; }
-            const newId = 'RM-2025' + (patients.length + 1).toString().padStart(3, '0');
-            patients.unshift({ rm: newId, name, age: parseInt(document.getElementById('fAge').value) || 0, gender: document.getElementById('fGender').value, addr: document.getElementById('fAddr').value || '-', blood: document.getElementById('fBlood').value, status: 'Aktif', badge: 'badge-green' });
-            renderTable(patients);
-            closeModal();
-            showToast('✅ Pasien ' + name + ' berhasil ditambahkan!');
-            document.getElementById('fName').value = ''; document.getElementById('fAge').value = ''; document.getElementById('fAddr').value = '';
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('rs_theme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+
+        function updateThemeIcon(theme) {
+            if(theme === 'dark') {
+                themeIcon.setAttribute('data-feather', 'sun');
+            } else {
+                themeIcon.setAttribute('data-feather', 'moon');
+            }
+            feather.replace();
         }
-
-        function deletePatient(rm) {
-            const idx = patients.findIndex(p => p.rm === rm);
-            if (idx > -1) { showToast('🗑️ Pasien ' + patients[idx].name + ' dihapus'); patients.splice(idx, 1); renderTable(patients); }
-        }
-
-        function showToast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2500); }
     </script>
 </body>
 
