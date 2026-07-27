@@ -18,6 +18,9 @@
     <!-- TOPBAR -->
     <header class="aurora-topbar">
         <div class="topbar-left">
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i data-feather="menu"></i>
+            </button>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="url(#gradient)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <defs>
                     <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -44,6 +47,9 @@
     <!-- MAIN APP LAYOUT -->
     <div class="aurora-layout">
         
+        <!-- MOBILE OVERLAY -->
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
         <!-- LEFT SIDEBAR -->
         <aside class="aurora-sidebar">
             <nav class="sidebar-nav">
@@ -85,22 +91,24 @@
                             </div>
                         </div>
                     </div>
-                    <table class="data-table" id="productTable">
-                        <thead>
-                            <tr>
-                                <th>ID/SKU</th>
-                                <th>Info Produk</th>
-                                <th>Kategori</th>
-                                <th>Harga</th>
-                                <th>Stok</th>
-                                <th>Status</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Rendered by JS -->
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="data-table" id="productTable">
+                            <thead>
+                                <tr>
+                                    <th>ID/SKU</th>
+                                    <th>Info Produk</th>
+                                    <th>Kategori</th>
+                                    <th>Harga</th>
+                                    <th>Stok</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Rendered by JS -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
             
@@ -135,20 +143,20 @@
 
                 tbody.innerHTML += `
                 <tr>
-                    <td style="font-weight:600; color:var(--text-muted);">${p.sku}</td>
-                    <td>
+                    <td data-label="ID/SKU" style="font-weight:600; color:var(--text-muted);">${p.sku}</td>
+                    <td data-label="Info Produk">
                         <div style="display:flex; align-items:center; gap:12px;">
                             <div style="font-size:1.5rem; background:var(--bg-gray); width:40px; height:40px; display:flex; align-items:center; justify-content:center; border-radius:8px; border:1px solid var(--border-dark);">${p.icon}</div>
                             <span style="font-weight:600;">${p.name}</span>
                         </div>
                     </td>
-                    <td>${p.cat}</td>
-                    <td style="font-weight:700;">${fmt(p.price)}</td>
-                    <td style="font-weight:600;">${p.stock}</td>
-                    <td>
+                    <td data-label="Kategori">${p.cat}</td>
+                    <td data-label="Harga" style="font-weight:700;">${fmt(p.price)}</td>
+                    <td data-label="Stok" style="font-weight:600;">${p.stock}</td>
+                    <td data-label="Status">
                         <span class="badge-success" style="${badgeStyle}">${p.status}</span>
                     </td>
-                    <td>
+                    <td data-label="Aksi">
                         <div style="display:flex; gap:8px;">
                             <button style="border:none; background:none; cursor:pointer; color:var(--text-main);"><i data-feather="edit-2" style="width:16px;"></i></button>
                             <button style="border:none; background:none; cursor:pointer; color:#ef4444;"><i data-feather="trash-2" style="width:16px;"></i></button>
@@ -160,6 +168,19 @@
         }
         
         renderInventory();
+
+        // Mobile Sidebar Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const sidebar = document.querySelector('.aurora-sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('open');
+            sidebarOverlay.classList.toggle('open');
+        }
+
+        mobileMenuBtn.addEventListener('click', toggleSidebar);
+        sidebarOverlay.addEventListener('click', toggleSidebar);
     </script>
 </body>
 </html>

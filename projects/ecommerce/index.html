@@ -18,6 +18,9 @@
     <!-- TOPBAR -->
     <header class="aurora-topbar">
         <div class="topbar-left">
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i data-feather="menu"></i>
+            </button>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="url(#gradient)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <defs>
                     <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -44,6 +47,9 @@
     <!-- MAIN APP LAYOUT -->
     <div class="aurora-layout">
         
+        <!-- MOBILE OVERLAY -->
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
         <!-- LEFT SIDEBAR -->
         <aside class="aurora-sidebar">
             <nav class="sidebar-nav">
@@ -135,55 +141,57 @@
                             <h3>Pesanan Terbaru</h3>
                             <a href="pesanan.html" style="color:var(--aurora-primary); font-weight:600; font-size:0.9rem; text-decoration:none;">Lihat Semua <i data-feather="chevron-right" style="width:16px; vertical-align:bottom;"></i></a>
                         </div>
-                        <table class="data-table">
-                            <thead>
-                                <tr>
-                                    <th>ID Pesanan</th>
-                                    <th>Pelanggan</th>
-                                    <th>Tanggal</th>
-                                    <th>Status</th>
-                                    <th>Total</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>S33021</td>
-                                    <td>
-                                        <div class="customer-cell">
-                                            <img src="https://i.pravatar.cc/150?img=68" alt="Budi Santoso">
-                                            <span>Budi Santoso</span>
-                                        </div>
-                                    </td>
-                                    <td>20 Ags 2023</td>
-                                    <td><span class="badge-success">Dikirim</span></td>
-                                    <td style="font-weight:700;">Rp 3.9M</td>
-                                </tr>
-                                <tr>
-                                    <td>S35002</td>
-                                    <td>
-                                        <div class="customer-cell">
-                                            <img src="https://i.pravatar.cc/150?img=11" alt="Fajar Pratama">
-                                            <span>Fajar Pratama</span>
-                                        </div>
-                                    </td>
-                                    <td>20 Jul 2023</td>
-                                    <td><span class="badge-success" style="background:var(--aurora-warning-light); color:var(--aurora-warning);">Tertunda</span></td>
-                                    <td style="font-weight:700;">Rp 1.3M</td>
-                                </tr>
-                                <tr>
-                                    <td>S35053</td>
-                                    <td>
-                                        <div class="customer-cell">
-                                            <img src="https://i.pravatar.cc/150?img=5" alt="Siti Aminah">
-                                            <span>Siti Aminah</span>
-                                        </div>
-                                    </td>
-                                    <td>28 Mei 2023</td>
-                                    <td><span class="badge-success">Terkirim</span></td>
-                                    <td style="font-weight:700;">Rp 989k</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID Pesanan</th>
+                                        <th>Pelanggan</th>
+                                        <th>Tanggal</th>
+                                        <th>Status</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td data-label="ID Pesanan">S33021</td>
+                                        <td data-label="Pelanggan">
+                                            <div class="customer-cell">
+                                                <img src="https://i.pravatar.cc/150?img=68" alt="Budi Santoso">
+                                                <span>Budi Santoso</span>
+                                            </div>
+                                        </td>
+                                        <td data-label="Tanggal">20 Ags 2023</td>
+                                        <td data-label="Status"><span class="badge-success">Dikirim</span></td>
+                                        <td data-label="Total" style="font-weight:700;">Rp 3.9M</td>
+                                    </tr>
+                                    <tr>
+                                        <td data-label="ID Pesanan">S35002</td>
+                                        <td data-label="Pelanggan">
+                                            <div class="customer-cell">
+                                                <img src="https://i.pravatar.cc/150?img=11" alt="Fajar Pratama">
+                                                <span>Fajar Pratama</span>
+                                            </div>
+                                        </td>
+                                        <td data-label="Tanggal">20 Jul 2023</td>
+                                        <td data-label="Status"><span class="badge-success" style="background:var(--aurora-warning-light); color:var(--aurora-warning);">Tertunda</span></td>
+                                        <td data-label="Total" style="font-weight:700;">Rp 1.3M</td>
+                                    </tr>
+                                    <tr>
+                                        <td data-label="ID Pesanan">S35053</td>
+                                        <td data-label="Pelanggan">
+                                            <div class="customer-cell">
+                                                <img src="https://i.pravatar.cc/150?img=5" alt="Siti Aminah">
+                                                <span>Siti Aminah</span>
+                                            </div>
+                                        </td>
+                                        <td data-label="Tanggal">28 Mei 2023</td>
+                                        <td data-label="Status"><span class="badge-success">Terkirim</span></td>
+                                        <td data-label="Total" style="font-weight:700;">Rp 989k</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
                 </div>
@@ -275,6 +283,19 @@
 
     <script>
         feather.replace();
+
+        // Mobile Sidebar Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const sidebar = document.querySelector('.aurora-sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('open');
+            sidebarOverlay.classList.toggle('open');
+        }
+
+        mobileMenuBtn.addEventListener('click', toggleSidebar);
+        sidebarOverlay.addEventListener('click', toggleSidebar);
     </script>
 </body>
 </html>
